@@ -2,6 +2,7 @@ const express = require(`express`);
 const sql = require(`mssql/msnodesqlv8`);
 const app = express();
 const cors = require(`cors`);
+const fs = require('fs');
 var bodyParser = require(`body-parser`);
 const Port = 4001;
 
@@ -55,7 +56,16 @@ app.post('/query', function (req, res) {
     return query(req.body.query)
 
 });
+app.post('/Upload', function (req, res) {
+    // console.log(req.body.img);
+    var img = req.body.img.replace('data:image/png;base64,', '');
+    fs.writeFile('../src/images/Profile_' + req.body.EmpId + '.png', img, 'base64', function (err) {
+        if (err)
+            console.log('Error During Image Upload ', err);
+    });
 
+
+});
 app.post('/Email', function (req, res) {
     require('dotenv').config()
     const nodemailer = require('nodemailer');

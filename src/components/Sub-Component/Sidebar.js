@@ -23,6 +23,12 @@ const Sidebar = (props) => {
   };
   const [IsOpen, setIsOpen] = useState(false);
   const { pathname } = useLocation();
+  let images;
+  try {
+    images = require("../../images/Profile_" + localStorage["EmpId"] + ".png");
+  } catch (error) {
+    images = localStorage["Gender"] === "Female" ? Female : Male;
+  }
   return (
     <>
       <div
@@ -42,10 +48,8 @@ const Sidebar = (props) => {
             <header>
               <div className="image-text">
                 <span className="image">
-                  <img
-                    src={localStorage["Gender"] === "Female" ? Female : Male}
-                    alt=""
-                  />
+                  {<img src={images} alt="" />}
+                  {/* <img src={localStorage['Gender'] === 'Female' ? Female : Male} alt="" /> */}
                 </span>
                 <div className="text logo-text">
                   <span className="name">{localStorage["Name"]}</span>
@@ -67,118 +71,15 @@ const Sidebar = (props) => {
             <div className="menu-bar">
               <div className="menu">
                 <div className="menu-links">
-                  {IsOpen ? (
-                    <ToolTip title="Home" placement="left">
-                      {
-                        <NavLink
-                          to="/Home"
-                          className={`nav-link tab ${
-                            pathname === "/Home" ? "active" : ""
-                          }`}
-                        >
-                          <FontAwesomeIcon
-                            icon={faHouseChimney}
-                            className="icon"
-                          ></FontAwesomeIcon>
-                          <span className="text nav-text"> Home</span>
-                        </NavLink>
-                      }
-                    </ToolTip>
-                  ) : (
-                    <NavLink
-                      to="/Home"
-                      className={`nav-link tab ${
-                        pathname === "/Home" ? "active" : ""
-                      }`}
-                    >
-                      <FontAwesomeIcon
-                        icon={faHouseChimney}
-                        className="icon"
-                      ></FontAwesomeIcon>
-                      <span className="text nav-text"> Home</span>
-                    </NavLink>
-                  )}
-                  {IsOpen ? (
-                    <ToolTip title="Time Sheet" placement="left">
-                      {
-                        <NavLink
-                          to="/EnterTimeSheet"
-                          className={`nav-link tab ${
-                            pathname === "/EnterTimeSheet" ? "active" : ""
-                          }`}
-                        >
-                          <FontAwesomeIcon
-                            icon={faTableList}
-                            className="icon"
-                          />
-                          <span className="text nav-text">Time Sheet</span>
-                        </NavLink>
-                      }
-                    </ToolTip>
-                  ) : (
-                    <NavLink
-                      to="/EnterTimeSheet"
-                      className={`nav-link tab ${
-                        pathname === "/EnterTimeSheet" ? "active" : ""
-                      }`}
-                    >
-                      <FontAwesomeIcon icon={faTableList} className="icon" />
-                      <span className="text nav-text">Time Sheet</span>
-                    </NavLink>
-                  )}
-                  {IsOpen ? (
-                    <ToolTip title="Tasks" placement="left">
-                      {
-                        <NavLink
-                          to="/Tasks"
-                          className={`nav-link tab ${
-                            pathname === "/Tasks" ? "active" : ""
-                          }`}
-                        >
-                          <FontAwesomeIcon icon={faTasks} className="icon" />
-                          <span className="text nav-text">Tasks</span>
-                        </NavLink>
-                      }
-                    </ToolTip>
-                  ) : (
-                    <NavLink
-                      to="/Tasks"
-                      className={`nav-link tab ${
-                        pathname === "/Tasks" ? "active" : ""
-                      }`}
-                    >
-                      <FontAwesomeIcon icon={faTasks} className="icon" />
-                      <span className="text nav-text">Tasks</span>
-                    </NavLink>
-                  )}
-                  {IsOpen ? (
-                    <ToolTip title="LMS" placement="left">
-                      {
-                        <NavLink
-                          to="/LMS"
-                          className={`nav-link tab ${
-                            pathname === "/LMS" ? "active" : ""
-                          }`}
-                        >
-                          <FontAwesomeIcon
-                            icon={faLevelUpAlt}
-                            className="icon"
-                          />
-                          <span className="text nav-text">LMS</span>
-                        </NavLink>
-                      }
-                    </ToolTip>
-                  ) : (
-                    <NavLink
-                      to="/LMS"
-                      className={`nav-link tab ${
-                        pathname === "/LMS" ? "active" : ""
-                      }`}
-                    >
-                      <FontAwesomeIcon icon={faLevelUpAlt} className="icon" />
-                      <span className="text nav-text">LMS</span>
-                    </NavLink>
-                  )}
+                  <NavLink
+                    to="/Home"
+                    className={`nav-link tab ${
+                      pathname === "/Home" ? "active" : ""
+                    }`}
+                  >
+                    <FontAwesomeIcon icon={faHouseChimney} className="icon" />
+                    <span className="text nav-text">Home</span>
+                  </NavLink>
 
                   {IsOpen ? (
                     <ToolTip title="Employee Portal" placement="left">

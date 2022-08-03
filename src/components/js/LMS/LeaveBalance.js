@@ -100,7 +100,7 @@ export default function LeaveBalanceTab(props) {
                     </div>
                     <div className="input-wrapper marginLeft-0">
                         <div className="input-holder">
-                            <input type="text" className="input-input" name="NoOfDays" value={Details['NoOfDays']} onFocus={() => { setIsOpen([false, false]) }} onChange={handelOnChange} />
+                            <input type="text" className="input-input" disabled name="NoOfDays" value={Details['NoOfDays']} onFocus={() => { setIsOpen([false, false]) }} onChange={handelOnChange} />
                             <label className="input-label">No.of Days</label>
                         </div>
                     </div>

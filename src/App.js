@@ -9,6 +9,7 @@ import Portal from './components/js/EmployeePortal/Portal';
 import SideBar from '../src/components/Sub-Component/Sidebar';
 import '../src/components/css/style.css';
 import EnterTimeSheet from './components/js/TimeSheet/TimeSheet';
+import Settings from './components/js/Settings/Settings';
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
           <Route path='/EmployeePortal' element={<SideBar Component={<Portal />} />} />
           <Route path='/Profile' element={<SideBar Component={<Profile />} />} />
           <Route path='/EnterTimeSheet' element={<SideBar Component={<EnterTimeSheet />} />} />
+          <Route path='/Settings' element={<SideBar Component={<Settings />} />} />
         </Routes>
       </BrowserRouter>
     </>

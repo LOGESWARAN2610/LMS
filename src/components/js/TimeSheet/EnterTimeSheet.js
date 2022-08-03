@@ -17,18 +17,7 @@ export default function EnterTimeSheet() {
     const [Tasks, setTasks] = useState([]);
     const [Status, setStatus] = useState([]);
     const taskDate = (new Date().toLocaleDateString()).toString();
-    const EnterTimeSheetColumn = [
-        { field: 'Row', headerName: 'S No.', minWidth: 100, type: 'lable' },
-        { field: 'ProjectId', headerName: 'Project', minWidth: 100, type: 'select' },
-        { field: 'ModuleId', headerName: 'Module', minWidth: 100, type: 'select' },
-        { field: 'TaskName', headerName: 'Task', minWidth: 100, type: 'select' },
-        { field: 'TaskDescription', headerName: 'Description', minWidth: 200, type: 'textarea' },
-        { field: 'Issues', headerName: 'Issue', minWidth: 100, type: 'input' },
-        { field: 'Object', headerName: 'Object', minWidth: 100, type: 'input' },
-        { field: 'Status', headerName: 'Status', minWidth: 100, type: 'select' },
-        { field: 'Hours', headerName: 'Hours', minWidth: 100, type: 'number' },
-        { field: 'Remove', headerName: 'Hours', minWidth: 100, type: 'button' }
-    ];
+
     useEffect(() => {
         axios.post(nodeurl['nodeurl'], { query: 'AB_Inprogressgrid ' + EmpId + ',"' + taskDate + '"' }).then(result => {
             setDetails(result.data[0]);
@@ -37,42 +26,63 @@ export default function EnterTimeSheet() {
             setStatus(result.data[3]);
         });
     }, [EmpId, taskDate]);
-    const handleChange = (panel) => (event, isExpanded) => {
+    const handlePanelChange = (panel) => (event, isExpanded) => {
         if (panel === -1) return;
+        debugger
+        axios.post(nodeurl['nodeurl'], { query: 'AB_ModuleList ' + Details[panel]['ProjectId'] }).then(result => {
+            setModule(result.data[0]);
+        });
+        axios.post(nodeurl['nodeurl'], { query: 'AB_TaskList ' + Details[panel]['ProjectId'] + ',' + Details[panel]['ModuleId'] + ',' + 0 + ',' + EmpId }).then(result => {
+            setTasks(result.data[0]);
+        });
         setExpanded(isExpanded ? panel : false);
         setActiveTab(panel + 1);
     };
-    const LeaveApplyTab = () => {
-        const [isVisavle, setIsVisavle] = useState(false);
-        const [Option, setOption] = useState([{}]);
-        const [IsOpen, setIsOpen] = useState([false, false]);
-        const [Details, setDetails] = useState({});
+    const handelClick = () => {
+        for (let i = 0; i < Details.length; i++) {
+            debugger
+            axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'AB_SaveTimesheetDetail ', UpdateJson: JSON.stringify(Details[i]) }).then(result => {
+                alert()
+            });
+        }
+    }
+    const TimeSheetTab = (index) => {
 
-        // const handelOnChange = (event) => {
-        //     Details['LeaveId'] = ActiveTab;
-        //     setDetails({ ...Details, [event.target.name]: event.target.value });
-        //     if (event.target.name === 'LeaveOption') {
-        //         if (event.target.value === '1') {
-        //             setOption(ComDate);
-        //             setIsVisavle(true);
-        //         }
-        //         else if (event.target.value === '2') {
-        //             setOption(PrevComDate);
-        //             setIsVisavle(true);
-        //         } else {
-        //             setIsVisavle(false);
-        //         }
-        //     }
-        // }
-        const handelClick = () => {
-            // axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'Sp_LM_Leaveapplication ', UpdateJson: JSON.stringify(Details) }).then(result => {
-            // });
+        if (index === undefined) return;
+        else index = index['index']
+
+        const handelOnChange = (event) => {
+            const newState = Details.map((obj, index_) => {
+                if (index === index_)
+                    return { ...obj, [event.target.name]: event.target.value };
+                return obj;
+            });
+            setDetails(newState);
+        }
+
+        const handelProjectChange = (event) => {
+            axios.post(nodeurl['nodeurl'], { query: 'AB_ModuleList ' + event.target.value }).then(Module_ => {
+                setModule(Module_.data[0]);
+                axios.post(nodeurl['nodeurl'], { query: 'AB_TaskList ' + event.target.value + ',' + Module_.data[0][0]['ModuleId'] + ',' + 0 + ',' + EmpId }).then(Tasks_ => {
+                    setTasks(Tasks_.data[0]);
+                    const newState = Details.map((obj, index_) => {
+                        if (index === index_)
+                            return { ...obj, 'ModuleId': Module_.data[0][0]['ModuleId'], 'ProjectId': event.target.value, 'TaskId': Tasks_.data[0][0]['TaskId'] };
+                        return obj;
+                    });
+                    setDetails(newState);
+                });
+            });
+            handelOnChange(event);
+
         }
         const handelModuleChange = (event) => {
-            axios.post(nodeurl['nodeurl'], { query: 'AB_TaskList ' + 1 + ',' + 1 + ',' + 0 + ',' + EmpId }).then(result => {
+            handelOnChange(event);
+            axios.post(nodeurl['nodeurl'], { query: 'AB_TaskList ' + Details[index]['ProjectId'] + ',' + event.target.value + ',' + 0 + ',' + EmpId }).then(result => {
                 setTasks(result.data[0]);
             });
         }
+
         return (
             <>
                 <div style={{ margin: '15px 0 0 0', width: '99%' }}>
@@ -80,7 +90,7 @@ export default function EnterTimeSheet() {
                         <div style={{ width: '70%' }}>
                             <div className="input-wrapper marginLeft-0" style={{ width: '30%' }}>
                                 <div className="input-holder">
-                                    <select className="input-input" name="Project" value={1}>
+                                    <select className="input-input" name="ProjectId" value={Details[index]['ProjectId']} onChange={handelProjectChange}>
                                         {Project.map((item, index) => (
                                             <option key={index} value={item['ProjectId']}>{item['ProjectName']}</option>
                                         ))}
@@ -91,18 +101,17 @@ export default function EnterTimeSheet() {
 
                             <div className="input-wrapper marginLeft-0" style={{ width: '30%' }}>
                                 <div className="input-holder">
-                                    <select className="input-input" name="Module" onChange={handelModuleChange} >
-                                        {Module.filter((item) => { return item['ProjectId'] === 1 })
-                                            .map((item, index) => (
-                                                <option key={index} value={item['ModuleId']}>{item['ModuleName']}</option>
-                                            ))}
+                                    <select className="input-input" name="ModuleId" value={Details[index]['ModuleId']} onChange={handelModuleChange} >
+                                        {Module.map((item, index) => (
+                                            <option key={index} value={item['ModuleId']}>{item['ModuleName']}</option>
+                                        ))}
                                     </select>
                                     <label className="input-label">Module</label>
                                 </div>
                             </div>
                             <div className="input-wrapper marginLeft-0" style={{ width: '30%' }}>
                                 <div className="input-holder">
-                                    <select className="input-input" name="Task" >
+                                    <select className="input-input" name="TaskId" value={Details[index]['TaskId']} onChange={handelOnChange}>
                                         {Tasks.map((item, index) => (
                                             <option key={index} value={item['TaskId']}>{item['TaskName']}</option>
                                         ))}
@@ -113,7 +122,7 @@ export default function EnterTimeSheet() {
 
                             <div className="input-wrapper marginLeft-0" style={{ width: '40%' }}>
                                 <div className="input-holder">
-                                    <select className="input-input" name="Status" >
+                                    <select className="input-input" name="StatusId" value={Details[index]['StatusId']} onChange={handelOnChange}>
                                         {Status.map((item, index) => (
                                             <option key={index} value={item['TypeOptionID']}>{item['TypeName']}</option>
                                         ))}
@@ -123,32 +132,25 @@ export default function EnterTimeSheet() {
                             </div>
                             <div className="input-wrapper marginLeft-0" style={{ width: '30%' }}>
                                 <div className="input-holder">
-                                    <input type="text" className="input-input" name="Issues" />
+                                    <input type="text" className="input-input" name="Issues" value={Details[index]['Issues']} onChange={handelOnChange} />
                                     <label className="input-label">Issue</label>
                                 </div>
                             </div>
                             <div className="input-wrapper marginLeft-0" style={{ width: '20%' }}>
                                 <div className="input-holder">
-                                    <input type="text" className="input-input" name="Hours" />
+                                    <input type="text" className="input-input" name="Hours" value={Details[index]['Hours']} onChange={handelOnChange} />
                                     <label className="input-label">Hours</label>
                                 </div>
                             </div>
                         </div>
-
-
                         <div style={{ width: '35%' }}>
                             <div className="input-wrapper marginLeft-0" style={{ width: '100%' }} >
                                 <div className="input-holder">
-                                    <textarea type="text" className="input-input" name="TaskDescription" style={{ height: '155px' }} />
+                                    <textarea type="text" className="input-input" name="TaskDescription" value={Details[index]['TaskDescription']} onChange={handelOnChange} style={{ height: '155px' }} />
                                     <label className="input-label">Task Description</label>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-
-                    <div>
-                        <button className="btn" style={{ margin: '0' }} >Apply</button>
                     </div>
                 </div>
             </>
@@ -157,7 +159,7 @@ export default function EnterTimeSheet() {
     return (
         <>
             <div style={{ width: '95%', border: '1px solid' + localStorage['BgColor'], borderTopRightRadius: '5px', borderTopLeftRadius: '5px' }}>
-                <Accordion expanded="false" onChange={handleChange(-1)}>
+                <Accordion expanded="false" onChange={handlePanelChange(-1)}>
                     <AccordionSummary style={{ color: localStorage['Color'], backgroundColor: localStorage['BgColor'], }}>
                         <Typography component={"span"} sx={{ width: '10%', flexShrink: 0 }}>
                             Project
@@ -181,8 +183,8 @@ export default function EnterTimeSheet() {
 
                 </Accordion>
 
-                {Details.map((column, index) => (
-                    <Accordion key={index} expanded={expanded === index} className={expanded === index ? 'activeAcc' : ''} onChange={column['LeaveType'] === 'Total' ? handleChange(-1) : handleChange(index)} >
+                {Array.isArray(Details) ? Details.map((column, index) => (
+                    <Accordion key={index} expanded={expanded === index} className={expanded === index ? 'activeAcc' : ''} onChange={column['LeaveType'] === 'Total' ? handlePanelChange(-1) : handlePanelChange(index)} >
                         <AccordionSummary className={expanded === index ? 'activeAccSum' : ''}
                             expandIcon={<ExpandMoreIcon />}
                             aria-controls="panel2bh-content"
@@ -209,11 +211,14 @@ export default function EnterTimeSheet() {
                         </AccordionSummary>
                         <AccordionDetails>
                             <Typography component={"span"}>
-                                <LeaveApplyTab />
+                                {index !== undefined ? <TimeSheetTab index={index} /> : <></>}
                             </Typography>
                         </AccordionDetails>
                     </Accordion>
-                ))}
+                )) : null}
+            </div>
+            <div>
+                <button className="btn" style={{ margin: '0' }} onClick={handelClick}>Apply</button>
             </div>
         </>
     );
