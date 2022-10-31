@@ -217,7 +217,7 @@ export default function TaskAssignment() {
                 </div>
                 <div className="input-wrapper marginLeft-0" style={{ width: '170px', marginRight: '15px' }}>
                     <div className="input-holder  input-DatePicker" >
-                        <DatePicker name="EndDate" Value={(NewTaskDetails['EndDate'])} valueChange={handelTaskOnChange} />
+                        <DatePicker name="EndDate" Value={(NewTaskDetails['EndDate'])} minDate_={NewTaskDetails['StartDate']} valueChange={handelTaskOnChange} />
                         <label className="input-label">Planned End Date</label>
                     </div>
                 </div>
