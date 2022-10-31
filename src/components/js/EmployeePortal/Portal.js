@@ -55,8 +55,8 @@ export default function Portal() {
             setValue(index);
         };
         const columns = [
-            { id: 'Holiday_Date', label: 'Date', minWidth: 150, sort: false },
-            { id: 'Holiday_Name', label: 'Day', minWidth: 250, sort: false }
+            { id: 'Holiday_Date', label: 'Holiday Date', minWidth: 150, sort: false },
+            { id: 'Holiday_Name', label: 'Holiday Day', minWidth: 250, sort: false }
         ];
         return (
             <Box sx={{ bgcolor: 'inherit' }}>

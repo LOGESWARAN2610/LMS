@@ -4,6 +4,7 @@ import nodeurl from '../../../nodeServer.json'
 import Moment from 'moment';
 import DatePicker from '../../Sub-Component/DatePicker/DatePicker';
 import { useAlert } from "react-alert";
+import { confirm } from "react-confirm-box";
 
 export default function PermissionWH() {
     const EmpId = localStorage['EmpId'];
@@ -17,15 +18,37 @@ export default function PermissionWH() {
         { value: "17.00", text: "17.00" }, { value: "17.30", text: "17.30" }, { value: "18.00", text: "18.00" }, { value: "18.30", text: "18.30" },
         { value: "19.00", text: "19.00" }, { value: "19.30", text: "19.30" }
     ];
+    const optionsWithLabelChange = {
+        closeOnOverlayClick: true,
+        labels: {
+            confirmable: "Confirm",
+            cancellable: "Cancel"
+        }
+    };
     let ToOption = TimeArr;
     ToOption = TimeArr.slice(TimeArr.findIndex(x => x.value === DetailsWH['From']) + 1, TimeArr.findIndex(x => x.value === DetailsWH['From']) + 5);
 
-    const handelClick = () => {
+    const handelConfirm = async (msg) => {
+        if (await confirm(msg, optionsWithLabelChange)) {
+            handelSave();
+        }
+    }
+    const handelSave = () => {
         axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'LM_PM_PermissionApply ', UpdateJson: JSON.stringify(DetailsWH) }).then(result => {
             // let status = result.data[0];
             // if (status === 1) 
             alert.show("Permission has been Applied successfully.");
         });
+    }
+    const handelClick = async () => {
+        axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'LM_PM_PermissionLimitCheck ', UpdateJson: JSON.stringify({ EmpId: EmpId, StartDate: DetailsWH['StartDate'] }) }).then(result => {
+            if (result.data.recordset[0].Count >= 3) {
+                handelConfirm(result.data.recordset[0].Msg);
+            } else {
+                handelSave();
+            }
+        });
+
     }
     const handelOnChange = (event) => {
         if (event.target.name === 'StartDate') DetailsWH['EndDate'] = event.target.value;
@@ -41,10 +64,9 @@ export default function PermissionWH() {
 
     return (
         <div style={{ width: '99%', height: '60vh' }}>
-
             <div className="input-wrapper marginLeft-0">
                 <div className="input-holder input-DatePicker">
-                    <DatePicker name="StartDate" Value={new Date(DetailsWH['StartDate'])} valueChange={handelOnChange} />
+                    <DatePicker name="StartDate" showHoliDay={true} Value={new Date(DetailsWH['StartDate'])} valueChange={handelOnChange} />
                     <label className="input-label">Date</label>
                 </div>
             </div>

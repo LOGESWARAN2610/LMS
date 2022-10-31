@@ -603,3 +603,15 @@ button[role="cancellable-button"] {
 #Task .react-swipeable-view-container {
   max-height: 83vh !important;
 }
+.react-datepicker__day.holiDay {
+  color: blue;
+}
+.react-datepicker__day.random {
+  color: red;
+}
+.react-datepicker__day--disabled {
+  color: #ccc !important;
+}
+.react-datepicker__day {
+  cursor: pointer !important;
+}

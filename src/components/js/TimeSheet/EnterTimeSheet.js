@@ -11,6 +11,7 @@ import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import { useAlert } from "react-alert";
 import DatePicker from './../../Sub-Component/DatePicker/DatePicker';
+import { confirm } from "react-confirm-box";
 
 export default function EnterTimeSheet() {
     const EmpId = localStorage['EmpId'];
@@ -21,14 +22,24 @@ export default function EnterTimeSheet() {
     const [Module, setModule] = useState([]);
     const [Tasks, setTasks] = useState([]);
     const [Status, setStatus] = useState([]);
+    const [totalHours, setTotalHours] = useState(0.00);
     const [taskDate, setTaskDate] = useState((new Date().toLocaleDateString()).toString());
-    const taskDateArr = [
-        (new Date(new Date().setDate(new Date().getDate())).toLocaleDateString()).toString(),
-        (new Date(new Date().setDate(new Date().getDate() - 1)).toLocaleDateString()).toString(),
-        (new Date(new Date().setDate(new Date().getDate() - 2)).toLocaleDateString()).toString(),
-        (new Date(new Date().setDate(new Date().getDate() - 3)).toLocaleDateString()).toString(),
-        (new Date(new Date().setDate(new Date().getDate() - 4)).toLocaleDateString()).toString(),
-    ];
+    // const [holiDays, setHoliDays] = useState([]);
+    const [holiDayList, setHoliDayList] = useState([]);
+    const optionsWithLabelChange = {
+        closeOnOverlayClick: true,
+        labels: {
+            confirmable: "Confirm",
+            cancellable: "Cancel"
+        }
+    };
+    // const taskDateArr = [
+    //     (new Date(new Date().setDate(new Date().getDate())).toLocaleDateString()).toString(),
+    //     (new Date(new Date().setDate(new Date().getDate() - 1)).toLocaleDateString()).toString(),
+    //     (new Date(new Date().setDate(new Date().getDate() - 2)).toLocaleDateString()).toString(),
+    //     (new Date(new Date().setDate(new Date().getDate() - 3)).toLocaleDateString()).toString(),
+    //     (new Date(new Date().setDate(new Date().getDate() - 4)).toLocaleDateString()).toString(),
+    // ];
 
     useEffect(() => {
         axios.post(nodeurl['nodeurl'], { query: 'AB_Inprogressgrid ' + EmpId + ',"' + taskDate + '",0' }).then(result => {
@@ -48,6 +59,10 @@ export default function EnterTimeSheet() {
                 setDetails(result.data[0]);
                 setModule(result.data[2]);
             }
+        });
+        axios.post(nodeurl['nodeurl'], { query: 'Menus_HolidayList' }).then(result => {
+            setHoliDayList(result.data[0]);
+            // setHoliDays(result.data[0].map(function (item) { return moment(item['Holiday_Date']).format('MM-DD-YYYY') }));
         });
     }, [EmpId, taskDate]);
     const handleRemove = (index) => {
@@ -108,7 +123,12 @@ export default function EnterTimeSheet() {
         //     ele.dispatchEvent(new Event('change', { bubbles: true }));
         // }, 100);
     }
-    const handelClick = () => {
+    const handelConfirm = async (msg) => {
+        if (await confirm(msg, optionsWithLabelChange)) {
+            handelSave();
+        }
+    }
+    const handelSave = () => {
         for (let i = 0; i < Details.length; i++) {
             Details[i] = { ...Details[i], TaskDate: moment(new Date(taskDate)).format('YYYY-MM-DD') }
         }
@@ -116,6 +136,19 @@ export default function EnterTimeSheet() {
             setExpanded(-1);
             alert.success("Details Saved successfully.");
         });
+    }
+    const handelClick = () => {
+        let dayName = '', day = new Date(taskDate).getDay();
+        if (day === 0) dayName = 'Sunday'
+        else if (day === 6) dayName = 'Saturday';
+        if (dayName === '')
+            holiDayList.each((item) => { if (moment(taskDate).format('MM-DD-YYYY') === moment(item['Holiday_Date']).format('MM-DD-YYYY')) dayName = 'Holiday(' + item['Holiday_Name'] + ')' });
+        if (dayName !== '') {
+            let msg = <>The selected day is <b>{dayName}. </b><br /> Are you Sure want to continue the timesheet entry for the day ?</>;
+            handelConfirm(msg);
+        } else {
+            handelSave();
+        }
     }
     const handelOnChange = (event) => {
         const newState = Details.map((obj, index_) => {
@@ -133,6 +166,10 @@ export default function EnterTimeSheet() {
             }
             return obj;
         });
+        let totalHours = 0.00;
+        newState.each((item) => { totalHours += parseFloat(item['Hours']) });
+        totalHours = isNaN(totalHours) ? 0.00 : totalHours;
+        setTotalHours(totalHours.toFixed(2));
         setDetails(newState);
     }
 
@@ -184,10 +221,9 @@ export default function EnterTimeSheet() {
                 if (parseInt(event.target.attributes.index.value) === index_) {
                     let TaskId = '-1', TaskName = '--Select--';
                     if (result.data[0].length > 0) {
-                        TaskId = result.data[0][0]['TaskId'];
-                        TaskName = result.data[0][0]['TaskName'];
+                        TaskId = result.data[0][0]['TaskId'] || '-1';
+                        TaskName = result.data[0][0]['TaskName'] || '--Select--';
                     }
-
                     return { ...obj, [event.target.name]: event.target.value, 'ModuleName': event.target.options[event.target.selectedIndex].text, 'TaskId': TaskId, 'TaskName': TaskName };
                 }
                 return obj;
@@ -238,11 +274,12 @@ export default function EnterTimeSheet() {
             <div style={{ textAlign: 'right', marginRight: '10px' }}>
                 <div className="input-wrapper timeSheetDate" style={{ width: '15%', height: '35px' }} >
                     <div className="input-holder">
-                        <select className="input-input" style={{ width: '100%', fontSize: '17px' }} onChange={handelTaskDateChange} value={taskDate} name="taskDate">
+                        {/* <select className="input-input" style={{ width: '100%', fontSize: '17px' }} onChange={handelTaskDateChange} value={taskDate} name="taskDate">
                             {taskDateArr.map((item, index) => (
                                 <option key={index} value={item}>{moment(new Date(item.replaceAll('/', '-'))).format('DD-MM-YYYY')}</option>
                             ))}
-                        </select>
+                        </select> */}
+                        <DatePicker name="taskDate" isWeekEndDisable={false} showHoliDay={true} minDate_={new Date(new Date().setDate(new Date().getDate() - 5))} Value={new Date()} valueChange={handelTaskDateChange} />
                         <label className="input-label" style={{ height: '60px' }}>Task Date</label>
                     </div>
                 </div>
@@ -385,7 +422,7 @@ export default function EnterTimeSheet() {
                                                     </div>
                                                 </div>
                                                 <div style={{ width: '35%' }}>
-                                                    <div className="input-wrapper marginLeft-0" style={{ width: '100%' }} >
+                                                    <div className="input-wrapper marginLeft-0" style={{ width: '100%', zIndex: 0 }} >
                                                         <div className="input-holder">
                                                             <textarea type="text" className={"input-input " + (Details[index]['TaskDescription'] === '' ? 'input-warning' : '')} name="TaskDescription" placeholder="Start Typing your Description" index={index} value={Details[index]['TaskDescription']} onChange={handelOnChange} style={{ height: '155px' }} />
                                                             <label className="input-label">Task Description</label>
@@ -410,6 +447,7 @@ export default function EnterTimeSheet() {
                 </div>
             </div>
             <div style={{ textAlign: 'right', marginRight: '10px' }}>
+                <h4 style={{ display: 'inline-block' }}>Total Hours:<h1 style={{ color: 'inherit', textAlign: 'right', marginRight: '20px', display: 'inline-block', padding: '0 0 0 5px' }}>{totalHours}</h1></h4>
                 <button className="btn marginLeft-0 " {...isDisable(1)} onClick={handelAddClick}>Add Row</button>
                 <button className="btn marginLeft-0 marginRight-0 " {...isDisable(1)} onClick={handelClick}>Save</button>
             </div>

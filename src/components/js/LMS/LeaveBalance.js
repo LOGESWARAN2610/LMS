@@ -149,14 +149,14 @@ export default function LeaveBalanceTab() {
                 <div id='LMS' style={{ margin: '15px 0 0 0', width: '99%' }}>
                     <div className="input-wrapper marginLeft-0 mWidth-190">
                         <div className="input-holder input-DatePicker">
-                            <DatePicker name="startDate" Value={new Date(Details['startDate'])} valueChange={handelOnChange} />
+                            <DatePicker name="startDate" showHoliDay={true} Value={new Date(Details['startDate'])} valueChange={handelOnChange} />
                             <label className="input-label">Start Date</label>
                         </div>
                     </div>
 
                     <div className="input-wrapper marginLeft-0 mWidth-190">
                         <div className="input-holder input-DatePicker">
-                            <DatePicker name="endDate" minDate_={new Date(Details['startDate'])} Value={new Date(Details['endDate'])} valueChange={handelOnChange} />
+                            <DatePicker name="endDate" showHoliDay={true} minDate_={new Date(Details['startDate'])} Value={new Date(Details['endDate'])} valueChange={handelOnChange} />
                             <label className="input-label">End Date</label>
                         </div>
                     </div>

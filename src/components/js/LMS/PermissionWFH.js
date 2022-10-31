@@ -37,7 +37,7 @@ export default function PermissionWFH() {
 
             <div className="input-wrapper marginLeft-0">
                 <div className="input-holder input-DatePicker">
-                    <DatePicker name="StartDate" Value={new Date(DetailsWFH['StartDate'])} valueChange={handelOnChange} />
+                    <DatePicker name="StartDate" showHoliDay={true} Value={new Date(DetailsWFH['StartDate'])} valueChange={handelOnChange} />
                     <label className="input-label">Date</label>
                 </div>
             </div>
