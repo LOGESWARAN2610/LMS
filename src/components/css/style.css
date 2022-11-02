@@ -562,12 +562,14 @@ button[role="confirmable-button"] {
   color: #fff;
   padding: 5px;
   border-radius: 5px;
+  margin: 0 !important;
 }
 button[role="cancellable-button"] {
   background-color: #bb1b1b;
   color: #fff;
   padding: 5px;
   border-radius: 5px;
+  margin-left: 1em;
 }
 .task-container {
   margin: 10px 10px 10px 0px;
@@ -614,4 +616,10 @@ button[role="cancellable-button"] {
 }
 .react-datepicker__day {
   cursor: pointer !important;
+}
+span:has(.alertBox) + div button[role="cancellable-button"] {
+  display: none;
+}
+.confirm-box__actions > :not(:last-child) {
+  margin: 0 !important;
 }

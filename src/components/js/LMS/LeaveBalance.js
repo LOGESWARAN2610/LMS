@@ -99,12 +99,14 @@ export default function LeaveBalanceTab() {
             let msg = <><b>You are applying for leave more than available balance.This would result in loss  of pay!!!</b> <br /><br />  Do you want to proceed?</>
             const result = await confirm(msg, optionsWithLabelChange);
             if (result) {
-                setExpanded(-1);
                 axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'Sp_LM_Leaveapplication ', UpdateJson: JSON.stringify(Details) }).then(result => {
-                    // let IsSubmit = result.data[0];
-                    let msg = 'Leave has been Applied successfully.';
-                    // if (IsSubmit === 0) msg = 'Already exists this date.';
-                    alert.success(msg);
+                    let msg = result.data.recordset[0][''];
+                    if (msg === 'No Leaves') {
+                        alert.success('Leave has been Applied successfully.');
+                        setExpanded(-1);
+                    } else {
+                        confirm(<div className='alertBox'>{msg}</div>, { closeOnOverlayClick: false, labels: { confirmable: " Ok " } });
+                    }
                 });
             }
 
@@ -114,12 +116,14 @@ export default function LeaveBalanceTab() {
             if (parseInt(Data[expanded]['currentblc']) < parseInt(Details['NoOfDays'])) {
                 handelApplyConfirm();
             } else {
-                setExpanded(-1);
                 axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'Sp_LM_Leaveapplication ', UpdateJson: JSON.stringify(Details) }).then(result => {
-                    // let IsSubmit = result.data[0];
-                    let msg = 'Leave has been Applied successfully.';
-                    // if (IsSubmit === 0) msg = 'Already exists this date.';
-                    alert.success(msg);
+                    let msg = result.data.recordset[0][''];
+                    if (msg === 'No Leaves') {
+                        alert.success('Leave has been Applied successfully.');
+                        setExpanded(-1);
+                    } else {
+                        confirm(<div className='alertBox'>{msg}</div>, { closeOnOverlayClick: false, labels: { confirmable: " Ok " } });
+                    }
                 });
             }
         }
@@ -141,7 +145,7 @@ export default function LeaveBalanceTab() {
         }
         const isDisable = () => {
             let isValidate = false;
-            if (Details['Reason'] === '' || (Details['LeaveOption'] === '2' && Details['Dates'] === '-1')) isValidate = true;
+            if (Details['Reason'] === '' || parseInt(Details['NoOfDays']) === 0 || (Details['LeaveOption'] === '2' && Details['Dates'] === '-1')) isValidate = true;
             return { disabled: isValidate };
         }
         return (

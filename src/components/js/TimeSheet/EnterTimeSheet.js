@@ -142,7 +142,7 @@ export default function EnterTimeSheet() {
         if (day === 0) dayName = 'Sunday'
         else if (day === 6) dayName = 'Saturday';
         if (dayName === '')
-            holiDayList.each((item) => { if (moment(taskDate).format('MM-DD-YYYY') === moment(item['Holiday_Date']).format('MM-DD-YYYY')) dayName = 'Holiday(' + item['Holiday_Name'] + ')' });
+            holiDayList.forEach((item) => { if (moment(taskDate).format('MM-DD-YYYY') === moment(item['Holiday_Date']).format('MM-DD-YYYY')) dayName = 'Holiday(' + item['Holiday_Name'] + ')' });
         if (dayName !== '') {
             let msg = <>The selected day is <b>{dayName}. </b><br /> Are you Sure want to continue the timesheet entry for the day ?</>;
             handelConfirm(msg);
@@ -167,7 +167,7 @@ export default function EnterTimeSheet() {
             return obj;
         });
         let totalHours = 0.00;
-        newState.each((item) => { totalHours += parseFloat(item['Hours']) });
+        newState.forEach((item) => { totalHours += parseFloat(item['Hours']) });
         totalHours = isNaN(totalHours) ? 0.00 : totalHours;
         setTotalHours(totalHours.toFixed(2));
         setDetails(newState);
@@ -447,7 +447,7 @@ export default function EnterTimeSheet() {
                 </div>
             </div>
             <div style={{ textAlign: 'right', marginRight: '10px' }}>
-                <h4 style={{ display: 'inline-block' }}>Total Hours:<h1 style={{ color: 'inherit', textAlign: 'right', marginRight: '20px', display: 'inline-block', padding: '0 0 0 5px' }}>{totalHours}</h1></h4>
+                <span style={{ display: 'inline-block', fontSize: '18px' }}>Total Hours:<h1 style={{ color: 'inherit', textAlign: 'right', marginRight: '20px', display: 'inline-block', padding: '0 0 0 5px' }}>{totalHours}</h1></span>
                 <button className="btn marginLeft-0 " {...isDisable(1)} onClick={handelAddClick}>Add Row</button>
                 <button className="btn marginLeft-0 marginRight-0 " {...isDisable(1)} onClick={handelClick}>Save</button>
             </div>
