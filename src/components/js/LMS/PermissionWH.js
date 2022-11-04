@@ -35,9 +35,8 @@ export default function PermissionWH() {
     }
     const handelSave = () => {
         axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'LM_PM_PermissionApply ', UpdateJson: JSON.stringify(DetailsWH) }).then(result => {
-            // let status = result.data[0];
-            // if (status === 1) 
-            alert.show("Permission has been Applied successfully.");
+            let msg = result.data.recordset[0][''];
+            alert.show(msg);
         });
     }
     const handelClick = async () => {

@@ -267,6 +267,9 @@ export default function EnterTimeSheet() {
                 }
             }
         }
+        if (parseInt(totalHours) > 18) {
+            isValidate = true;
+        }
         return { disabled: isValidate };
     }
     return (
@@ -447,7 +450,7 @@ export default function EnterTimeSheet() {
                 </div>
             </div>
             <div style={{ textAlign: 'right', marginRight: '10px' }}>
-                <span style={{ display: 'inline-block', fontSize: '18px' }}>Total Hours:<h1 style={{ color: 'inherit', textAlign: 'right', marginRight: '20px', display: 'inline-block', padding: '0 0 0 5px' }}>{totalHours}</h1></span>
+                <span style={{ color: totalHours > 18 ? 'red' : 'inherit', display: 'inline-block', fontSize: '18px' }}>Total Hours:<h1 style={{ textAlign: 'right', marginRight: '20px', display: 'inline-block', padding: '0 0 0 5px' }}>{totalHours}</h1></span>
                 <button className="btn marginLeft-0 " {...isDisable(1)} onClick={handelAddClick}>Add Row</button>
                 <button className="btn marginLeft-0 marginRight-0 " {...isDisable(1)} onClick={handelClick}>Save</button>
             </div>
