@@ -3,6 +3,8 @@ import axios from 'axios';
 import nodeurl from '../../../nodeServer.json'
 import { useAlert } from "react-alert";
 import DatePicker from '../../Sub-Component/DatePicker/DatePicker';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function TaskAssignment() {
 
@@ -18,7 +20,21 @@ export default function TaskAssignment() {
             setTaskPriority(result.data[0]);
         });
     }, []);
-
+    const handelRemove = (e, Id) => {
+        let svg = e.target.closest('svg');
+        let target = svg.attributes.name.value;
+        // let Id = 0;
+        // if (target === 'Client') {
+        //     Id = NewProjectDetails['ClientID'];
+        // } else if (target === 'Project') {
+        //     Id = NewModuleDetails['ProjectID']
+        // } else if (target === 'Module') {
+        //     Id = NewTaskDetails['ModuleID']
+        // }
+        axios.post(nodeurl['nodeurl'], { query: "AB_Manage_TaskMaster '" + target + "'," + Id }).then(result => {
+            console.log('ok');
+        });
+    }
     const SelectDD = (props) => {
         return (
             <div className="input-wrapper marginLeft-0" style={props['style'] || { width: '100%' }}>
@@ -89,7 +105,9 @@ export default function TaskAssignment() {
         );
     }
     const AddProject = (props) => {
+
         const [NewProjectDetails, setNewProjectDetails] = useState({ ClientID: '-1', ProjectName: '' });
+
         const isProjectDisable = () => {
             let isValidate = false;
             if (NewProjectDetails['ClientID'] === '-1' || NewProjectDetails['ProjectName'] === '')
@@ -112,7 +130,7 @@ export default function TaskAssignment() {
         }
         return (<>
             <div className='task-container' style={props['style']}>
-                <h1>Add Project</h1>
+                <h1>Add Project {NewProjectDetails['ClientID'] !== '-1' ? <FontAwesomeIcon icon={faTrashAlt} name="Client" onClick={(e) => { handelRemove(e, NewProjectDetails['ClientID']) }} className="icon" /> : null}</h1>
                 <SelectDD name="ClientID" label="Client" option={Client} value={NewProjectDetails['ClientID']} OnChange={handelProjectChange} />
                 <InputBox name="ProjectName" onChange={handelProjectChange} placeholder="Project Name" value={NewProjectDetails['ProjectName']} label="Project Name" />
                 <Button disabled={isProjectDisable} onClick={handelProjectClick} text="Add Project" />
@@ -149,7 +167,7 @@ export default function TaskAssignment() {
         }
         return (<>
             <div className='task-container' style={props['style']}>
-                <h1>Add Module</h1>
+                <h1>Add Module{NewModuleDetails['ProjectID'] !== '-1' ? <FontAwesomeIcon icon={faTrashAlt} name="Project" onClick={(e) => { handelRemove(e, NewModuleDetails['ProjectID']) }} className="icon" /> : null}</h1>
                 <div style={{ display: 'inline-flex' }}>
                     <SelectDD name="ClientID" style={{ width: '48%', display: 'inline-block', marginRight: '15px' }} label="Client" option={Client} value={NewModuleDetails['ClientID']} OnChange={handelModuleChange} />
                     <SelectDD name="ProjectID" style={{ width: '48%', display: 'inline-block', marginRight: 0 }} label="Project" option={Project} value={NewModuleDetails['ProjectID']} OnChange={handelModuleChange} />
@@ -163,6 +181,7 @@ export default function TaskAssignment() {
         const [Module, setModule] = useState([]);
         const [Project, setProject] = useState([]);
         const [NewTaskDetails, setNewTaskDetails] = useState({ ClientID: '-1', ProjectID: '-1', ModuleID: '-1', TaskName: '', TaskDescription: '', TaskPriority: '-1', StartDate: new Date(), EndDate: new Date() });
+
         const handelTaskOnChange = (e) => {
             setNewTaskDetails({ ...NewTaskDetails, [e.target.name]: e.target.value });
             if (e.target.name === 'ClientID') {
@@ -197,7 +216,7 @@ export default function TaskAssignment() {
         }
         return (<>
             <div className='task-container' style={props['style']}>
-                <h1>Add Task</h1>
+                <h1>Add  Task{NewTaskDetails['ModuleID'] !== '-1' ? <FontAwesomeIcon icon={faTrashAlt} name="Project" onClick={(e) => { handelRemove(e, NewTaskDetails['ModuleID']) }} className="icon" /> : null}</h1>
                 <SelectDD name="ClientID" style={{ width: '150px', marginRight: '15px' }} label="Client" option={Client} value={NewTaskDetails['ClientID']} OnChange={handelTaskOnChange} />
                 <SelectDD name="ProjectID" style={{ width: '195px', display: 'inline-block', marginRight: '15px' }} label="Project" option={Project} value={NewTaskDetails['ProjectID']} OnChange={handelTaskOnChange} />
                 <SelectDD name="ModuleID" label="Module" option={Module} value={NewTaskDetails['ModuleID']} OnChange={handelTaskOnChange} />

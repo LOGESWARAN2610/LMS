@@ -52,7 +52,10 @@ export default function ChangePassword(props) {
             if (!isOTPSent) {
                 e.target.textContent = 'Verify'
                 setIsOTPSent(true);
-                axios.post(nodeurl['nodeurl'] + 'Email', { EmpId: EmpId, EmailTo: Details['UserName'] }).then(result => {
+                axios.post(nodeurl['nodeurl'], { query: 'LM_ForgotPassword ' + EmpId + ',' + Details['UserName'] }).then(result => {
+                    let msg = result.data.recordset[0][''];
+                    if (msg !== '')
+                        alert.show(msg);
                 });
             }
             else if (!isOTPVerified) {

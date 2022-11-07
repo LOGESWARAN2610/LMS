@@ -53,9 +53,12 @@ const StickyHeadTable = forwardRef((props, ref) => {
                 setRows(result.data[0]);
             });
         }
-        // else if (tab === 'viewTimesheet') {
-        //     setRows(props['Rows']);
-        // } 
+        else if (tab === 'ProjectApprovels') {
+            setPaperWidth('35%');
+            axios.post(nodeurl['nodeurl'], { query: 'AB_ProjectListAll' }).then(result => {
+                setRows(result.data[0]);
+            });
+        }
         else if (tab === 'HoliDayList') {
             setPaperWidth('35%');
             axios.post(nodeurl['nodeurl'], { query: 'Menus_HolidayList' }).then(result => {
@@ -88,6 +91,12 @@ const StickyHeadTable = forwardRef((props, ref) => {
             setRows(props['Rows']);
         }
     }, [props['Rows']]);
+
+    const handelActiveStatus = (ProjectId, event) => {
+        axios.post(nodeurl['nodeurl'], { query: "update ProjectList set Active=" + (event.target.checked ? 1 : 0) + " where ProjectId=" + ProjectId }).then(result => {
+        });
+    }
+
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -309,12 +318,17 @@ const StickyHeadTable = forwardRef((props, ref) => {
                                                                         return { ...obj, 'checked': e.target.checked };
                                                                     return obj;
                                                                 });
-                                                                let arr = Rows_.filter((item) => { return item['checked'] });
                                                                 setRows(Rows_);
-                                                                if (arr['length'] === 0)
-                                                                    setIsApproveRejectAll(true);
-                                                                else
-                                                                    setIsApproveRejectAll(false);
+                                                                let arr = Rows_.filter((item) => { return item['checked'] });
+                                                                if (tab === 'ProjectApprovels') {
+                                                                    handelActiveStatus(row['ProjectId'], e);
+                                                                }
+                                                                else {
+                                                                    if (arr['length'] === 0)
+                                                                        setIsApproveRejectAll(true);
+                                                                    else
+                                                                        setIsApproveRejectAll(false);
+                                                                }
                                                             }} /> : null}
                                                         {column.type === 6 ? <textarea value={row.comments} index={index} name="comments" onChange={(e) => {
                                                             const Row_ = rows.map((item, index) => {

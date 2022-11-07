@@ -584,6 +584,12 @@ button[role="cancellable-button"] {
   font-size: 18px;
   background-color: var(--background-color);
 }
+.task-container .icon {
+  float: right;
+  padding: 5px 5px 0 0;
+  margin: 0 !important;
+  color: "#fff";
+}
 #TimeSheet .body-Container {
   min-height: calc(100vh - 250px);
   max-height: calc(100vh - 250px);

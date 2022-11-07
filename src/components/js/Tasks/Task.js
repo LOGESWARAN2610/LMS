@@ -9,6 +9,7 @@ import Box from '@mui/material/Box';
 import setTheme from '../../Sub-Component/setTheme';
 import TaskAssignment from './TaskAssignment';
 import TaskMaster from './TaskMaster';
+import CustomGrid from '../../Sub-Component/CustomeGrid';
 
 export default function Task() {
 
@@ -59,6 +60,10 @@ export default function Task() {
         const handleChangeIndex = (index) => {
             setValue(index);
         };
+        const ProjectColumns = [
+            { id: 'ProjectName', label: 'Project Name', minWidth: 115, sort: true },
+            { id: '', label: 'Active', minWidth: 10, field: 'CheckBox', type: 5 }
+        ];
 
         return (
             <Box id="Task" sx={{ bgcolor: 'inherit' }}>
@@ -71,6 +76,7 @@ export default function Task() {
                     >
                         <Tab label="Task Master" className='tab' {...a11yProps(0)} />
                         <Tab label="Task Assignment" className='tab'  {...a11yProps(1)} />
+                        <Tab label="Project Approvel" className='tab'  {...a11yProps(2)} />
                     </Tabs>
                 </AppBar>
                 <SwipeableViews
@@ -82,6 +88,9 @@ export default function Task() {
                     </TabPanel>
                     <TabPanel value={value} index={1}>
                         <TaskAssignment />
+                    </TabPanel>
+                    <TabPanel value={value} index={2}>
+                        <CustomGrid Columns={ProjectColumns} tab='ProjectApprovels' Pagination={true} checkBox={true} />
                     </TabPanel>
                 </SwipeableViews >
             </Box >

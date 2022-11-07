@@ -226,8 +226,10 @@ const Login = () => {
                 if (!isOTPSent) {
                     e.target.textContent = 'Verify'
                     setIsOTPSent(true);
-                    axios.post(nodeurl['nodeurl'] + 'Email', { EmpId: EmpId, EmailTo: Details['UserName'] }).then(result => {
-                        console.log('OTP Sent Successfully.');
+                    axios.post(nodeurl['nodeurl'], { query: "LM_ForgotPassword '" + Details['UserName'] + "'" }).then(result => {
+                        let msg = result.data[0][0][''];
+                        if (msg !== '')
+                            alert.show(msg);
                     });
                 }
                 else if (!isOTPVerified) {
