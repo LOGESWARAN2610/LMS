@@ -22,7 +22,8 @@ const Sidebar = (props) => {
     const { pathname } = useLocation();
     let images;
     try {
-        images = require('../../images/Profile_' + localStorage['EmpId'] + '.png');
+        let path = 'E:\\TimeSheet\\LMS\\Images\\';
+        images = require(path + 'Profile_' + localStorage['EmpId'] + '.png');
     } catch (error) {
         images = localStorage['Gender'] === 'Female' ? Female : Male
     }
