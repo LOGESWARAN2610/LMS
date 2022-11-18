@@ -586,8 +586,9 @@ button[role="cancellable-button"] {
 }
 .task-container .icon {
   float: right;
-  padding: 5px 5px 0 0;
+  padding: 3px 5px 0 10px;
   margin: 0 !important;
+  cursor: pointer;
   color: "#fff";
 }
 #TimeSheet .body-Container {
@@ -628,4 +629,7 @@ span:has(.alertBox) + div button[role="cancellable-button"] {
 }
 .confirm-box__actions > :not(:last-child) {
   margin: 0 !important;
+}
+.statusSwatch {
+  float: right;
 }

@@ -5,6 +5,7 @@ import { useAlert } from "react-alert";
 import DatePicker from '../../Sub-Component/DatePicker/DatePicker';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Switch from '@mui/material/Switch';
 
 export default function TaskAssignment() {
 
@@ -13,28 +14,21 @@ export default function TaskAssignment() {
     const [TaskPriority, setTaskPriority] = useState([]);
 
     useEffect(() => {
-        axios.post(nodeurl['nodeurl'], { query: 'AB_GetClientId ' }).then(result => {
+        axios.post(nodeurl['nodeurl'], { query: 'AB_GetClientId 1' }).then(result => {
             setClient(result.data[0]);
         });
         axios.post(nodeurl['nodeurl'], { query: 'AB_Priority ' }).then(result => {
             setTaskPriority(result.data[0]);
         });
     }, []);
-    const handelRemove = (e, Id) => {
-        let svg = e.target.closest('svg');
-        let target = svg.attributes.name.value;
-        // let Id = 0;
-        // if (target === 'Client') {
-        //     Id = NewProjectDetails['ClientID'];
-        // } else if (target === 'Project') {
-        //     Id = NewModuleDetails['ProjectID']
-        // } else if (target === 'Module') {
-        //     Id = NewTaskDetails['ModuleID']
-        // }
-        axios.post(nodeurl['nodeurl'], { query: "AB_Manage_TaskMaster '" + target + "'," + Id }).then(result => {
+    const handelTaskMaster = (e) => {
+        let target = e.target.name, Id = e.target.value, isActive = 0;
+        if (e.target.checked) isActive = 1;
+        axios.post(nodeurl['nodeurl'], { query: "AB_Manage_TaskMaster '" + target + "'," + Id + "," + isActive }).then(result => {
             console.log('ok');
         });
     }
+
     const SelectDD = (props) => {
         return (
             <div className="input-wrapper marginLeft-0" style={props['style'] || { width: '100%' }}>
@@ -51,7 +45,6 @@ export default function TaskAssignment() {
         );
     }
     const InputBox = (props) => {
-
         return (
             <div className="input-wrapper marginLeft-0  marginRight-0" style={{ width: '100%' }}>
                 <div className="input-holder">
@@ -77,18 +70,17 @@ export default function TaskAssignment() {
             let isValidate = false;
             if (ClientDetails['ClientName'] === '' || ClientDetails['ClientCode'] === '')
                 isValidate = true;
-
             return { disabled: isValidate };
         }
         const handelClientClick = () => {
-            axios.post(nodeurl['nodeurl'], { query: 'AB_AddNewClientlist ' + ClientDetails['ClientName'] + ',' + ClientDetails['ClientCode'] }).then(result => {
+            axios.post(nodeurl['nodeurl'], { query: "AB_AddNewClientlist '" + ClientDetails['ClientName'] + "','" + ClientDetails['ClientCode'] + "'" }).then(result => {
                 setClientDetails({ ...ClientDetails, ClientName: '', ClientCode: '' });
                 let value = result.data[0][0]['Result'];
                 if (value === 1)
                     alert.show("Client Name already exist!!!");
                 else
                     alert.success("New Client Added successfully.");
-                axios.post(nodeurl['nodeurl'], { query: 'AB_GetClientId ' }).then(result => {
+                axios.post(nodeurl['nodeurl'], { query: 'AB_GetClientId 1' }).then(result => {
                     setClient(result.data[0]);
                 });
             });
@@ -105,18 +97,37 @@ export default function TaskAssignment() {
         );
     }
     const AddProject = (props) => {
-
         const [NewProjectDetails, setNewProjectDetails] = useState({ ClientID: '-1', ProjectName: '' });
+        const [clientStatus, setClientStatus] = useState(false);
 
+        const Swatch = (props) => {
+            return (
+                <Switch size="small" name={props['name']} value={props['value']} checked={props['isChecked']} className='statusSwatch' onChange={(e) => { handelTaskMaster(e); setClientStatus(e.target.checked) }} />
+            );
+        }
+        const handelRemove = (e) => {
+            let svg = e.target.closest('svg');
+            let query = '', target = svg.attributes.name.value, Id = svg.attributes.value.value;
+            query = "AB_Remove_Taskmaster " + Id + ",'Client'";
+            axios.post(nodeurl['nodeurl'], { query: query }).then(result => {
+                setClient(result.data[0]);
+                alert.show('Client Deleted Successfully');
+            });
+        }
         const isProjectDisable = () => {
             let isValidate = false;
             if (NewProjectDetails['ClientID'] === '-1' || NewProjectDetails['ProjectName'] === '')
                 isValidate = true;
-
             return { disabled: isValidate };
         }
         const handelProjectChange = (e) => {
             setNewProjectDetails({ ...NewProjectDetails, [e.target.name]: e.target.value });
+            if (e.target.name === 'ClientID') {
+                axios.post(nodeurl['nodeurl'], { query: 'Select ISNULL(Active,0)Active from Clients where Clientid=' + e.target.value }).then(result => {
+                    let value = result.data[0][0]['Active'];
+                    setClientStatus(value === 1 ? true : false);
+                });
+            }
         }
         const handelProjectClick = () => {
             axios.post(nodeurl['nodeurl'], { query: 'AB_AddNewProjectList ' + NewProjectDetails['ProjectName'] + ',' + NewProjectDetails['ClientID'] }).then(result => {
@@ -130,7 +141,7 @@ export default function TaskAssignment() {
         }
         return (<>
             <div className='task-container' style={props['style']}>
-                <h1>Add Project {NewProjectDetails['ClientID'] !== '-1' ? <FontAwesomeIcon icon={faTrashAlt} name="Client" onClick={(e) => { handelRemove(e, NewProjectDetails['ClientID']) }} className="icon" /> : null}</h1>
+                <h1>Add Project {NewProjectDetails['ClientID'] !== '-1' ? <><FontAwesomeIcon icon={faTrashAlt} style={{ fontSize: '18px' }} name="ClientID" value={NewProjectDetails['ClientID']} onClick={handelRemove} className="icon" /><Swatch name="ClientID" isChecked={clientStatus} value={NewProjectDetails['ClientID']} /> </> : null}</h1>
                 <SelectDD name="ClientID" label="Client" option={Client} value={NewProjectDetails['ClientID']} OnChange={handelProjectChange} />
                 <InputBox name="ProjectName" onChange={handelProjectChange} placeholder="Project Name" value={NewProjectDetails['ProjectName']} label="Project Name" />
                 <Button disabled={isProjectDisable} onClick={handelProjectClick} text="Add Project" />
@@ -139,12 +150,33 @@ export default function TaskAssignment() {
     }
     const AddModule = (props) => {
         const [Project, setProject] = useState([]);
+        const [projectStatus, setProjectStatus] = useState(false);
         const [NewModuleDetails, setNewModuleDetails] = useState({ ClientID: '-1', ProjectID: '-1', ModuleName: '' });
+
+        const Swatch = (props) => {
+            return (
+                <Switch size="small" name={props['name']} value={props['value']} checked={props['isChecked']} className='statusSwatch' onChange={(e) => { handelTaskMaster(e); setProjectStatus(e.target.checked) }} />
+            );
+        }
+        const handelRemove = (e) => {
+            let svg = e.target.closest('svg');
+            let query = '', target = svg.attributes.name.value, Id = svg.attributes.value.value;
+            query = "AB_Remove_Taskmaster " + Id + ",'Project'";
+            axios.post(nodeurl['nodeurl'], { query: query }).then(result => {
+                setProject(result.data[0]);
+                alert.show('Project Deleted Successfully');
+            });
+        }
         const handelModuleChange = (e) => {
             setNewModuleDetails({ ...NewModuleDetails, [e.target.name]: e.target.value });
             if (e.target.name === 'ClientID') {
-                axios.post(nodeurl['nodeurl'], { query: 'AB_ProjectddList ' + e.target.value }).then(result => {
+                axios.post(nodeurl['nodeurl'], { query: 'AB_ProjectddList ' + e.target.value + ',1' }).then(result => {
                     setProject(result.data[0]);
+                });
+            } else if (e.target.name === 'ProjectID') {
+                axios.post(nodeurl['nodeurl'], { query: 'Select ISNULL(Active,0)Active from ProjectList where ProjectId=' + e.target.value }).then(result => {
+                    let value = result.data[0][0]['Active'];
+                    setProjectStatus(value === 1 ? true : false);
                 });
             }
         }
@@ -152,7 +184,6 @@ export default function TaskAssignment() {
             let isValidate = false;
             if (NewModuleDetails['ClientID'] === '-1' || NewModuleDetails['ProjectID'] === '-1' || NewModuleDetails['ModuleName'] === '')
                 isValidate = true;
-
             return { disabled: isValidate };
         }
         const handelModuleClick = () => {
@@ -167,7 +198,7 @@ export default function TaskAssignment() {
         }
         return (<>
             <div className='task-container' style={props['style']}>
-                <h1>Add Module{NewModuleDetails['ProjectID'] !== '-1' ? <FontAwesomeIcon icon={faTrashAlt} name="Project" onClick={(e) => { handelRemove(e, NewModuleDetails['ProjectID']) }} className="icon" /> : null}</h1>
+                <h1>Add Module{NewModuleDetails['ProjectID'] !== '-1' ? <><FontAwesomeIcon icon={faTrashAlt} style={{ fontSize: '18px' }} name="ProjectID" value={NewModuleDetails['ProjectID']} onClick={handelRemove} className="icon" /><Swatch name="ProjectID" isChecked={projectStatus} value={NewModuleDetails['ProjectID']} /></> : null}</h1>
                 <div style={{ display: 'inline-flex' }}>
                     <SelectDD name="ClientID" style={{ width: '48%', display: 'inline-block', marginRight: '15px' }} label="Client" option={Client} value={NewModuleDetails['ClientID']} OnChange={handelModuleChange} />
                     <SelectDD name="ProjectID" style={{ width: '48%', display: 'inline-block', marginRight: 0 }} label="Project" option={Project} value={NewModuleDetails['ProjectID']} OnChange={handelModuleChange} />
@@ -180,18 +211,39 @@ export default function TaskAssignment() {
     const AddTask = (props) => {
         const [Module, setModule] = useState([]);
         const [Project, setProject] = useState([]);
+        const [moduleStatus, setModuleStatus] = useState(false);
         const [NewTaskDetails, setNewTaskDetails] = useState({ ClientID: '-1', ProjectID: '-1', ModuleID: '-1', TaskName: '', TaskDescription: '', TaskPriority: '-1', StartDate: new Date(), EndDate: new Date() });
 
+        const Swatch = (props) => {
+            return (
+                <Switch size="small" name={props['name']} value={props['value']} checked={props['isChecked']} className='statusSwatch' onChange={(e) => { handelTaskMaster(e); setModuleStatus(e.target.checked) }} />
+            );
+        }
+        const handelRemove = (e) => {
+            let svg = e.target.closest('svg');
+            let query = '', target = svg.attributes.name.value, Id = svg.attributes.value.value;
+            query = "AB_Remove_Taskmaster " + Id + ",'Module'";
+            axios.post(nodeurl['nodeurl'], { query: query }).then(result => {
+                debugger
+                setModule(result.data[0]);
+                alert.show('Module Deleted Successfully');
+            });
+        }
         const handelTaskOnChange = (e) => {
             setNewTaskDetails({ ...NewTaskDetails, [e.target.name]: e.target.value });
             if (e.target.name === 'ClientID') {
-                axios.post(nodeurl['nodeurl'], { query: 'AB_ProjectddList ' + e.target.value }).then(result => {
+                axios.post(nodeurl['nodeurl'], { query: 'AB_ProjectddList ' + e.target.value + ',1' }).then(result => {
                     setProject(result.data[0]);
                 });
             }
-            if (e.target.name === 'ProjectID') {
-                axios.post(nodeurl['nodeurl'], { query: 'AB_ModuleList ' + e.target.value }).then(result => {
+            else if (e.target.name === 'ProjectID') {
+                axios.post(nodeurl['nodeurl'], { query: 'AB_ModuleList ' + e.target.value + ',1' }).then(result => {
                     setModule(result.data[0]);
+                });
+            } else if (e.target.name === 'ModuleID') {
+                axios.post(nodeurl['nodeurl'], { query: 'Select ISNULL(Active,0)Active from ModuleList where ModuleId=' + e.target.value }).then(result => {
+                    let value = result.data[0][0]['Active'];
+                    setModuleStatus(value === 1 ? true : false);
                 });
             }
 
@@ -216,7 +268,7 @@ export default function TaskAssignment() {
         }
         return (<>
             <div className='task-container' style={props['style']}>
-                <h1>Add  Task{NewTaskDetails['ModuleID'] !== '-1' ? <FontAwesomeIcon icon={faTrashAlt} name="Project" onClick={(e) => { handelRemove(e, NewTaskDetails['ModuleID']) }} className="icon" /> : null}</h1>
+                <h1>Add  Task{NewTaskDetails['ModuleID'] !== '-1' ? <><FontAwesomeIcon icon={faTrashAlt} style={{ fontSize: '18px' }} name="ModuleID" value={NewTaskDetails['ModuleID']} onClick={handelRemove} className="icon" /><Swatch name="ModuleID" isChecked={moduleStatus} value={NewTaskDetails['ModuleID']} /> </> : null}</h1>
                 <SelectDD name="ClientID" style={{ width: '150px', marginRight: '15px' }} label="Client" option={Client} value={NewTaskDetails['ClientID']} OnChange={handelTaskOnChange} />
                 <SelectDD name="ProjectID" style={{ width: '195px', display: 'inline-block', marginRight: '15px' }} label="Project" option={Project} value={NewTaskDetails['ProjectID']} OnChange={handelTaskOnChange} />
                 <SelectDD name="ModuleID" label="Module" option={Module} value={NewTaskDetails['ModuleID']} OnChange={handelTaskOnChange} />

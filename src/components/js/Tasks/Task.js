@@ -76,7 +76,7 @@ export default function Task() {
                     >
                         <Tab label="Task Master" className='tab' {...a11yProps(0)} />
                         <Tab label="Task Assignment" className='tab'  {...a11yProps(1)} />
-                        <Tab label="Project Approvel" className='tab'  {...a11yProps(2)} />
+                        {/* <Tab label="Project Approvel" className='tab'  {...a11yProps(2)} /> */}
                     </Tabs>
                 </AppBar>
                 <SwipeableViews
@@ -89,9 +89,9 @@ export default function Task() {
                     <TabPanel value={value} index={1}>
                         <TaskAssignment />
                     </TabPanel>
-                    <TabPanel value={value} index={2}>
+                    {/* <TabPanel value={value} index={2}>
                         <CustomGrid Columns={ProjectColumns} tab='ProjectApprovels' Pagination={true} checkBox={true} />
-                    </TabPanel>
+                    </TabPanel> */}
                 </SwipeableViews >
             </Box >
         );

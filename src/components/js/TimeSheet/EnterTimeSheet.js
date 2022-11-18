@@ -450,7 +450,7 @@ export default function EnterTimeSheet() {
                 </div>
             </div>
             <div style={{ textAlign: 'right', marginRight: '10px' }}>
-                <span style={{ color: totalHours > 18 ? 'red' : 'inherit', display: 'inline-block', fontSize: '18px' }}>Total Hours:<h1 style={{ textAlign: 'right', marginRight: '20px', display: 'inline-block', padding: '0 0 0 5px' }}>{totalHours}</h1></span>
+                <span style={{ color: totalHours > 18 ? 'red' : 'inherit', display: 'inline-block', fontSize: '18px' }}>Total Hours:<span style={{ textAlign: 'right', marginRight: '20px', display: 'inline-block', padding: '0 0 0 5px,fontSize:18px' }}>{totalHours}</span></span>
                 <button className="btn marginLeft-0 " {...isDisable(1)} onClick={handelAddClick}>Add Row</button>
                 <button className="btn marginLeft-0 marginRight-0 " {...isDisable(1)} onClick={handelClick}>Save</button>
             </div>

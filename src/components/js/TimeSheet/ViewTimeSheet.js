@@ -55,6 +55,7 @@ export default function ViewTimeSheet() {
     const [monthYear, setMonthYear] = useState({ Month: date.getMonth(), Year: date.getFullYear() });
     const [dateRange, setDateRange] = useState([{ startDate: firstDate, endDate: new Date(), key: 'selection' }]);
     const [Rows, setRows] = useState([]);
+    const [TotalHours, setTotalHours] = useState(0.00);
     function generateArrayOfYears() {
         var max = date.getFullYear();
         var min = max - 5;
@@ -62,6 +63,11 @@ export default function ViewTimeSheet() {
         for (var i = max; i >= min; i--) { years.push(i) }
         return years;
     }
+    const calculateTotalHours = (arr) => {
+        let hours = 0.00;
+        arr.map((item) => { hours += parseFloat(item.Hours) });
+        setTotalHours(hours);
+    };
     const handelExport = () => {
         let FileName = '';
         if (value === 0) {
@@ -111,6 +117,7 @@ export default function ViewTimeSheet() {
     useEffect(() => {
         axios.post(nodeurl['nodeurl'], { query: 'AB_GetTimesheet "Range",' + localStorage['EmpId'] + ',"' + Moment(new Date(new Date().getFullYear(), new Date().getMonth(), 1)).format('YYYY-MM-DD') + '","' + Moment(new Date()).format('YYYY-MM-DD') + '",0,0' }).then(result => {
             setRows(result.data[0]);
+            calculateTotalHours(result.data[0]);
         });
     }, [])
 
@@ -119,11 +126,13 @@ export default function ViewTimeSheet() {
         if (newValue === 0) {
             axios.post(nodeurl['nodeurl'], { query: 'AB_GetTimesheet "Day",' + localStorage['EmpId'] + ',"' + Moment(new Date()).format('YYYY-MM-DD') + '","' + Moment(new Date()).format('YYYY-MM-DD') + '",' + monthYear['Month'] + ',' + monthYear['Year'] }).then(result => {
                 setRows(result.data[0]);
+                calculateTotalHours(result.data[0]);
             });
         }
         else if (newValue === 1) {
             axios.post(nodeurl['nodeurl'], { query: 'AB_GetTimesheet "Range",' + localStorage['EmpId'] + ',"' + Moment(firstDate).format('YYYY-MM-DD') + '","' + Moment(new Date()).format('YYYY-MM-DD') + '",0,0' }).then(result => {
                 setRows(result.data[0]);
+                calculateTotalHours(result.data[0]);
             });
         }
         else if (newValue === 2) {
@@ -131,6 +140,7 @@ export default function ViewTimeSheet() {
             setMonthYear({ Month: date.getMonth(), Year: date.getFullYear() });
             axios.post(nodeurl['nodeurl'], { query: 'AB_GetTimesheet "Month",' + localStorage['EmpId'] + ',"' + Moment(monthYear['Month']).format('YYYY-DD-MM') + '","' + Moment(monthYear['Year']).format('YYYY-DD-MM') + '",' + (parseInt(date.getMonth())) + ',' + date.getFullYear() }).then(result => {
                 setRows(result.data[0]);
+                calculateTotalHours(result.data[0]);
             });
         }
     };
@@ -141,6 +151,7 @@ export default function ViewTimeSheet() {
         setDate(date);
         axios.post(nodeurl['nodeurl'], { query: 'AB_GetTimesheet "Day",' + localStorage['EmpId'] + ',"' + Moment(date).format('YYYY-MM-DD') + '","' + Moment(date).format('YYYY-MM-DD') + '",' + monthYear['Month'] + ',' + monthYear['Year'] }).then(result => {
             setRows(result.data[0]);
+            calculateTotalHours(result.data[0]);
         });
     }
     const handelMonthYearChange = (event) => {
@@ -156,19 +167,22 @@ export default function ViewTimeSheet() {
         }
         axios.post(nodeurl['nodeurl'], { query: 'AB_GetTimesheet "Month",' + localStorage['EmpId'] + ',"' + Moment(date).format('YYYY-DD-MM') + '","' + Moment(date).format('YYYY-DD-MM') + '",' + month + ',' + year }).then(result => {
             setRows(result.data[0]);
+            calculateTotalHours(result.data[0]);
         });
     }
     const handelDateRangeChange = (event) => {
         setDateRange([event['selection']]);
         axios.post(nodeurl['nodeurl'], { query: 'AB_GetTimesheet "Range",' + localStorage['EmpId'] + ',"' + Moment(event['selection']['startDate']).format('YYYY-MM-DD') + '","' + Moment(event['selection']['endDate']).format('YYYY-MM-DD') + '",0,0' }).then(result => {
             setRows(result.data[0]);
+            calculateTotalHours(result.data[0]);
         });
     }
 
     return (
         <>
-            <div style={{ textAlign: 'right', marginTop: '-25px' }} className={value === 2 ? '' : 'hidden'}>
-                <button className="btn marginLeft-0 marginRight-0" onClick={handelExport}>Export To Excel</button>
+            <div style={{ textAlign: 'right', marginTop: '-25px' }} >
+                <span style={{ display: 'inline-block', fontSize: '18px', margin: '10px', padding: ' 10px 0' }}>Total Hours:<span style={{ textAlign: 'right', marginRight: '20px', display: 'inline-block', padding: '0 0 0 5px', fontSize: '18px', fontWeight: 'bold' }}>{TotalHours.toFixed(2)}</span></span>
+                <button className={`${value === 2 ? '' : 'toggle'} btn marginLeft-0 marginRight-0`} onClick={handelExport}>Export To Excel</button>
             </div>
             <div id="viewTimesheet" style={{ flexDirection: 'row', display: 'flex' }}>
                 <Box style={{ display: 'inline-block', marginRight: '-20px' }}>

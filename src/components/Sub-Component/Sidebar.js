@@ -22,8 +22,7 @@ const Sidebar = (props) => {
     const { pathname } = useLocation();
     let images;
     try {
-        let path = 'E:\\TimeSheet\\LMS\\Images\\';
-        images = require(path + 'Profile_' + localStorage['EmpId'] + '.png');
+        images = require('../../../Images/Profile_' + localStorage['EmpId'] + '.png');
     } catch (error) {
         images = localStorage['Gender'] === 'Female' ? Female : Male
     }
@@ -38,6 +37,7 @@ const Sidebar = (props) => {
         { text: 'Settings', link: '/Settings', icon: faUserGear, isManagerSide: false }
         // { text: 'WorkPlace', link: '/WorkPlace', icon: faUserGear }
     ];
+    debugger
     if (parseInt(localStorage['IsManager']) !== 1) {
         Tabs = Tabs.filter((item) => {
             return !item['isManagerSide']
