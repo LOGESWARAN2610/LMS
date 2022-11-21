@@ -43,6 +43,7 @@ export default function Profile() {
             }
             else
                 setDetails({ ...Details, [event.target.name]: event.target.value });
+            debugger
         }
         const handelClick = () => {
             axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'AB_UpdateEmployeeDetail ', UpdateJson: JSON.stringify(Details) }).then(result => {
@@ -122,7 +123,7 @@ export default function Profile() {
 
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
-                        <input type="text" placeholder="PhoneNumber" className="input-input" name="Mobile No" value={Details['PhoneNumber']} onChange={handelOnChange} />
+                        <input type="number" placeholder="PhoneNumber" className="input-input" name="PhoneNumber" value={Details['PhoneNumber']} onChange={handelOnChange} />
                         <label className="input-label">Mobile No.</label>
                     </div>
                 </div>
@@ -161,6 +162,18 @@ export default function Profile() {
                     <div className="input-holder">
                         <input type="text" className="input-input" disabled name="UserName" value={Details['UserName']} onChange={handelOnChange} />
                         <label className="input-label">Official Mail ID(User Name)</label>
+                    </div>
+                </div>
+                <div className="input-wrapper marginLeft-0">
+                    <div className="input-holder">
+                        <input type="text" className="input-input" name="EmgContactName" value={Details['EmgContactName']} onChange={handelOnChange} />
+                        <label className="input-label">Emergency Contact Person Name</label>
+                    </div>
+                </div>
+                <div className="input-wrapper marginLeft-0">
+                    <div className="input-holder">
+                        <input type="text" className="input-input" name="EmgContactNumber" value={Details['EmgContactNumber']} onChange={handelOnChange} />
+                        <label className="input-label">Emergency Contact Person Number</label>
                     </div>
                 </div>
                 <div className="input-wrapper marginLeft-0">
