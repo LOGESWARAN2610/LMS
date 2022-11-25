@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
     const EmpId = localStorage['EmpId'];
+    const [value, setValue] = useState(0);
     const alert = useAlert();
     // if (localStorage['isProfileChanged']) console.log('fds');
     const navigate = useNavigate();
@@ -26,15 +27,29 @@ export default function Profile() {
         navigate(path);
     }
     const DetailsFields = () => {
+        var date = new Date();
+        date = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + '-' + ((date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1)) + '-' + date.getFullYear()
+        const [Details, setDetails] = useState({ SurName: 'Mr.', Empid: 0, FirstName: '', LastName: '', PhoneNumber: '', EmailID: '', Address: '', DateOfBirth: date, DateOfJoin: date, UserName: '', Password: '', Gender: 2, Hintans: '', Question: 1, IsUpdate: value, ReportsTo: 62 });
+        const [ManagerOption, setManagerOption] = useState([]);
 
-        const [Details, setDetails] = useState({ Empid: 0, FirstName: '', LastName: '', PhoneNumber: '', EmailID: '', Address: '', DateOfBirth: '', DateOfJoin: '', UserName: '', Password: '', Gender: 2, Hintans: '', Question: 0 });
+        useEffect(() => {
+            let query = 'SELECT ED.empid AS value,ED.FirstName AS label FROM LM_Reportingmanagers RM INNER JOIN EmployeeDetails ED ON ED.empid = RM.empid'
+            axios.post(nodeurl['nodeurl'], { query: query }).then(result => {
+                setManagerOption(result.data[0]);
+            });
+        }, [])
         useEffect(() => {
             setTheme();
-            axios.post(nodeurl['nodeurl'], { query: 'AB_ViewEmpProfile ' + EmpId }).then(result => {
-                setDetails(result.data[0][0]);
-                console.log(result.data[0][0]);
-            });
-        }, []);
+
+            if (value === 0) {
+                axios.post(nodeurl['nodeurl'], { query: 'AB_ViewEmpProfile ' + EmpId }).then(result => {
+                    setDetails(result.data[0][0]);
+                });
+            } else {
+
+                setDetails({ SurName: 'Mr.', Empid: 0, FirstName: '', LastName: '', PhoneNumber: '', EmailID: '', Address: '', DateOfBirth: date, DateOfJoin: date, UserName: '', Password: '', Gender: 2, Hintans: '', Question: 1, IsUpdate: value, ReportsTo: 62 });
+            }
+        }, [value]);
         const handelOnChange = (event) => {
             if (event.target.name === 'DateOfBirth') {
                 var date = new Date(event.target.value);
@@ -43,17 +58,22 @@ export default function Profile() {
             }
             else
                 setDetails({ ...Details, [event.target.name]: event.target.value });
-            debugger
         }
         const handelClick = () => {
+            Details['IsUpdate'] = value;
             axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'AB_UpdateEmployeeDetail ', UpdateJson: JSON.stringify(Details) }).then(result => {
-                let Details = result['data']['recordset'][0];
-                setDetails(Details);
-                localStorage.setItem('Name', Details['SurName'] + ' ' + Details['AliceName']);
-                localStorage.setItem('Gender', Details['Gender'] === '1' ? 'Female' : 'Male');
-                localStorage.setItem('isProfileChanged', true);
-                alert.success("Your details Updated successfully.");
-                Navigate('/Profile')
+                if (value === 0) {
+                    let Details = result['data']['recordset'][0];
+                    setDetails(Details);
+                    localStorage.setItem('Name', Details['SurName'] + ' ' + Details['AliceName']);
+                    localStorage.setItem('Gender', Details['Gender'] === '1' ? 'Female' : 'Male');
+                    localStorage.setItem('isProfileChanged', true);
+                    alert.success("Your details Updated successfully.");
+                    Navigate('/Profile');
+                } else {
+                    alert.success("Regeistred successfully.");
+                    setDetails({ SurName: 'Mr.', Empid: 0, FirstName: '', LastName: '', PhoneNumber: '', EmailID: '', Address: '', DateOfBirth: date, DateOfJoin: date, UserName: '', Password: '', Gender: 2, Hintans: '', Question: 1, IsUpdate: value, ReportsTo: 62 });
+                }
             });
         }
 
@@ -76,6 +96,17 @@ export default function Profile() {
         }
         return (
             <div id="profile" style={{ width: '99%' }}>
+
+                {value === 1 ? <div className="input-wrapper marginLeft-0">
+                    <div className="input-holder">
+                        <select className="input-input" name="Question" value={Details['ReportsTo']} onChange={handelOnChange}>
+                            {ManagerOption.map((item, index) => (
+                                <option key={index} value={item['value']}>{item['label']}</option>
+                            ))}
+                        </select>
+                        <label className="input-label">Reports To</label>
+                    </div>
+                </div> : null}
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder input2-holder" style={{ boxShadow: '#000c2f4d 1px 2px 5px 0px' }} >
                         <select id="exampleList" className="input-input" name="SurName" value={Details['SurName']} onChange={handelOnChange} style={{ border: 'none', height: '48px', boxShadow: 'none', width: '20%', padding: '0 0 0 10px', borderTopRightRadius: 0, borderBottomRightRadius: 0 }}>
@@ -108,8 +139,9 @@ export default function Profile() {
                         {Details['DateOfBirth'] ? <DatePicker name="DateOfBirth" isWeekEndDisable={false} dd={(Details['DateOfBirth'])} Value={((Details['DateOfBirth']).split('-').reverse().join('-'))} valueChange={handelOnChange} /> : <></>}
                         <label className="input-label">Date Of Birth</label>
                     </div>
-                    <div className="input-holder" style={{ width: '48%', float: 'right', position: 'relative' }}>
-                        <input type="text" className="input-input" style={{ width: '100%' }} disabled name="DateOfJoin" value={Details['DateOfJoin']} onChange={handelOnChange} />
+                    <div className="input-holder" style={{ width: '48%', float: 'right', position: 'relative', zIndex: 11 }}>
+                        {Details['DateOfJoin'] && value === 1 ? <DatePicker name="DateOfJoin" isWeekEndDisable={true} dd={(Details['DateOfJoin'])} Value={((Details['DateOfJoin']).split('-').reverse().join('-'))} valueChange={handelOnChange} /> : <></>}
+                        {value === 0 ? <input type="text" className="input-input" style={{ width: '100%' }} disabled name="DateOfJoin" value={Details['DateOfJoin']} onChange={handelOnChange} /> : null}
                         <label className="input-label">Date Of Joining</label>
                     </div>
                 </div>
@@ -160,7 +192,7 @@ export default function Profile() {
 
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
-                        <input type="text" className="input-input" disabled name="UserName" value={Details['UserName']} onChange={handelOnChange} />
+                        <input type="text" className="input-input" disabled={value === 0} name="UserName" value={Details['UserName']} onChange={handelOnChange} />
                         <label className="input-label">Official Mail ID(User Name)</label>
                     </div>
                 </div>
@@ -196,7 +228,7 @@ export default function Profile() {
                     </div>
                 </div>
                 <div>
-                    <button className="btn marginLeft-0" {...isDisable()} onClick={handelClick}>Save Details</button>
+                    <button className="btn marginLeft-0" {...isDisable()} onClick={handelClick}>{value === 0 ? 'Save Details' : 'Register'}</button>
                 </div>
             </div>
         );
@@ -237,7 +269,6 @@ export default function Profile() {
     }
 
     function FullWidthTabs(props) {
-        const [value, setValue] = useState(0);
 
         const handleChange = (event, newValue) => {
             setValue(newValue);
@@ -257,6 +288,7 @@ export default function Profile() {
                         style={{ color: localStorage['BgColor'] }}
                     >
                         <Tab label="Profile" className='tab' {...a11yProps(0)} />
+                        <Tab label="New Registration" className='tab' {...a11yProps(1)} />
                         {/* <Tab label="Change Password" className='tab'  {...a11yProps(1)} /> */}
                     </Tabs>
                 </AppBar>
@@ -269,7 +301,7 @@ export default function Profile() {
                         <DetailsFields />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <ChangePassword />
+                        <DetailsFields />
                     </TabPanel>
                     {/* <TabPanel value={value} index={1}>
                         <ChangePassword />
