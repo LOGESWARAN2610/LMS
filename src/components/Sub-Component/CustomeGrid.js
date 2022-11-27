@@ -18,6 +18,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationArrow, faXmark } from "@fortawesome/free-solid-svg-icons";
 import Switch from '@mui/material/Switch';
 import { useAlert } from "react-alert";
+import { confirm } from "react-confirm-box";
 
 const StickyHeadTable = forwardRef((props, ref) => {
 
@@ -30,7 +31,7 @@ const StickyHeadTable = forwardRef((props, ref) => {
     const selectedEmpId = 0;
     const [paperWidth, setPaperWidth] = useState('100%');
     const Pagination = props['Pagination'];
-    const handelAction = props['onclick'];
+    const handleAction = props['onclick'];
     const IsInclude = props['IsInclude']
     const setIsApproveRejectAll = props['setIsApproveRejectAll'];
     //  const [isheaderChecked, setIsheaderChecked] = useState(true);
@@ -92,7 +93,7 @@ const StickyHeadTable = forwardRef((props, ref) => {
         }
     }, [props['Rows']]);
 
-    const handelActiveStatus = (ProjectId, event) => {
+    const handleActiveStatus = (ProjectId, event) => {
         axios.post(nodeurl['nodeurl'], { query: "update ProjectList set Active=" + (event.target.checked ? 1 : 0) + " where ProjectId=" + ProjectId }).then(result => {
         });
     }
@@ -103,8 +104,37 @@ const StickyHeadTable = forwardRef((props, ref) => {
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
-    const handelPostCancel = async (id, type) => {
-        const result = await handelAction(id, type);
+
+    const [LopDetails, setLopDetails] = useState({ EmpId: EmpId, StartDate: '', EndDate: '', EmpLeaveApplicationId: 0, Reason: '', TimesheetHrs: 0.00, TotalLeaveHrs: 0.00, TotalHrs: 0.00 });
+    const handleLopModel = async (lopDetails_, row_) => {
+        //setLopDetails({ ...LopDetails, StartDate: row_['StartDate'], EndDate: row_['EndDate'], EmpLeaveApplicationId: row_['EmpleaveApplicationID'], TimesheetHrs: lopDetails_['TimesheetHrs'], TotalLeaveHrs: lopDetails_['TotalLeaveHrs'] });
+        const optionsWithLabelChange = {
+            closeOnOverlayClick: true,
+            labels: { confirmable: <span>Apply</span>, cancellable: "Cancel" }
+        };
+
+        const result = await confirm(<div id='lopCancel'>
+            <h1>LOP Cancel</h1>
+            <div><span>Date : </span><strong>{row_['StartDate']}</strong> - <strong>{row_['EndDate']}</strong></div>
+            <div><span>TimeSheet Hours : </span><strong>{lopDetails_['TimesheetHrs'].toFixed(2)}</strong></div>
+            <div><span>Leave Hours : </span><strong>{lopDetails_['TotalLeaveHrs'].toFixed(2)}</strong></div >
+            <div className="input-wrapper marginLeft-0">
+                <div className="input-holder">
+                    <input type="text" className="input-input" placeholder="Action Taken" onChange={(e) => {
+                        setLopDetails({ ...LopDetails, Reason: e.target.value });
+                    }} />
+                    <label className="input-label">Action Taken :</label>
+                </div>
+            </div>
+        </div>, optionsWithLabelChange);
+        if (result) {
+            let details = { EmpId: EmpId, StartDate: row_['StartDate'], EndDate: row_['EndDate'], EmpLeaveApplicationId: row_['EmpleaveApplicationID'], TimesheetHrs: lopDetails_['TimesheetHrs'], TotalLeaveHrs: lopDetails_['TotalLeaveHrs'], Reason: 'Forgot to fill' }
+            axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'SP_LM_LOP_Cancel_Request ', UpdateJson: JSON.stringify(details) }).then(result => {
+            });
+        }
+    }
+    const handlePostCancel = async (id, type) => {
+        const result = await handleAction(id, type);
         if (result) {
             setTimeout(() => {
                 if (type === '1') {
@@ -121,7 +151,7 @@ const StickyHeadTable = forwardRef((props, ref) => {
         }
     }
 
-    const handelCancelAction = (e) => {
+    const handleCancelAction = (e) => {
         let id, type;
         if (e.target.tagName === 'path') {
             id = e.target.parentElement.id
@@ -130,7 +160,7 @@ const StickyHeadTable = forwardRef((props, ref) => {
             id = e.target.id;
             type = e.target.attributes.clicktype.value;
         }
-        handelPostCancel(id, type);
+        handlePostCancel(id, type);
     }
 
     const handleChangeRowsPerPage = (event) => {
@@ -159,7 +189,8 @@ const StickyHeadTable = forwardRef((props, ref) => {
             }
         }
         ,
-        handelApproveReject(isAll, isApprove, tab) {
+        handleApproveReject(isAll, isApprove, tab) {
+            debugger
             let Row_ = [];
             if (isAll) {
                 Row_ = rows;
@@ -306,10 +337,26 @@ const StickyHeadTable = forwardRef((props, ref) => {
                                                 const value = row[column.id];
                                                 return (
                                                     <TableCell key={index_} align={column.align} style={column.type === 6 ? { padding: '0' } : { padding: '9px' }}>
-                                                        {column.type === 1 ? <button className='btnAction' ><FontAwesomeIcon id={row.EmpleaveApplicationID} clicktype={column.type} onClick={handelCancelAction} icon={faXmark} /></button> : value}
-                                                        {column.type === 2 && row.Reason === 'Timesheet not filled' ? <button className='btnAction' ><FontAwesomeIcon id={row.EmpleaveApplicationID} clicktype={column.type} onClick={handelCancelAction} icon={faLocationArrow} /></button> : ''}
-                                                        {column.type === 3 && row.LeaveType !== 'Total' ? <button className='btnAction' id={row.LeaveID} clicktype={column.type} onClick={handelCancelAction}>{column.button}</button> : ''}
-                                                        {column.type === 4 ? <button className='btnAction' ><FontAwesomeIcon id={row.PermissionApplicationID} clicktype={column.type} onClick={handelCancelAction} icon={faXmark} /></button> : ''}
+                                                        {column.type === 1 ? <button className='btnAction' ><FontAwesomeIcon id={row.EmpleaveApplicationID} clicktype={column.type} onClick={handleCancelAction} icon={faXmark} /></button> : value}
+                                                        {column.type === 2 && row.Reason === 'Timesheet not filled' ? <><button className='btnAction' ><FontAwesomeIcon id={row.EmpleaveApplicationID} clicktype={column.type} onClick={
+                                                            (e) => {
+                                                                let id, type;
+                                                                if (e.target.tagName === 'path') {
+                                                                    id = e.target.parentElement.id
+                                                                    type = e.target.parentElement.attributes.clicktype.value;
+                                                                } else {
+                                                                    id = e.target.id;
+                                                                    type = e.target.attributes.clicktype.value;
+                                                                }
+                                                                axios.post(nodeurl['nodeurl'], { query: "SP_LM_LOP_TimesheetHrs " + EmpId + ",'" + row.StartDate + "'," + id }).then(result => {
+                                                                    handleLopModel(result.data[0][0], row);
+                                                                });
+                                                            }
+
+                                                        } icon={faLocationArrow} /></button>
+                                                        </> : null}
+                                                        {column.type === 3 && row.LeaveType !== 'Total' ? <button className='btnAction' id={row.LeaveID} clicktype={column.type} onClick={handleCancelAction}>{column.button}</button> : ''}
+                                                        {column.type === 4 ? <button className='btnAction' ><FontAwesomeIcon id={row.PermissionApplicationID} clicktype={column.type} onClick={handleCancelAction} icon={faXmark} /></button> : ''}
                                                         {column.type === 5 ?
                                                             <Switch size="small" name="checked" disabled={row['isCompleted']} checked={row['checked']} index={index} onChange={(e) => {
                                                                 const switch_ = e.target.closest('.MuiSwitch-switchBase')
@@ -321,7 +368,7 @@ const StickyHeadTable = forwardRef((props, ref) => {
                                                                 setRows(Rows_);
                                                                 let arr = Rows_.filter((item) => { return item['checked'] });
                                                                 if (tab === 'ProjectApprovels') {
-                                                                    handelActiveStatus(row['ProjectId'], e);
+                                                                    handleActiveStatus(row['ProjectId'], e);
                                                                 }
                                                                 else {
                                                                     if (arr['length'] === 0)

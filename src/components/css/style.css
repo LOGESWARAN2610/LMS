@@ -542,7 +542,7 @@ label {
 }
 .confirm-box {
   position: fixed !important;
-  top: 35% !important;
+  top: 32% !important;
 }
 .confirm-box__content {
   background-color: #f1f3f4 !important;
@@ -632,4 +632,29 @@ span:has(.alertBox) + div button[role="cancellable-button"] {
 }
 .statusSwatch {
   float: right;
+}
+#lopCancel {
+  width: 370px;
+}
+#lopCancel h1 {
+  color: var(--background-color);
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid var(--background-color);
+}
+#lopCancel div {
+  display: block;
+  padding: 3px 10px;
+}
+#lopCancel span,
+#lopCancel .input-label {
+  font-size: 17px;
+}
+#lopCancel .input-label {
+  color: #111;
+  margin-left: -7px;
+  margin-top: 2px;
+}
+#lopCancel .input-wrapper {
+  width: 100%;
 }

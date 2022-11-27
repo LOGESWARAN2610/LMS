@@ -25,6 +25,7 @@ export default function Approvals() {
     }, [EmpId]);
 
     const approvelRef = useRef();
+    debugger
 
 
     const LeaveApprovelColumn = [
@@ -160,10 +161,10 @@ export default function Approvals() {
                     </div>}
                     {[0, 1, 2].includes(value) && <div style={{ display: 'inline-block', marginLeft: '10px' }}><button className="btn marginLeft-0 btnApproveRejectAll" style={{ margin: '5px 0 0 10px', width: '100px', padding: '10px' }} onClick={
                         () => {
-                            approvelRef.current.handelApproveReject(ApproveRejectAll, 1, value)
+                            approvelRef.current.handleApproveReject(ApproveRejectAll, 1, value)
                         }
                     }>Approve{ApproveRejectAll ? ' All' : ''}</button></div>}
-                    {[0, 1, 2].includes(value) && <button className="btn  marginRight-0 btnApproveRejectAll" style={{ margin: '5px 0 5px 10px', width: '100px', padding: '10px' }} onClick={() => approvelRef.current.handelApproveReject(ApproveRejectAll, 2, value)}>Reject{ApproveRejectAll ? ' All' : ''}</button>}
+                    {[0, 1, 2].includes(value) && <button className="btn  marginRight-0 btnApproveRejectAll" style={{ margin: '5px 0 5px 10px', width: '100px', padding: '10px' }} onClick={() => approvelRef.current.handleApproveReject(ApproveRejectAll, 2, value)}>Reject{ApproveRejectAll ? ' All' : ''}</button>}
                 </div>
 
                 <Box sx={{ bgcolor: 'inherit' }}>

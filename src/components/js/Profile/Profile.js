@@ -29,7 +29,7 @@ export default function Profile() {
     const DetailsFields = () => {
         var date = new Date();
         date = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + '-' + ((date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1)) + '-' + date.getFullYear()
-        const [Details, setDetails] = useState({ SurName: 'Mr.', Empid: 0, FirstName: '', LastName: '', PhoneNumber: '', EmailID: '', Address: '', DateOfBirth: date, DateOfJoin: date, UserName: '', Password: '', Gender: 2, Hintans: '', Question: 1, IsUpdate: value, ReportsTo: 62 });
+        const [Details, setDetails] = useState({ SurName: 'Mr.', Empid: 0, FirstName: '', LastName: '', PhoneNumber: '', EmailID: '', Address: '', DateOfBirth: date, EmgContactNumber: '', EmgContactName: '', DateOfJoin: date, UserName: '', Password: '', Gender: 2, Hintans: '', Question: 1, IsUpdate: value, ReportsTo: 62 });
         const [ManagerOption, setManagerOption] = useState([]);
 
         useEffect(() => {
@@ -47,7 +47,7 @@ export default function Profile() {
                 });
             } else {
 
-                setDetails({ SurName: 'Mr.', Empid: 0, FirstName: '', LastName: '', PhoneNumber: '', EmailID: '', Address: '', DateOfBirth: date, DateOfJoin: date, UserName: '', Password: '', Gender: 2, Hintans: '', Question: 1, IsUpdate: value, ReportsTo: 62 });
+                setDetails({ SurName: 'Mr.', Empid: 0, FirstName: '', LastName: '', PhoneNumber: '', EmailID: '', Address: '', DateOfBirth: date, EmgContactNumber: '', EmgContactName: '', DateOfJoin: date, UserName: '', Password: '', Gender: 2, Hintans: '', Question: 1, IsUpdate: value, ReportsTo: 62 });
             }
         }, [value]);
         const handelOnChange = (event) => {
@@ -72,7 +72,7 @@ export default function Profile() {
                     Navigate('/Profile');
                 } else {
                     alert.success("Regeistred successfully.");
-                    setDetails({ SurName: 'Mr.', Empid: 0, FirstName: '', LastName: '', PhoneNumber: '', EmailID: '', Address: '', DateOfBirth: date, DateOfJoin: date, UserName: '', Password: '', Gender: 2, Hintans: '', Question: 1, IsUpdate: value, ReportsTo: 62 });
+                    setDetails({ SurName: 'Mr.', Empid: 0, FirstName: '', LastName: '', PhoneNumber: '', EmailID: '', Address: '', DateOfBirth: date, EmgContactNumber: '', EmgContactName: '', DateOfJoin: date, UserName: '', Password: '', Gender: 2, Hintans: '', Question: 1, IsUpdate: value, ReportsTo: 62 });
                 }
             });
         }
@@ -90,7 +90,7 @@ export default function Profile() {
         }
         const isDisable = () => {
             let isValidate = false;
-            if (Details['FirstName'] === '' || Details['LastName'] === '' || Details['AliceName'] === '' || Details['PhoneNumber'] === '' || Details['Hintans'] === '')
+            if (Details['FirstName'] === '' || Details['LastName'] === '' || Details['AliceName'] === '' || Details['PhoneNumber'] === '' || Details['Hintans'] === '' || Details['EmgContactName'] === '' || Details['EmgContactNumber'] === '')
                 isValidate = true;
             return { disabled: isValidate };
         }

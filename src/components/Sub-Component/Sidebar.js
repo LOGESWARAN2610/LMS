@@ -37,7 +37,7 @@ const Sidebar = (props) => {
         { text: 'Settings', link: '/Settings', icon: faUserGear, isManagerSide: false }
         // { text: 'WorkPlace', link: '/WorkPlace', icon: faUserGear }
     ];
-    debugger
+
     if (parseInt(localStorage['IsManager']) !== 1) {
         Tabs = Tabs.filter((item) => {
             return !item['isManagerSide']
@@ -55,7 +55,10 @@ const Sidebar = (props) => {
         <>
             <Provider template={AlertTemplate} {...options}>
                 <div className="ABWrapper">
-                    <h2 className="AB" >Analytic Brains</h2>
+                    <h2 className="AB" >
+                        <img style={{ height: '45px', marginBottom: '-3px' }} src={require('../../images/AB_logo.png')} alt="AB" />
+                        <span style={{ fontSize: '40px' }}>A</span><span style={{ fontSize: '30px' }}>nalytic </span><span style={{ fontSize: '40px' }}>B</span><span style={{ fontSize: '30px' }}>rains</span>
+                    </h2>
                 </div>
                 <div style={{ marginTop: "-60px" }}>
                     <div>
