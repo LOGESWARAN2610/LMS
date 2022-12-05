@@ -1,0 +1,22 @@
+2022-11-29 19:14:26 - Starting C:\Program Files\nodejs\node.exe  --harmony E:\TimeSheet\LMS\server\node_modules\node-windows\lib\wrapper.js --file E:\TimeSheet\LMS\server\server.js --scriptoptions= --log "LMS Node Service wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2022-11-29 19:14:26 - Started 5768
+2022-11-29 19:15:26 - Starting C:\Program Files\nodejs\node.exe  --harmony E:\TimeSheet\LMS\server\node_modules\node-windows\lib\wrapper.js --file E:\TimeSheet\LMS\server\server.js --scriptoptions= --log "LMS Node Service wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2022-11-29 19:15:26 - Started 13456
+2022-11-29 19:28:17 - Starting C:\Program Files\nodejs\node.exe  --harmony E:\TimeSheet\LMS\server\node_modules\node-windows\lib\wrapper.js --file E:\TimeSheet\LMS\server\server.js --scriptoptions= --log "LMS Node Service wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2022-11-29 19:28:17 - Started 19784
+2022-11-29 19:37:48 - Stopping lmsnodeservice.exe
+2022-11-29 19:37:48 - ProcessKill 19784
+2022-11-29 19:37:49 - Found child process: 17948 Name: conhost.exe
+2022-11-29 19:37:49 - Found child process: 18548 Name: node.exe
+2022-11-29 19:37:49 - Stopping process 17948
+2022-11-29 19:37:49 - Send SIGINT 17948
+2022-11-29 19:37:49 - SIGINT to 17948 failed - Killing as fallback
+2022-11-29 19:37:49 - Stopping process 18548
+2022-11-29 19:37:49 - Send SIGINT 18548
+2022-11-29 19:37:49 - SIGINT to 18548 failed - Killing as fallback
+2022-11-29 19:37:49 - Stopping process 19784
+2022-11-29 19:37:49 - Send SIGINT 19784
+2022-11-29 19:37:49 - SIGINT to 19784 failed - Killing as fallback
+2022-11-29 19:37:49 - Finished lmsnodeservice.exe
+2022-11-29 19:37:49 - Starting C:\Program Files\nodejs\node.exe  --harmony E:\TimeSheet\LMS\server\node_modules\node-windows\lib\wrapper.js --file E:\TimeSheet\LMS\server\server.js --scriptoptions= --log "LMS Node Service wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2022-11-29 19:37:49 - Started 20452
