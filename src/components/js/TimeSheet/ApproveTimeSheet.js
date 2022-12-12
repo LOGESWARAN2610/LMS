@@ -21,8 +21,8 @@ export default function ApproveTimeSheet() {
     const [ApproveRejectAll, setApproveRejectAll] = useState(true);
 
     const TimesheetApprovelColumn = [
-        { id: '', label: '', minWidth: 10, field: 'CheckBox', type: 5 },
-        { id: 'FirstName', label: 'Employee Name', minWidth: 120, sort: true },
+        { id: '', label: '', minWidth: 15, field: 'CheckBox', type: 5 },
+        { id: 'FirstName', label: 'Employee Name', minWidth: 140, sort: true },
         { id: 'TotalHours', label: 'Total Hours', minWidth: 0, sort: true },
     ];
     const setIsApproveRejectAll = (param) => {
@@ -73,7 +73,7 @@ export default function ApproveTimeSheet() {
                     }>Approve{ApproveRejectAll ? ' All' : ''}</button></div>
             </div>
             <div style={{ marginTop: '35px' }}>
-                <div style={{ display: 'inline-block', margin: '20px 18px auto -10px' }}>
+                <div style={{ display: 'inline-block', margin: '20px 15px auto 0px' }}>
                     <Paper sx={{ width: '100%', overflow: 'auto', border: '1px solid ' + localStorage['BgColor'] }}>
                         <TableContainer className='scrollbar' >
                             <Table stickyHeader aria-label="sticky table">
@@ -130,9 +130,9 @@ export default function ApproveTimeSheet() {
                     <CustomGrid Columns={
                         [
                             { id: 'TaskDate', label: 'Date', minWidth: 100 },
-                            { id: 'ProjectName', label: 'Project', minWidth: 120 },
-                            { id: 'TaskDescription', label: 'Description', minWidth: 250 },
-                            { id: 'ExpectedCompletiondate', label: 'Completion Date', minWidth: 120 },
+                            { id: 'ProjectName', label: 'Project', minWidth: 100 },
+                            { id: 'TaskDescription', label: 'Description', minWidth: 230 },
+                            { id: 'ExpectedCompletiondate', label: 'Completion Date', minWidth: 100 },
                             { id: 'Status', label: 'Status', minWidth: 100 },
                             { id: 'Issues', label: 'Objects Changed', minWidth: 150 },
                             { id: 'Hours', label: 'Hours', minWidth: 80 }

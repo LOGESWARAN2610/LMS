@@ -56,7 +56,7 @@ const Sidebar = (props) => {
             <Provider template={AlertTemplate} {...options}>
                 <div className="ABWrapper">
                     <h2 className="AB" >
-                        <img style={{ height: '45px', marginBottom: '-3px' }} src={require('../../images/AB_logo.png')} alt="AB" />
+                        <img style={{ height: '45px', marginBottom: '-3px', marginRight: '5px' }} src={require('../../images/AB_logo.png')} alt="AB" />
                         <span style={{ fontSize: '40px' }}>A</span><span style={{ fontSize: '30px' }}>nalytic </span><span style={{ fontSize: '40px' }}>B</span><span style={{ fontSize: '30px' }}>rains</span>
                     </h2>
                 </div>
@@ -118,7 +118,7 @@ const Sidebar = (props) => {
                         <section className="body">
                             <div>
                                 <div className="scrollbar">
-                                    <div style={{ marginTop: "20px" }}>{props["Component"]}</div>
+                                    <div style={{ marginTop: "10px" }}>{props["Component"]}</div>
                                 </div>
                             </div>
                         </section>

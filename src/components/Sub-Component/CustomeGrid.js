@@ -337,24 +337,25 @@ const StickyHeadTable = forwardRef((props, ref) => {
                                                 const value = row[column.id];
                                                 return (
                                                     <TableCell key={index_} align={column.align} style={column.type === 6 ? { padding: '0' } : { padding: '9px' }}>
-                                                        {column.type === 1 ? <button className='btnAction' ><FontAwesomeIcon id={row.EmpleaveApplicationID} clicktype={column.type} onClick={handleCancelAction} icon={faXmark} /></button> : value}
-                                                        {column.type === 2 && row.Reason === 'Timesheet not filled' ? <><button className='btnAction' ><FontAwesomeIcon id={row.EmpleaveApplicationID} clicktype={column.type} onClick={
-                                                            (e) => {
-                                                                let id, type;
-                                                                if (e.target.tagName === 'path') {
-                                                                    id = e.target.parentElement.id
-                                                                    type = e.target.parentElement.attributes.clicktype.value;
-                                                                } else {
-                                                                    id = e.target.id;
-                                                                    type = e.target.attributes.clicktype.value;
+                                                        {column.type === 1 ? <><button className='btnAction' title="Click to cancel leave" ><FontAwesomeIcon id={row.EmpleaveApplicationID} clicktype={column.type} onClick={handleCancelAction} icon={faXmark} /></button>
+                                                            {row.Reason === 'Timesheet not filled' ? <><button className='btnAction' title="Click to cancel LOP" style={{ marginLeft: '15px' }} ><FontAwesomeIcon id={row.EmpleaveApplicationID} clicktype={column.type} onClick={
+                                                                (e) => {
+                                                                    let id, type;
+                                                                    if (e.target.tagName === 'path') {
+                                                                        id = e.target.parentElement.id
+                                                                        type = e.target.parentElement.attributes.clicktype.value;
+                                                                    } else {
+                                                                        id = e.target.id;
+                                                                        type = e.target.attributes.clicktype.value;
+                                                                    }
+                                                                    axios.post(nodeurl['nodeurl'], { query: "SP_LM_LOP_TimesheetHrs " + EmpId + ",'" + row.StartDate + "'," + id }).then(result => {
+                                                                        handleLopModel(result.data[0][0], row);
+                                                                    });
                                                                 }
-                                                                axios.post(nodeurl['nodeurl'], { query: "SP_LM_LOP_TimesheetHrs " + EmpId + ",'" + row.StartDate + "'," + id }).then(result => {
-                                                                    handleLopModel(result.data[0][0], row);
-                                                                });
-                                                            }
 
-                                                        } icon={faLocationArrow} /></button>
-                                                        </> : null}
+                                                            } icon={faLocationArrow} /></button>
+                                                            </> : null}
+                                                        </> : value}
                                                         {column.type === 3 && row.LeaveType !== 'Total' ? <button className='btnAction' id={row.LeaveID} clicktype={column.type} onClick={handleCancelAction}>{column.button}</button> : ''}
                                                         {column.type === 4 ? <button className='btnAction' ><FontAwesomeIcon id={row.PermissionApplicationID} clicktype={column.type} onClick={handleCancelAction} icon={faXmark} /></button> : ''}
                                                         {column.type === 5 ?

@@ -74,15 +74,15 @@ export default function Lms() {
         { id: 'status', label: 'Status', minWidth: 120, sort: true },
         { id: 'Reason', label: 'Reason', minWidth: 180 },
         { id: 'Leaveoptions', label: 'Leave Option', minWidth: 200, sort: true },
-        { id: '', label: 'Action', minWidth: 100, button: 'Cancel', type: 1 },
-        { id: '', label: 'LOP', minWidth: 70, button: 'Cancel', type: 2 }
+        { id: '', label: 'Action / LOP', minWidth: 100, button: 'Cancel', type: 1 },
+        // { id: '', label: 'LOP', minWidth: 70, button: 'Cancel', type: 2 }
     ];
     const PermissionHistoryColumn = [
         { id: 'PermissionType', label: 'Permission Type', minWidth: 200, sort: true },
         { id: 'StartDate', label: 'Start Date Time', minWidth: 160, sort: true },
         { id: 'EndDate', label: 'End Date Time', minWidth: 160, sort: true },
-        { id: 'AppliedOn', label: 'Applied On', minWidth: 160, sort: true },
-        { id: 'No_of_days', label: 'Hours', minWidth: 110 },
+        { id: 'AppliedOn', label: 'Applied On', minWidth: 120, sort: true },
+        { id: 'No_of_days', label: 'Hours', minWidth: 90 },
         { id: 'Status', label: 'Status', minWidth: 130, sort: true },
         { id: 'Reason', label: 'Reason', minWidth: 180 },
         { id: '', label: 'Action', minWidth: 100, button: 'Cancel', type: 4, onclick: handelAction },
