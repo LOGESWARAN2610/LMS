@@ -90,14 +90,15 @@ export default function Home() {
                         <Tab label="Task DashBoard" style={{ textTransform: 'capitalize', fontWeight: 600, fontSize: '16px' }} {...a11yProps(0)} />
                     </Tabs>
                 </AppBar>
+                <div style={{ textAlign: 'right', padding: '0 10px', display: 'inline-block', float: 'right' }} >
+                    <FormControlLabel control={<Checkbox color="default" checked={IsInclude} onChange={() => SetIsInclude(!IsInclude)} />} label="Include Completed Task" />
+                </div>
                 <SwipeableViews
                     index={value}
                     onChangeIndex={handleChangeIndex}
                 >
                     <TabPanel value={value} index={0}>
-                        <div style={{ textAlign: 'right', marginTop: '-32px' }} >
-                            <FormControlLabel control={<Checkbox color="default" checked={IsInclude} onChange={() => SetIsInclude(!IsInclude)} />} label="Include Completed Task" />
-                        </div>
+
                         <CustomGrid Columns={columns} tab='TaskDashBoard' IsInclude={IsInclude} Pagination={true} />
                     </TabPanel>
                 </SwipeableViews>

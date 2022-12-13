@@ -242,7 +242,6 @@ label {
   max-height: calc(100vh - 145px) !important;
 }
 .react-swipeable-view-container {
-  max-height: calc(100vh - 145px) !important;
   transition: transform 0.35s cubic-bezier(0.15, 0.3, 0.25, 1) 0s !important;
 }
 #logIn .input-wrapper {
@@ -395,6 +394,10 @@ label {
 }
 #EnterTimeSheet .MuiTypography-root {
   padding: 0 !important;
+}
+#EnterTimeSheet {
+  max-height: calc(100vh - 216px);
+  overflow-y: auto;
 }
 #EnterTimeSheet .MuiAccordionSummary-root.Mui-expanded {
   min-height: 73px !important;
@@ -615,13 +618,20 @@ button[role="cancellable-button"] {
   cursor: pointer;
   color: "#fff";
 }
+#viewTimesheet .MuiTableContainer-root {
+  max-height: calc(100vh - 215px) !important;
+  overflow-y: auto;
+}
 #TimeSheet .body-Container {
-  min-height: calc(100vh - 250px);
-  max-height: calc(100vh - 250px);
+  min-height: calc(100vh - 215px) !important;
+  /* max-height: calc(100vh - 250px); */
 }
 #home .MuiTableContainer-root,
 #LmsWrapper .MuiTableContainer-root {
   max-height: calc(100vh - 240px);
+}
+#home .MuiPaper-root {
+  margin-top: -6px;
 }
 /* .body-Container { Task Assign
   overflow-y: auto;
