@@ -19,11 +19,16 @@ const Login = () => {
     useEffect(() => {
         document.documentElement.style.setProperty('--background-color', '#0589a0');
         document.documentElement.style.setProperty('--color', '#fff');
+        if (localStorage.getItem('SessionId') !== undefined && localStorage.getItem('SessionId') !== null) {
+            axios.post(nodeurl['nodeurl'], { query: "AB_SessionIDExpire '" + localStorage.getItem('SessionId') + "'" }).then(result => {
+                console.log('Cleared')
+                localStorage.clear();
+            });
+        }
     }, [])
     const LogInPage = () => {
         const [input, setInput] = useState({});
         const [errors, setErrors] = useState({});
-        const [alert, setAlert] = useState('');
         const [passwordType, setPasswordType] = useState("password");
 
         const handleChange = (event) => {
@@ -35,7 +40,6 @@ const Login = () => {
                 }).join('@');
                 event.target.value = value;
             }
-            setAlert('');
             var validate_UN = '', validate_PWD = '';
             input[event.target.name] = event.target.value;
             setInput(input)
@@ -59,7 +63,6 @@ const Login = () => {
         const handleSubmit = (event) => {
             event.preventDefault();
             if (validate()) {
-                setAlert('');
                 setErrors({})
                 let email = input.email;
                 let password = input.password;
@@ -75,6 +78,7 @@ const Login = () => {
                         if (loginDetails['AccStatus'] === 1) {
                             localStorage.clear();
                             localStorage.setItem('EmpId', loginDetails['EmpId']);
+                            localStorage.setItem('SessionId', loginDetails['SessionId']);
                             localStorage.setItem('UserName', loginDetails['UserName']);
                             localStorage.setItem('Name', loginDetails['Name']);
                             localStorage.setItem('Gender', loginDetails['Gender']);
@@ -104,7 +108,6 @@ const Login = () => {
         });
         const validate = () => {
             let isValid = true;
-            setAlert('');
             var validate_UN = '', validate_PWD = '';
             if (!input["email"]) {
                 isValid = false;
@@ -180,7 +183,7 @@ const Login = () => {
         )
     }
     const ChangePassword = (props) => {
-        const EmpId = localStorage['EmpId'];
+        // const EmpId = localStorage['EmpId'];
 
         const DetailsFields = () => {
             const navigate = useNavigate();

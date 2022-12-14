@@ -416,6 +416,9 @@ label {
 #LeaveBalance .Mui-expanded {
   margin: 0px !important;
 }
+#LeaveBalance {
+  max-height: calc(100vh - 185px);
+}
 .css-67l5gl {
   box-shadow: none !important;
 }

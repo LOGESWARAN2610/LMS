@@ -5,22 +5,33 @@ import { faChevronRight, faHouseChimney, faLevelUpAlt, faTableList, faTasks, faU
 import { useLocation } from "react-router-dom";
 import Male from "../../images/Male.png";
 import Female from "../../images/Female.png";
+import axios from 'axios';
+import nodeurl from '../../nodeServer.json'
 import "../css/Sidebar.css";
 import ToolTip from "./ToolTip";
 import { positions, Provider } from "react-alert";
 import AlertTemplate from "react-alert-template-basic";
 
 const Sidebar = (props) => {
-    const handelLogOut = () => {
-        localStorage.clear();
-    };
+    const [IsOpen, setIsOpen] = useState(false);
+    const { pathname } = useLocation();
+    let images;
+    // const handelLogOut = () => {
+    //     localStorage.clear();
+    // };
+
+    if (localStorage.getItem('SessionId') === undefined || localStorage.getItem('SessionId') === null)
+        window.location.href = '/'
+    else if (localStorage.getItem('SessionId') !== undefined || localStorage.getItem('SessionId') !== null)
+        axios.post(nodeurl['nodeurl'], { query: "select ExpireStatus from EmpSession where Sessionid='" + localStorage.getItem('SessionId') + "'" }).then(result => {
+            if (result.data[0][0]['ExpireStatus'] === 0)
+                window.location.hef = '/'
+        });
     const options = {
         timeout: 5000,
         position: positions.BOTTOM_RIGHT
     };
-    const [IsOpen, setIsOpen] = useState(false);
-    const { pathname } = useLocation();
-    let images;
+
     try {
         images = require('../../../Images/Profile_' + localStorage['EmpId'] + '.png');
     } catch (error) {
@@ -101,13 +112,13 @@ const Sidebar = (props) => {
                                 <div className="bottom-content">
                                     {IsOpen ?
                                         <ToolTip title="Logout" placement="left">
-                                            <NavLink to="/" onClick={handelLogOut} className="nav-link tab">
+                                            <NavLink to="/" className="nav-link tab">
                                                 <FontAwesomeIcon icon={faRightFromBracket} className="icon" />
                                                 <span className="text nav-text">Logout</span>
                                             </NavLink>
                                         </ToolTip>
                                         :
-                                        <NavLink to="/" onClick={handelLogOut} className="nav-link tab">
+                                        <NavLink to="/" className="nav-link tab">
                                             <FontAwesomeIcon icon={faRightFromBracket} className="icon" />
                                             <span className="text nav-text">Logout</span>
                                         </NavLink>
