@@ -70,6 +70,7 @@
 }
 .img-up svg {
   font-size: 12px;
+  margin: 10px !important;
 }
 .choosephoto {
   display: flex;

@@ -59,7 +59,7 @@ app.post('/query', function (req, res) {
 app.post('/Upload', function (req, res) {
     // console.log(req.body.img);
     var img = req.body.img.replace('data:image/png;base64,', '');
-    let path = 'E:\\TimeSheet\\LMS\\Images\\';
+    let path = '../src/images/';
     fs.writeFile(path + 'Profile_' + req.body.EmpId + '.png', img, 'base64', function (err) {
         if (err)
             console.log('Error During Image Upload ', err);
