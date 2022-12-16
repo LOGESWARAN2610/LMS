@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import setTheme from '../../Sub-Component/setTheme';
 import "../../../components/css/Settings.css"
 import axios from 'axios';
@@ -9,6 +9,7 @@ import Female from '../../../images/Female.png'
 import nodeurl from '../../../nodeServer.json'
 
 export default function Settings() {
+    const [isReload, setIsReload] = useState(false);
     const loadImage = () => {
         try {
             return require('\\image\\Profile_' + localStorage['EmpId'] + '.png')
@@ -52,8 +53,10 @@ export default function Settings() {
     const imageHandler = (e) => {
         const reader = new FileReader();
         reader.onload = () => {
+            debugger
             if (reader.readyState === 2) {
                 axios.post(nodeurl['nodeurl'] + 'Upload', { img: reader.result, EmpId: localStorage['EmpId'] }).then(result => {
+                    setIsReload(!isReload);
                 });
             }
         }
@@ -62,6 +65,7 @@ export default function Settings() {
     const imagedeleteHandler = (e) => {
         axios.post(nodeurl['nodeurl'] + 'Delete', { EmpId: localStorage['EmpId'] }).then(result => {
             console.log("Image deleted");
+            setIsReload(!isReload);
         });
     };
     const handelColorClick = (event) => {
