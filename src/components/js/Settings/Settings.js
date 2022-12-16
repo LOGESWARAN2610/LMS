@@ -13,7 +13,7 @@ export default function Settings() {
     const [isLoad, setIsLoad] = useState(false);
     const loadImage = () => {
         try {
-            require('../../../images/Profile_' + localStorage['EmpId'] + '.png');
+            require('http://49.204.124.69:4444/images/Profile_' + localStorage['EmpId'] + '.png');
             return false;
         } catch (error) {
             return true;//'../../../images/Profile_' + localStorage['EmpId'] + '.png' ; localStorage['Gender'] === 'Female' ? Female : Male
