@@ -72,31 +72,28 @@ export default function Settings() {
         reader.onload = () => {
             if (reader.readyState === 2) {
                 axios.post(nodeurl['nodeurl'] + 'Delete', { EmpId: localStorage['EmpId'] }).then(result => {
-                    console.log("Image deleted");
+                    // console.log("Image deleted");
                 });
                 axios.post(nodeurl['nodeurl'] + 'Upload', { img: reader.result, fileName: fileName, EmpId: localStorage['EmpId'] }).then(result => {
-                });
-                setTimeout(() => {
                     axios.post(nodeurl['nodeurl'], { query: "Update EmployeeDetails SET ProfileName='" + fileName + "' WHERE EmpId=" + localStorage['EmpId'] }).then(result => {
+                        // console.log("Image Uploaded");
                         Navigate('/Settings');
                         setProfileName(fileName);
                     });
-                }, 1500);
+                });
             }
         }
         reader.readAsDataURL(file)
     };
     const imagedeleteHandler = () => {
         axios.post(nodeurl['nodeurl'] + 'Delete', { EmpId: localStorage['EmpId'] }).then(result => {
-            console.log("Image deleted");
-        });
-        setTimeout(() => {
+            //  console.log("Image deleted");
             let fileName = localStorage['Gender'] + '.png'
             axios.post(nodeurl['nodeurl'], { query: "Update EmployeeDetails SET ProfileName='" + fileName + "' WHERE EmpId=" + localStorage['EmpId'] }).then(result => {
                 Navigate('/Settings');
                 setProfileName(fileName);
             });
-        }, 1500);
+        });
     };
     const handelColorClick = (event) => {
         const color = Color[parseInt(event.currentTarget.attributes.index.value)];

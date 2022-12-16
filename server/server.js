@@ -62,13 +62,13 @@ app.post('/Upload', function (req, res) {
     let path = '../src/images/';
     fs.writeFile(path + fileName, img, 'base64', function (err) {
         if (err) {
+            res.send('Error During Image Upload ', err);
             console.log('Error During Image Upload ', err);
             return 'Error During Image Upload';
         }
+        res.send('Image Upload');
         return 'Image Upload';
     });
-
-
 });
 app.post('/Delete', function (req, res) {
     try {
@@ -77,15 +77,17 @@ app.post('/Delete', function (req, res) {
             var files = fileNames.filter((name) => {
                 return name.indexOf(req.body.EmpId) != -1
             })
-            //  console.log(files)
             if (files.length > 0) {
                 for (let name of files) {
+                    // console.log(name);
                     fs.unlink('../src/images/' + name, function (err) {
                         if (err) {
+                            res.send('Error During Image Delete ', err);
                             console.log('Error During Image Delete ', err);
                             return 'Error During Image Delete';
                         }
-                        return 'Image Upload';
+                        res.send('Image Deleted');
+                        return 'Image Deleted';
                     });
                 }
             }
