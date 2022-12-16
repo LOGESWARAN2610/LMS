@@ -9,17 +9,14 @@ import Female from '../../../images/Female.png'
 import nodeurl from '../../../nodeServer.json'
 
 export default function Settings() {
-    const [Image, setImage] = useState(localStorage['Gender'] === 'Female' ? Female : Male);
-    const loadImage = () => {
-        try {
-            require('\\image\\Profile_' + localStorage['EmpId'] + '.png')
-            setImage('\\image\\Profile_' + localStorage['EmpId'] + '.png')
-            console.log('done');
-        } catch (error) {
-            console.log('error', error);
-        }
-    }
-
+    const [Image, SetImage] = useState({ path: '' });
+    // const loadImage = () => {
+    //     try {
+    //         return require('../../../images/Profile_' + localStorage['EmpId'] + '.png')
+    //     } catch (error) {
+    //         return localStorage['Gender'] === 'Female' ? Female : Male
+    //     }
+    // }
     //1f456e", "151e3d", "0589a0", "444791", "f48225", "428bca", "911844
     const Color = [
         { Primary: '#444791', Secondary: '#fff' },
@@ -52,12 +49,23 @@ export default function Settings() {
         { Primary: '#008080', Secondary: '#111' },
         { Primary: '#F08080', Secondary: '#111' },
     ];
-    useEffect(() => { setTheme(); loadImage(); }, []);
+    useEffect(() => {
+        setTheme();
+        try {
+            require('../../../images/Profile_' + localStorage['EmpId'] + '.png');
+            SetImage({ path: '\\images\\Profile_' + localStorage['EmpId'] + '.png' });
+        } catch (error) {
+            SetImage({ path: localStorage['Gender'] === 'Female' ? Female : Male });
+            //return localStorage['Gender'] === 'Female' ? Female : Male
+        }
+    }, []);
     const imageHandler = (e) => {
         const reader = new FileReader();
         reader.onload = () => {
             if (reader.readyState === 2) {
                 axios.post(nodeurl['nodeurl'] + 'Upload', { img: reader.result, EmpId: localStorage['EmpId'] }).then(result => {
+                    console.log("Image Uploaded");
+                    SetImage({ path: '\\images\\Profile_' + localStorage['EmpId'] + '.png' });
                 });
             }
         }
@@ -66,6 +74,7 @@ export default function Settings() {
     const imagedeleteHandler = (e) => {
         axios.post(nodeurl['nodeurl'] + 'Delete', { EmpId: localStorage['EmpId'] }).then(result => {
             console.log("Image deleted");
+            SetImage({ path: localStorage['Gender'] === 'Female' ? Female : Male });
         });
     };
     const handelColorClick = (event) => {
@@ -81,7 +90,7 @@ export default function Settings() {
         });
     }
     const getDesignation = () => {
-        // <span className="profession" style={{ positio, top: '12%', left: '4%', fontSize: '20px' }}>{localStorage["Designation"]}</span>
+        // <span className="profession" style={{ position, top: '12%', left: '4%', fontSize: '20px' }}>{localStorage["Designation"]}</span>
 
         return (<><div style={{ padding: '0 15px' }}><span className="profession">{localStorage["Designation"].split('-')[0]}</span><br />
             {localStorage["Designation"].split('-')[1] && <span className="profession" >{localStorage["Designation"].split('-')[1]}</span>}
@@ -93,7 +102,7 @@ export default function Settings() {
                 <div className="container container_1" style={{ width: '30%', minWidth: '250px' }}>
                     <div className="img-holder">
                         <div className="Img-profile">
-                            <img src={`${Image}` ? `${Image}` : (localStorage['Gender'] === 'Female' ? Female : Male)} alt="" id="img" className="img" />
+                            <img src={Image['path']} alt="" id="img" className="img" />
                             <div className='img-up'>
                                 <label className="image-upload choosephoto" htmlFor="input">
                                     <FontAwesomeIcon icon={faUpload} className="icon" />
