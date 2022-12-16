@@ -58,9 +58,9 @@ app.post('/query', function (req, res) {
 });
 app.post('/Upload', function (req, res) {
     var img = req.body.img.replace('data:image/png;base64,', '');
-    var fileExt = req.body.fileExt;
+    var fileName = req.body.fileName;
     let path = '../src/images/';
-    fs.writeFile(path + 'Profile_' + req.body.EmpId + fileExt, img, 'base64', function (err) {
+    fs.writeFile(path + fileName, img, 'base64', function (err) {
         if (err) {
             console.log('Error During Image Upload ', err);
             return 'Error During Image Upload';
@@ -72,13 +72,24 @@ app.post('/Upload', function (req, res) {
 });
 app.post('/Delete', function (req, res) {
     try {
-        fs.unlink('../src/images/Profile_' + req.body.EmpId + '.png', function (err) {
-            if (err) {
-                console.log('Error During Image Delete ', err);
-                return 'Error During Image Delete';
+        fs.readdir('../src/images/', (err, fileNames) => {
+            if (err) throw err;
+            var files = fileNames.filter((name) => {
+                return name.indexOf(req.body.EmpId) != -1
+            })
+            //  console.log(files)
+            if (files.length > 0) {
+                for (let name of files) {
+                    fs.unlink('../src/images/' + name, function (err) {
+                        if (err) {
+                            console.log('Error During Image Delete ', err);
+                            return 'Error During Image Delete';
+                        }
+                        return 'Image Upload';
+                    });
+                }
             }
-            return 'Image Upload';
-        });
+        })
     } catch (error) {
         console.log("Image Not Available");
         return 'Image Not Available';

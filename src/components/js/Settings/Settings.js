@@ -67,11 +67,14 @@ export default function Settings() {
             return;
         }
 
-        const fileName = 'Profile_' + localStorage['EmpId'] + fileExt;
+        const fileName = 'Profile' + Math.floor(10000 + Math.random() * 9000) + '_' + localStorage['EmpId'] + fileExt;
         const reader = new FileReader();
         reader.onload = () => {
             if (reader.readyState === 2) {
-                axios.post(nodeurl['nodeurl'] + 'Upload', { img: reader.result, fileExt: fileExt, EmpId: localStorage['EmpId'] }).then(result => {
+                axios.post(nodeurl['nodeurl'] + 'Delete', { EmpId: localStorage['EmpId'] }).then(result => {
+                    console.log("Image deleted");
+                });
+                axios.post(nodeurl['nodeurl'] + 'Upload', { img: reader.result, fileName: fileName, EmpId: localStorage['EmpId'] }).then(result => {
                 });
                 setTimeout(() => {
                     axios.post(nodeurl['nodeurl'], { query: "Update EmployeeDetails SET ProfileName='" + fileName + "' WHERE EmpId=" + localStorage['EmpId'] }).then(result => {
@@ -83,7 +86,7 @@ export default function Settings() {
         }
         reader.readAsDataURL(file)
     };
-    const imagedeleteHandler = (e) => {
+    const imagedeleteHandler = () => {
         axios.post(nodeurl['nodeurl'] + 'Delete', { EmpId: localStorage['EmpId'] }).then(result => {
             console.log("Image deleted");
         });
@@ -91,7 +94,6 @@ export default function Settings() {
             let fileName = localStorage['Gender'] + '.png'
             axios.post(nodeurl['nodeurl'], { query: "Update EmployeeDetails SET ProfileName='" + fileName + "' WHERE EmpId=" + localStorage['EmpId'] }).then(result => {
                 Navigate('/Settings');
-                console.log(fileName);
                 setProfileName(fileName);
             });
         }, 1500);
