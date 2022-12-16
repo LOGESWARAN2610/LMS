@@ -33,7 +33,7 @@ const Sidebar = (props) => {
     };
 
     try {
-        images = require('../../images/Profile_' + localStorage['EmpId'] + '.png');
+        images = require('\\images\\Profile_' + localStorage['EmpId'] + '.png');
     } catch (error) {
         images = localStorage['Gender'] === 'Female' ? Female : Male
     }

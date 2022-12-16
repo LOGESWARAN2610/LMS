@@ -11,7 +11,7 @@ import nodeurl from '../../../nodeServer.json'
 export default function Settings() {
     const loadImage = () => {
         try {
-            return require('../../../images/Profile_' + localStorage['EmpId'] + '.png')
+            return require('\\image\\Profile_' + localStorage['EmpId'] + '.png')
         } catch (error) {
             return localStorage['Gender'] === 'Female' ? Female : Male
         }
