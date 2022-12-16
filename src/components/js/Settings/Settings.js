@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import setTheme from '../../Sub-Component/setTheme';
 import "../../../components/css/Settings.css"
 import axios from 'axios';
@@ -7,16 +7,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUpload, faTrash } from '@fortawesome/free-solid-svg-icons';
 import Female from '../../../images/Female.png'
 import nodeurl from '../../../nodeServer.json'
+import { useState } from 'react';
 
 export default function Settings() {
-    const [Image, SetImage] = useState({ path: '' });
-    // const loadImage = () => {
-    //     try {
-    //         return require('../../../images/Profile_' + localStorage['EmpId'] + '.png')
-    //     } catch (error) {
-    //         return localStorage['Gender'] === 'Female' ? Female : Male
-    //     }
-    // }
+    const [isLoad, setIsLoad] = useState(false);
+    const loadImage = (path) => {
+        console.log('ji');
+        try {
+            return require(path)
+        } catch (error) {
+            return null;//'../../../images/Profile_' + localStorage['EmpId'] + '.png' ; localStorage['Gender'] === 'Female' ? Female : Male
+        }
+    }
     //1f456e", "151e3d", "0589a0", "444791", "f48225", "428bca", "911844
     const Color = [
         { Primary: '#444791', Secondary: '#fff' },
@@ -49,24 +51,16 @@ export default function Settings() {
         { Primary: '#008080', Secondary: '#111' },
         { Primary: '#F08080', Secondary: '#111' },
     ];
-    useEffect(() => {
-        setTheme();
-        try {
-            require('../../../images/Profile_' + localStorage['EmpId'] + '.png');
-            SetImage({ path: '\\images\\Profile_' + localStorage['EmpId'] + '.png' });
-        } catch (error) {
-            SetImage({ path: localStorage['Gender'] === 'Female' ? Female : Male });
-            //return localStorage['Gender'] === 'Female' ? Female : Male
-        }
-    }, []);
+    useEffect(() => { setTheme(); }, []);
     const imageHandler = (e) => {
         const reader = new FileReader();
         reader.onload = () => {
             if (reader.readyState === 2) {
                 axios.post(nodeurl['nodeurl'] + 'Upload', { img: reader.result, EmpId: localStorage['EmpId'] }).then(result => {
-                    console.log("Image Uploaded");
-                    SetImage({ path: '\\images\\Profile_' + localStorage['EmpId'] + '.png' });
                 });
+                setTimeout(() => {
+                    setIsLoad(!isLoad);
+                }, 1500);
             }
         }
         reader.readAsDataURL(e.target.files[0])
@@ -74,8 +68,10 @@ export default function Settings() {
     const imagedeleteHandler = (e) => {
         axios.post(nodeurl['nodeurl'] + 'Delete', { EmpId: localStorage['EmpId'] }).then(result => {
             console.log("Image deleted");
-            SetImage({ path: localStorage['Gender'] === 'Female' ? Female : Male });
         });
+        setTimeout(() => {
+            setIsLoad(!isLoad);
+        }, 1500);
     };
     const handelColorClick = (event) => {
         const color = Color[parseInt(event.currentTarget.attributes.index.value)];
@@ -90,7 +86,7 @@ export default function Settings() {
         });
     }
     const getDesignation = () => {
-        // <span className="profession" style={{ position, top: '12%', left: '4%', fontSize: '20px' }}>{localStorage["Designation"]}</span>
+        // <span className="profession" style={{ positio, top: '12%', left: '4%', fontSize: '20px' }}>{localStorage["Designation"]}</span>
 
         return (<><div style={{ padding: '0 15px' }}><span className="profession">{localStorage["Designation"].split('-')[0]}</span><br />
             {localStorage["Designation"].split('-')[1] && <span className="profession" >{localStorage["Designation"].split('-')[1]}</span>}
@@ -102,7 +98,7 @@ export default function Settings() {
                 <div className="container container_1" style={{ width: '30%', minWidth: '250px' }}>
                     <div className="img-holder">
                         <div className="Img-profile">
-                            <img src={Image['path']} alt="" id="img" className="img" />
+                            <img src={loadImage('\\images\\Profile_' + localStorage['EmpId'] + '.png') ? (localStorage['Gender'] === 'Female' ? Female : Male) : null} alt="" id="img" className="img" />
                             <div className='img-up'>
                                 <label className="image-upload choosephoto" htmlFor="input">
                                     <FontAwesomeIcon icon={faUpload} className="icon" />

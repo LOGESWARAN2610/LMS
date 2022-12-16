@@ -57,12 +57,15 @@ app.post('/query', function (req, res) {
 
 });
 app.post('/Upload', function (req, res) {
-    // console.log(req.body.img);
+    console.log('hiiii');
     var img = req.body.img.replace('data:image/png;base64,', '');
     let path = '../src/images/';
     fs.writeFile(path + 'Profile_' + req.body.EmpId + '.png', img, 'base64', function (err) {
-        if (err)
+        if (err) {
             console.log('Error During Image Upload ', err);
+            return 'Error During Image Upload';
+        }
+        return 'Image Upload';
     });
 
 
@@ -70,9 +73,15 @@ app.post('/Upload', function (req, res) {
 app.post('/Delete', function (req, res) {
     try {
         fs.unlink('../src/images/Profile_' + req.body.EmpId + '.png', function (err) {
+            if (err) {
+                console.log('Error During Image Delete ', err);
+                return 'Error During Image Delete';
+            }
+            return 'Image Upload';
         });
     } catch (error) {
         console.log("Image Not Available");
+        return 'Image Not Available';
     }
 });
 app.post('/Email', function (req, res) {
