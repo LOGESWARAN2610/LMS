@@ -11,12 +11,13 @@ import { useState } from 'react';
 
 export default function Settings() {
     const [isLoad, setIsLoad] = useState(false);
-    const loadImage = (path) => {
+    const loadImage = () => {
         console.log('ji');
         try {
-            return require(path)
+            require('../../../images/Profile_' + localStorage['EmpId'] + '.png');
+            return false;
         } catch (error) {
-            return null;//'../../../images/Profile_' + localStorage['EmpId'] + '.png' ; localStorage['Gender'] === 'Female' ? Female : Male
+            return true;//'../../../images/Profile_' + localStorage['EmpId'] + '.png' ; localStorage['Gender'] === 'Female' ? Female : Male
         }
     }
     //1f456e", "151e3d", "0589a0", "444791", "f48225", "428bca", "911844
@@ -98,7 +99,7 @@ export default function Settings() {
                 <div className="container container_1" style={{ width: '30%', minWidth: '250px' }}>
                     <div className="img-holder">
                         <div className="Img-profile">
-                            <img src={loadImage('\\images\\Profile_' + localStorage['EmpId'] + '.png') ? (localStorage['Gender'] === 'Female' ? Female : Male) : null} alt="" id="img" className="img" />
+                            <img src={loadImage() ? (localStorage['Gender'] === 'Female' ? Female : Male) : '\\images\\Profile_' + localStorage['EmpId'] + '.png'} alt="" id="img" className="img" />
                             <div className='img-up'>
                                 <label className="image-upload choosephoto" htmlFor="input">
                                     <FontAwesomeIcon icon={faUpload} className="icon" />
