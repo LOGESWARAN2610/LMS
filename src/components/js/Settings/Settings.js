@@ -9,14 +9,14 @@ import Female from '../../../images/Female.png'
 import nodeurl from '../../../nodeServer.json'
 
 export default function Settings() {
-    const [isReload, setIsReload] = useState(false);
-    const loadImage = () => {
-        try {
-            return require('\\image\\Profile_' + localStorage['EmpId'] + '.png')
-        } catch (error) {
-            return localStorage['Gender'] === 'Female' ? Female : Male
-        }
+    const [profile, setProfile] = useState(true);
+    //const loadImage = () => {
+    try {
+        require('\\image\\Profile_' + localStorage['EmpId'] + '.png')
+    } catch (error) {
+        setProfile(false);
     }
+    //}
     //1f456e", "151e3d", "0589a0", "444791", "f48225", "428bca", "911844
     const Color = [
         { Primary: '#444791', Secondary: '#fff' },
@@ -53,10 +53,9 @@ export default function Settings() {
     const imageHandler = (e) => {
         const reader = new FileReader();
         reader.onload = () => {
-            debugger
             if (reader.readyState === 2) {
                 axios.post(nodeurl['nodeurl'] + 'Upload', { img: reader.result, EmpId: localStorage['EmpId'] }).then(result => {
-                    setIsReload(!isReload);
+                    setProfile(true);
                 });
             }
         }
@@ -65,7 +64,7 @@ export default function Settings() {
     const imagedeleteHandler = (e) => {
         axios.post(nodeurl['nodeurl'] + 'Delete', { EmpId: localStorage['EmpId'] }).then(result => {
             console.log("Image deleted");
-            setIsReload(!isReload);
+            setProfile(false);
         });
     };
     const handelColorClick = (event) => {
@@ -93,7 +92,7 @@ export default function Settings() {
                 <div className="container container_1" style={{ width: '30%', minWidth: '250px' }}>
                     <div className="img-holder">
                         <div className="Img-profile">
-                            <img src={loadImage()} alt="" id="img" className="img" />
+                            <img src={profile ? '\\image\\Profile_' + localStorage['EmpId'] + '.png' : (localStorage['Gender'] === 'Female' ? Female : Male)} alt="" id="img" className="img" />
                             <div className='img-up'>
                                 <label className="image-upload choosephoto" htmlFor="input">
                                     <FontAwesomeIcon icon={faUpload} className="icon" />
