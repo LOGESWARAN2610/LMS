@@ -98,7 +98,7 @@ export default function Settings() {
                 <div className="container container_1" style={{ width: '30%', minWidth: '250px' }}>
                     <div className="img-holder">
                         <div className="Img-profile">
-                            <img src={loadImage() ? (localStorage['Gender'] === 'Female' ? Female : Male) : nodeurl['nodeurl'].replace('4001', '4444') + 'images/Profile_' + localStorage['EmpId'] + '.png'} alt="" id="img" className="img" />
+                            <img src={loadImage() ? (localStorage['Gender'] === 'Female' ? Female : Male) : 'http://49.204.124.69:4444/images/Profile_' + localStorage['EmpId'] + '.png'} alt="" id="img" className="img" />
                             <div className='img-up'>
                                 <label className="image-upload choosephoto" htmlFor="input">
                                     <FontAwesomeIcon icon={faUpload} className="icon" />

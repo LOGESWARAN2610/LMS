@@ -80,7 +80,7 @@ const Sidebar = (props) => {
                                 <div className="image-text">
                                     <NavLink to="/Settings" >
                                         <span className="image">
-                                            <img src={loadImage() ? (localStorage['Gender'] === 'Female' ? Female : Male) : nodeurl['nodeurl'].replace('4001', '4444') + 'images/Profile_' + localStorage['EmpId'] + '.png'} alt="Profile" />
+                                            <img src={loadImage() ? (localStorage['Gender'] === 'Female' ? Female : Male) : 'http://49.204.124.69:4444/images/Profile_' + localStorage['EmpId'] + '.png'} alt="Profile" />
                                         </span>
                                     </NavLink>
                                     <div className="text logo-text">
