@@ -3,17 +3,17 @@ import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight, faHouseChimney, faLevelUpAlt, faTableList, faTasks, faUser, faUserDoctor, faRightFromBracket, faUserGear } from "@fortawesome/free-solid-svg-icons";
 import { useLocation } from "react-router-dom";
-import Male from "../../images/Male.png";
-import Female from "../../images/Female.png";
 import axios from 'axios';
 import nodeurl from '../../nodeServer.json'
 import "../css/Sidebar.css";
 import ToolTip from "./ToolTip";
 import { positions, Provider } from "react-alert";
 import AlertTemplate from "react-alert-template-basic";
+import { useEffect } from "react";
 
 const Sidebar = (props) => {
     const [IsOpen, setIsOpen] = useState(false);
+    const [profileName, setProfileName] = useState('');
     const { pathname } = useLocation();
     // const handelLogOut = () => {
     //     localStorage.clear();
@@ -31,14 +31,15 @@ const Sidebar = (props) => {
         position: positions.BOTTOM_RIGHT
     };
 
-    const loadImage = () => {
-        try {
-            require('../../images/Profile_' + localStorage['EmpId'] + '.png');
-            return false;
-        } catch (error) {
-            return true;//'../../../images/Profile_' + localStorage['EmpId'] + '.png' ; localStorage['Gender'] === 'Female' ? Female : Male
-        }
-    }
+
+    useEffect(() => {
+        axios.post(nodeurl['nodeurl'], { query: "Select ISNULL(ProfileName,'') ProfileName FROM EmployeeDetails WHERE EmpId=" + localStorage['EmpId'] }).then(result => {
+            if (result.data[0][0]['ProfileName'] !== '')
+                setProfileName(result.data[0][0]['ProfileName']);
+            else
+                setProfileName(localStorage['Gender'] + '.png');
+        });
+    })
     var Tabs = [
         { text: 'Home', link: '/Home', icon: faHouseChimney, isManagerSide: false },
         { text: 'Time Sheet', link: '/EnterTimeSheet', icon: faTableList, isManagerSide: false },
@@ -80,7 +81,7 @@ const Sidebar = (props) => {
                                 <div className="image-text">
                                     <NavLink to="/Settings" >
                                         <span className="image">
-                                            <img src={loadImage() ? (localStorage['Gender'] === 'Female' ? Female : Male) : 'http://49.204.124.69:4444/images/Profile_' + localStorage['EmpId'] + '.png'} alt="Profile" />
+                                            <img src={'http://49.204.124.69:4444/images/' + profileName} alt="Profile" />
                                         </span>
                                     </NavLink>
                                     <div className="text logo-text">

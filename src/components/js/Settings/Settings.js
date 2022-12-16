@@ -2,22 +2,19 @@ import React, { useEffect } from 'react';
 import setTheme from '../../Sub-Component/setTheme';
 import "../../../components/css/Settings.css"
 import axios from 'axios';
-import Male from '../../../images/Male.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUpload, faTrash } from '@fortawesome/free-solid-svg-icons';
-import Female from '../../../images/Female.png'
 import nodeurl from '../../../nodeServer.json'
 import { useState } from 'react';
+import { useAlert } from "react-alert";
+import { useNavigate } from "react-router-dom";
 
 export default function Settings() {
-    const [isLoad, setIsLoad] = useState(false);
-    const loadImage = () => {
-        try {
-            require('http://49.204.124.69:4444/images/Profile_' + localStorage['EmpId'] + '.png');
-            return false;
-        } catch (error) {
-            return true;//'../../../images/Profile_' + localStorage['EmpId'] + '.png' ; localStorage['Gender'] === 'Female' ? Female : Male
-        }
+    const [profileName, setProfileName] = useState('');
+    const alert = useAlert();
+    const navigate = useNavigate();
+    const Navigate = (path) => {
+        navigate(path);
     }
     //1f456e", "151e3d", "0589a0", "444791", "f48225", "428bca", "911844
     const Color = [
@@ -51,26 +48,52 @@ export default function Settings() {
         { Primary: '#008080', Secondary: '#111' },
         { Primary: '#F08080', Secondary: '#111' },
     ];
-    useEffect(() => { setTheme(); }, []);
+    useEffect(() => {
+        axios.post(nodeurl['nodeurl'], { query: "Select ISNULL(ProfileName,'') ProfileName FROM EmployeeDetails WHERE EmpId=" + localStorage['EmpId'] }).then(result => {
+            if (result.data[0][0]['ProfileName'] !== '')
+                setProfileName(result.data[0][0]['ProfileName']);
+            else
+                setProfileName(localStorage['Gender'] + '.png');
+        });
+        setTheme();
+    }, []);
     const imageHandler = (e) => {
+        const file = e.target.files[0];
+        const fileExt = (file.name).substr(file.name.indexOf('.'), file.name.length).toLocaleLowerCase();
+        const imgType = ['.png'];//, '.jpeg', '.jpg'
+        if (imgType.indexOf(fileExt) === -1) {
+            let err = 'Use any of the file type ' + imgType.join(' / ');
+            alert.error(err)
+            return;
+        }
+
+        const fileName = 'Profile_' + localStorage['EmpId'] + fileExt;
         const reader = new FileReader();
         reader.onload = () => {
             if (reader.readyState === 2) {
-                axios.post(nodeurl['nodeurl'] + 'Upload', { img: reader.result, EmpId: localStorage['EmpId'] }).then(result => {
+                axios.post(nodeurl['nodeurl'] + 'Upload', { img: reader.result, fileExt: fileExt, EmpId: localStorage['EmpId'] }).then(result => {
                 });
                 setTimeout(() => {
-                    setIsLoad(!isLoad);
+                    axios.post(nodeurl['nodeurl'], { query: "Update EmployeeDetails SET ProfileName='" + fileName + "' WHERE EmpId=" + localStorage['EmpId'] }).then(result => {
+                        Navigate('/Settings');
+                        setProfileName(fileName);
+                    });
                 }, 1500);
             }
         }
-        reader.readAsDataURL(e.target.files[0])
+        reader.readAsDataURL(file)
     };
     const imagedeleteHandler = (e) => {
         axios.post(nodeurl['nodeurl'] + 'Delete', { EmpId: localStorage['EmpId'] }).then(result => {
             console.log("Image deleted");
         });
         setTimeout(() => {
-            setIsLoad(!isLoad);
+            let fileName = localStorage['Gender'] + '.png'
+            axios.post(nodeurl['nodeurl'], { query: "Update EmployeeDetails SET ProfileName='" + fileName + "' WHERE EmpId=" + localStorage['EmpId'] }).then(result => {
+                Navigate('/Settings');
+                console.log(fileName);
+                setProfileName(fileName);
+            });
         }, 1500);
     };
     const handelColorClick = (event) => {
@@ -98,7 +121,7 @@ export default function Settings() {
                 <div className="container container_1" style={{ width: '30%', minWidth: '250px' }}>
                     <div className="img-holder">
                         <div className="Img-profile">
-                            <img src={loadImage() ? (localStorage['Gender'] === 'Female' ? Female : Male) : 'http://49.204.124.69:4444/images/Profile_' + localStorage['EmpId'] + '.png'} alt="" id="img" className="img" />
+                            <img src={'http://49.204.124.69:4444/images/' + profileName} alt="" id="img" className="img" />
                             <div className='img-up'>
                                 <label className="image-upload choosephoto" htmlFor="input">
                                     <FontAwesomeIcon icon={faUpload} className="icon" />
@@ -113,7 +136,7 @@ export default function Settings() {
                         <h1 className="heading">{localStorage['Name']}</h1>
                         {getDesignation()}
                     </div>
-                    <input type="file" accept="image/png" name="image-upload" id="input" onChange={imageHandler} />
+                    <input type="file" name="image-upload" id="input" onChange={imageHandler} />
                     <div className="label">
 
                     </div>

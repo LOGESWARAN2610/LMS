@@ -57,10 +57,10 @@ app.post('/query', function (req, res) {
 
 });
 app.post('/Upload', function (req, res) {
-    console.log('hiiii');
     var img = req.body.img.replace('data:image/png;base64,', '');
+    var fileExt = req.body.fileExt;
     let path = '../src/images/';
-    fs.writeFile(path + 'Profile_' + req.body.EmpId + '.png', img, 'base64', function (err) {
+    fs.writeFile(path + 'Profile_' + req.body.EmpId + fileExt, img, 'base64', function (err) {
         if (err) {
             console.log('Error During Image Upload ', err);
             return 'Error During Image Upload';
