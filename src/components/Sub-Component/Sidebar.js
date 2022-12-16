@@ -15,7 +15,6 @@ import AlertTemplate from "react-alert-template-basic";
 const Sidebar = (props) => {
     const [IsOpen, setIsOpen] = useState(false);
     const { pathname } = useLocation();
-    let images;
     // const handelLogOut = () => {
     //     localStorage.clear();
     // };
@@ -32,10 +31,13 @@ const Sidebar = (props) => {
         position: positions.BOTTOM_RIGHT
     };
 
-    try {
-        images = require('\\images\\Profile_' + localStorage['EmpId'] + '.png');
-    } catch (error) {
-        images = localStorage['Gender'] === 'Female' ? Female : Male
+    const loadImage = () => {
+        try {
+            require('../../images/Profile_' + localStorage['EmpId'] + '.png');
+            return false;
+        } catch (error) {
+            return true;//'../../../images/Profile_' + localStorage['EmpId'] + '.png' ; localStorage['Gender'] === 'Female' ? Female : Male
+        }
     }
     var Tabs = [
         { text: 'Home', link: '/Home', icon: faHouseChimney, isManagerSide: false },
@@ -78,7 +80,7 @@ const Sidebar = (props) => {
                                 <div className="image-text">
                                     <NavLink to="/Settings" >
                                         <span className="image">
-                                            <img src={images} alt="Profile" />
+                                            <img src={loadImage() ? (localStorage['Gender'] === 'Female' ? Female : Male) : nodeurl['nodeurl'].replace('4001', '4444') + 'images/Profile_' + localStorage['EmpId'] + '.png'} alt="Profile" />
                                         </span>
                                     </NavLink>
                                     <div className="text logo-text">
