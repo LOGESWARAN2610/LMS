@@ -57,7 +57,7 @@ app.post('/query', function (req, res) {
 
 });
 app.post('/Upload', function (req, res) {
-    var img = req.body.img.replace('data:image/png;base64,', '');
+    var img = req.body.img.substr(req.body.img.indexOf(',') + 1);
     var fileName = req.body.fileName;
     let path = '../src/images/';
     fs.writeFile(path + fileName, img, 'base64', function (err) {

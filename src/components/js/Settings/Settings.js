@@ -60,7 +60,7 @@ export default function Settings() {
     const imageHandler = (e) => {
         const file = e.target.files[0];
         const fileExt = (file.name).substr(file.name.indexOf('.'), file.name.length).toLocaleLowerCase();
-        const imgType = ['.png'];//, '.jpeg', '.jpg'
+        const imgType = ['.png', '.jpeg', '.jpg'];
         if (imgType.indexOf(fileExt) === -1) {
             let err = 'Use any of the file type ' + imgType.join(' / ');
             alert.error(err)
