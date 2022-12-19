@@ -117,8 +117,8 @@ export default function Settings() {
     return (
         <>
             <div className="page">
-                <div className="container container_1" style={{ width: '30%', minWidth: '250px' }}>
-                    <div className="img-holder">
+                <div className="container container_1" style={{ width: '30%', minWidth: '335px' }}>
+                    <div>
                         <div className="Img-profile">
                             <img src={'http://49.204.124.69:4444/images/' + profileName} alt="" id="img" className="img" />
                             <div className='img-up'>
@@ -129,31 +129,30 @@ export default function Settings() {
                                     <FontAwesomeIcon icon={faTrash} className="icon" />
                                 </label>
                             </div>
+                            <input type="file" name="image-upload" id="input" onChange={imageHandler} />
+                        </div>
+
+                        <div style={{ textAlign: 'center' }}>
+                            <h1 className="heading">{localStorage['Name']}</h1>
+                            {getDesignation()}
                         </div>
                     </div>
-                    <div>
-                        <h1 className="heading">{localStorage['Name']}</h1>
-                        {getDesignation()}
-                    </div>
-                    <input type="file" name="image-upload" id="input" onChange={imageHandler} />
-                    <div className="label">
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <div style={{ margin: '20px' }}>
+                            {Color.map((color, index) => {
+                                return (<div key={index} className='colorPaletteWrapper' >
+                                    <div className='colorPalette col-sm' onClick={handelColorClick} index={index} style={{ backgroundColor: color['Primary'], border: '2px solid' + color['Primary'] }}>
+                                        <div className='primary'></div>
 
-                    </div>
-                    <div style={{ margin: '20% 0 0 4%' }}>
-                        {Color.map((color, index) => {
-                            return (<div key={index} className='colorPaletteWrapper' >
-                                <div className='colorPalette col-sm' onClick={handelColorClick} index={index} style={{ backgroundColor: color['Primary'], border: '2px solid' + color['Primary'] }}>
-                                    <div className='primary'></div>
-
-                                    <div className='secondary' style={{ backgroundColor: color['Secondary'] }}></div>
-                                </div>
-                            </div>)
-                        })}
-                        <div style={{ marginTop: '30px' }}>
-                            <button id='applybtn' className="btn" style={{ float: 'right' }} onClick={handelClick}>Apply</button>
+                                        <div className='secondary' style={{ backgroundColor: color['Secondary'] }}></div>
+                                    </div>
+                                </div>)
+                            })}
+                            <div>
+                                <button id='applybtn' className="btn" style={{ float: 'right' }} onClick={handelClick}>Apply</button>
+                            </div>
                         </div>
                     </div>
-
                 </div>
 
 
