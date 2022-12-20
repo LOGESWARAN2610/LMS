@@ -32,8 +32,8 @@ export default function Home() {
         { id: 'Create Sub-Task', label: 'Create Sub-Task', minWidth: 70, button: 'Re-Work', onclick: 'onclick("alert()")' }
     ];
     const [IsInclude, SetIsInclude] = useState(false);
+    const [value, setValue] = React.useState(0);
 
-    const [ChartData, SetChartData] = useState([]);
     const [ClientData, SetClientData] = useState([]);
     const [weeklyData, SetWeeklyData] = useState([]);
     const [monthlyData, SetMonthlyData] = useState([]);
@@ -95,9 +95,7 @@ export default function Home() {
 
 
     function TabPanel(props) {
-
         const { children, value, index, ...other } = props;
-
         return (
             <div
                 role="tabpanel"
@@ -129,16 +127,12 @@ export default function Home() {
     }
 
     function FullWidthTabs() {
-        const [value, setValue] = React.useState(0);
-
         const handleChange = (event, newValue) => {
             setValue(newValue);
         };
-
         const handleChangeIndex = (index) => {
             setValue(index);
         };
-
         return (
             <Box sx={{ bgcolor: 'inherit' }} id="home">
                 <AppBar position="static" style={{ width: 'max-content', display: 'inline-block', marginLeft: '25px', backgroundColor: '#fff' }} >

@@ -120,7 +120,7 @@ export default function Settings() {
                 <div className="container container_1" style={{ width: '30%', minWidth: '335px' }}>
                     <div>
                         <div className="Img-profile">
-                            <img src={'http://49.204.124.69:4444/images/' + profileName} alt="" id="img" className="img" />
+                            <img src={window.location.protocol + '//' + window.location.host + '/images/' + profileName} alt="" id="img" className="img" />
                             <div className='img-up'>
                                 <label className="image-upload choosephoto" htmlFor="input">
                                     <FontAwesomeIcon icon={faUpload} className="icon" />

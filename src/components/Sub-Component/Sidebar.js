@@ -48,7 +48,8 @@ const Sidebar = (props) => {
         { text: 'Approvals', link: '/Approvals', icon: faLevelUpAlt, isManagerSide: true },
         { text: 'Employee Portal', link: '/EmployeePortal', icon: faUserDoctor, isManagerSide: false },
         { text: 'Profile', link: '/Profile', icon: faUser, isManagerSide: false },
-        { text: 'Settings', link: '/Settings', icon: faUserGear, isManagerSide: false }
+        { text: 'Settings', link: '/Settings', icon: faUserGear, isManagerSide: false },
+        { text: 'Logout', link: '/', icon: faRightFromBracket, isManagerSide: false }
         // { text: 'WorkPlace', link: '/WorkPlace', icon: faUserGear }
     ];
 
@@ -81,8 +82,9 @@ const Sidebar = (props) => {
                                 <div className="image-text">
                                     <NavLink to="/Settings" >
                                         <span className="image">
-                                            <img src={'http://49.204.124.69:4444/images/' + profileName} alt="Profile" />
+                                            <img src={window.location.protocol + '//' + window.location.host + '/images/' + profileName} alt="Profile" />
                                         </span>
+
                                     </NavLink>
                                     <div className="text logo-text">
                                         {getName()}
@@ -112,7 +114,7 @@ const Sidebar = (props) => {
                                         })}
                                     </div>
                                 </div>
-                                <div className="bottom-content">
+                                {/* <div className="bottom-content">
                                     {IsOpen ?
                                         <ToolTip title="Logout" placement="left">
                                             <NavLink to="/" className="nav-link tab">
@@ -126,7 +128,7 @@ const Sidebar = (props) => {
                                             <span className="text nav-text">Logout</span>
                                         </NavLink>
                                     }
-                                </div>
+                                </div> */}
                             </div>
                         </nav>
                         <section className="body">
