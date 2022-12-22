@@ -145,7 +145,7 @@ export default function LeaveBalanceTab() {
         }
         const isDisable = () => {
             let isValidate = false;
-            if (Details['Reason'] === '' || parseInt(Details['NoOfDays']) === 0 || (Details['LeaveOption'] === '2' && Details['Dates'] === '-1')) isValidate = true;
+            if (Details['Reason'] === '' || parseFloat(Details['NoOfDays']) === parseFloat(0) || (Details['LeaveOption'] === '2' && Details['Dates'] === '-1')) isValidate = true;
             return { disabled: isValidate };
         }
         return (
@@ -166,7 +166,8 @@ export default function LeaveBalanceTab() {
                     </div>
                     <div className="input-wrapper marginLeft-0 mWidth-190">
                         <div className="input-holder">
-                            <select className="input-input" name="Duration" disabled={Details['NoOfDays'] <= 1 && Details['NoOfDays'] !== 0 ? false : true} value={Details['Duration']} onChange={handelOnChange}>
+                            <select className="input-input" name="Duration" disabled={Details['NoOfDays'] <= 1 && Details['NoOfDays'] !== 0 ? false : true} onChange={handelOnChange}>
+                                {/* value={Details['Duration']}  */}
                                 <option value="1">Full Day</option>
                                 <option value="0.5">1st Half</option>
                                 <option value="0.5">2nd Half</option>

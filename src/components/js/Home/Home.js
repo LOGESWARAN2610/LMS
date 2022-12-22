@@ -86,7 +86,7 @@ export default function Home() {
     // console.log(getWeekNumbers(12, 2022))
     useEffect(() => {
         setTheme();
-        axios.post(nodeurl['nodeurl'], { query: "GetChartData_Onload " + EmpId + ",'" + weekStart + "','" + weekEnd + "','" + weekStart + "','" + weekEnd + "'" }).then(result => {
+        axios.post(nodeurl['nodeurl'], { query: "GetChartData_Onload " + EmpId + ",'" + weekStart + "','" + weekEnd + "','" + monthStart + "','" + monthEnd + "'" }).then(result => {
             SetWeeklyData(result.data[0]);
             SetMonthlyData(result.data[1]);
             SetClientData(result.data[2]);
@@ -142,7 +142,7 @@ export default function Home() {
                         textColor="inherit"
                         style={{ color: localStorage['BgColor'] }}
                     >
-                        <Tab label="Summery" style={{ textTransform: 'capitalize', fontWeight: 600, fontSize: '16px' }} {...a11yProps(0)} />
+                        <Tab label="Summary" style={{ textTransform: 'capitalize', fontWeight: 600, fontSize: '16px' }} {...a11yProps(0)} />
                         <Tab label="Task DashBoard" style={{ textTransform: 'capitalize', fontWeight: 600, fontSize: '16px' }} {...a11yProps(1)} />
                     </Tabs>
                 </AppBar>
@@ -154,9 +154,9 @@ export default function Home() {
                     onChangeIndex={handleChangeIndex}
                 >
                     <TabPanel value={value} index={0}>
-                        <div id="summeryChart">
+                        <div id="summaryChart">
                             {weeklyData['length'] > 0 ? <PieChart title={'Weekly - (' + (moment(weekStart).format("Do MMM")) + ' to ' + (moment(weekEnd).format("Do MMM")) + ')'} id="week" data={weeklyData} outerRadius={100} innerRadius={50} /> : null}
-                            {monthlyData['length'] > 0 ? <PieChart title={'Monthly - (' + moment(new Date()).format('MMMM') + ')'} id="month" data={monthlyData} label={'label1'} outerRadius={100} innerRadius={50} /> : null}
+                            {monthlyData['length'] > 0 ? <PieChart title={'Monthly - (' + moment(new Date()).format('MMMM') + ')'} id="month" data={monthlyData} label={'empty'} outerRadius={100} innerRadius={50} /> : null}
                             {ClientData['length'] > 0 ? <PieChart title={'Client'} id="client" data={ClientData} outerRadius={100} innerRadius={50} /> : null}
                         </div>
                     </TabPanel>

@@ -693,11 +693,11 @@ span:has(.alertBox) + div button[role="cancellable-button"] {
   width: 100%;
 }
 
-#summeryChart #pie-container {
+#summaryChart #pie-container {
   position: relative;
   display: inline-block;
 }
-#summeryChart .tooltip {
+#summaryChart .tooltip {
   /* display: none;
   font-size: 14px;
   left: 130px;
@@ -726,7 +726,7 @@ span:has(.alertBox) + div button[role="cancellable-button"] {
   min-width: 70px;
   z-index: 10;
 }
-#summeryChart .pie-label {
+#summaryChart .pie-label {
   position: relative;
   background-color: var(--background-color);
   color: var(--color);
@@ -737,10 +737,10 @@ span:has(.alertBox) + div button[role="cancellable-button"] {
   margin: 0 20px;
   border-radius: 5px;
 }
-#summeryChart text {
+#summaryChart text {
   font-size: 16px;
 }
-#summeryChart,
+#summaryChart,
 #profile {
   max-height: calc(100vh - 165px) !important;
 }

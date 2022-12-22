@@ -152,15 +152,20 @@ const StickyHeadTable = forwardRef((props, ref) => {
     }
 
     const handleCancelAction = (e) => {
-        let id, type;
-        if (e.target.tagName === 'path') {
-            id = e.target.parentElement.id
-            type = e.target.parentElement.attributes.clicktype.value;
+        if (e.target.parentElement.attributes.status.value === 'Pending' || e.target.parentElement.attributes.status.value === 'Approved') {
+            let id, type;
+            if (e.target.tagName === 'path') {
+                id = e.target.parentElement.id
+                type = e.target.parentElement.attributes.clicktype.value;
+            } else {
+                id = e.target.id;
+                type = e.target.attributes.clicktype.value;
+            }
+            handlePostCancel(id, type);
         } else {
-            id = e.target.id;
-            type = e.target.attributes.clicktype.value;
+            alert.show('You already Cancelled this Leave.');
+            return;
         }
-        handlePostCancel(id, type);
     }
 
     const handleChangeRowsPerPage = (event) => {
@@ -190,7 +195,6 @@ const StickyHeadTable = forwardRef((props, ref) => {
         }
         ,
         handleApproveReject(isAll, isApprove, tab) {
-            debugger
             let Row_ = [];
             if (isAll) {
                 Row_ = rows;
@@ -337,20 +341,25 @@ const StickyHeadTable = forwardRef((props, ref) => {
                                                 const value = row[column.id];
                                                 return (
                                                     <TableCell key={index_} align={column.align} style={column.type === 6 ? { padding: '0' } : { padding: '9px' }}>
-                                                        {column.type === 1 ? <><button className='btnAction' title="Click to cancel leave" ><FontAwesomeIcon id={row.EmpleaveApplicationID} clicktype={column.type} onClick={handleCancelAction} icon={faXmark} /></button>
+                                                        {column.type === 1 ? <><button className='btnAction' title="Click to cancel leave" ><FontAwesomeIcon id={row.EmpleaveApplicationID} clicktype={column.type} status={row.status} onClick={handleCancelAction} icon={faXmark} /></button>
                                                             {row.Reason === 'Timesheet not filled' ? <><button className='btnAction' title="Click to cancel LOP" style={{ marginLeft: '15px' }} ><FontAwesomeIcon id={row.EmpleaveApplicationID} clicktype={column.type} onClick={
                                                                 (e) => {
                                                                     let id, type;
-                                                                    if (e.target.tagName === 'path') {
-                                                                        id = e.target.parentElement.id
-                                                                        type = e.target.parentElement.attributes.clicktype.value;
+                                                                    if (row.status === 'Approved') {
+                                                                        if (e.target.tagName === 'path') {
+                                                                            id = e.target.parentElement.id
+                                                                            type = e.target.parentElement.attributes.clicktype.value;
+                                                                        } else {
+                                                                            id = e.target.id;
+                                                                            type = e.target.attributes.clicktype.value;
+                                                                        }
+                                                                        axios.post(nodeurl['nodeurl'], { query: "SP_LM_LOP_TimesheetHrs " + EmpId + ",'" + row.StartDate + "'," + id }).then(result => {
+                                                                            handleLopModel(result.data[0][0], row);
+                                                                        });
                                                                     } else {
-                                                                        id = e.target.id;
-                                                                        type = e.target.attributes.clicktype.value;
+                                                                        alert.show('You have already Cancelled.');
+                                                                        return;
                                                                     }
-                                                                    axios.post(nodeurl['nodeurl'], { query: "SP_LM_LOP_TimesheetHrs " + EmpId + ",'" + row.StartDate + "'," + id }).then(result => {
-                                                                        handleLopModel(result.data[0][0], row);
-                                                                    });
                                                                 }
 
                                                             } icon={faLocationArrow} /></button>
