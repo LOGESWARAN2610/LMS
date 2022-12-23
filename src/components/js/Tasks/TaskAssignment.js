@@ -92,7 +92,7 @@ export default function TaskAssignment() {
     }
 
     return (
-        <div class="body-Container">
+        <div className="body-Container">
 
             <SelectDD name="AssignedTo" label="Employee" option={Employee} OnChange={handelOnChange} />
             <SelectDD name="ClientID" label="Client" option={Client} OnChange={handelClientChange} />
@@ -127,7 +127,7 @@ export default function TaskAssignment() {
             </div>
             <div className="input-wrapper marginLeft-0">
                 <div className="input-holder  input-DatePicker" >
-                    <DatePicker name="ExpectedCompDate" minDate_={(Details['PlannedStartDate'])} Value={(Details['ExpectedCompDate'])} valueChange={handelOnChange} />
+                    <DatePicker name="ExpectedCompDate" minDate_={(new Date(Details['PlannedStartDate']))} Value={(Details['ExpectedCompDate'])} valueChange={handelOnChange} />
                     <label className="input-label">Expected Completion Date</label>
                 </div>
             </div>

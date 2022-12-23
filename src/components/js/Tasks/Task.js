@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import setTheme from '../../Sub-Component/setTheme';
 import TaskAssignment from './TaskAssignment';
 import TaskMaster from './TaskMaster';
-import CustomGrid from '../../Sub-Component/CustomeGrid';
+// import CustomGrid from '../../Sub-Component/CustomeGrid';
 
 export default function Task() {
 
@@ -17,9 +17,7 @@ export default function Task() {
         setTheme();
     }, []);
     function TabPanel(props) {
-
         const { children, value, index, ...other } = props;
-
         return (
             <div
                 role="tabpanel"
@@ -52,18 +50,16 @@ export default function Task() {
 
     function FullWidthTabs(props) {
         const [value, setValue] = useState(0);
-
         const handleChange = (event, newValue) => {
             setValue(newValue);
         };
-
         const handleChangeIndex = (index) => {
             setValue(index);
         };
-        const ProjectColumns = [
-            { id: 'ProjectName', label: 'Project Name', minWidth: 115, sort: true },
-            { id: '', label: 'Active', minWidth: 10, field: 'CheckBox', type: 5 }
-        ];
+        // const ProjectColumns = [
+        //     { id: 'ProjectName', label: 'Project Name', minWidth: 115, sort: true },
+        //     { id: '', label: 'Active', minWidth: 10, field: 'CheckBox', type: 5 }
+        // ];
 
         return (
             <Box id="Task" sx={{ bgcolor: 'inherit' }}>

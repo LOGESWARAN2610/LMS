@@ -243,9 +243,14 @@ export default function EnterTimeSheet() {
                 setExpanded(0);
                 setModule([]);
                 setTasks([]);
+                setTotalHours(0.00);
             }
             else {
                 setDetails(result.data[0]);
+                let totalHours = 0.00;
+                result.data[0].forEach((item) => { totalHours += parseFloat(item['Hours']) });
+                totalHours = isNaN(totalHours) ? 0.00 : totalHours;
+                setTotalHours(totalHours.toFixed(2));
                 setExpanded(-1);
             }
         });
@@ -450,7 +455,7 @@ export default function EnterTimeSheet() {
                 </div>
             </div>
             <div style={{ textAlign: 'right', marginRight: '10px' }}>
-                <span style={{ color: totalHours > 18 ? 'red' : 'inherit', display: 'inline-block', fontSize: '18px' }}>Total Hours:<span style={{ textAlign: 'right', marginRight: '20px', display: 'inline-block', padding: '0 0 0 5px,fontSize:18px' }}>{totalHours}</span></span>
+                <span style={{ color: totalHours > 18 ? 'red' : 'inherit', display: 'inline-block', fontSize: '18px' }}>Total Hours:<span style={{ textAlign: 'right', marginRight: '20px', display: 'inline-block', padding: '0 0 0 5px,fontSize:18px' }}>{totalHours.toFixed(2)}</span></span>
                 <button className="btn marginLeft-0 " {...isDisable(1)} onClick={handelAddClick}>Add Row</button>
                 <button className="btn marginLeft-0 marginRight-0 " {...isDisable(1)} onClick={handelClick}>Save</button>
             </div>

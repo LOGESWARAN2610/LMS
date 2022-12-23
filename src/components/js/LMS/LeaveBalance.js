@@ -44,7 +44,12 @@ export default function LeaveBalanceTab() {
             setExpanded(isExpanded ? panel : false);
     }
 
-    const [Data, setData] = useState([]);
+    const [Data, setData] = useState([
+        { LeaveType: 'Sick Leave', OpeningBalance: 0, EarnedLeave: 0, LeavesTaken: 0, currentblc: 0, LOP: 0 },
+        { LeaveType: 'Casual Leave', OpeningBalance: 0, EarnedLeave: 0, LeavesTaken: 0, currentblc: 0, LOP: 0 },
+        { LeaveType: 'Privilege Leave', OpeningBalance: 0, EarnedLeave: 0, LeavesTaken: 0, currentblc: 0, LOP: 0 },
+        { LeaveType: 'Total', OpeningBalance: 0, EarnedLeave: 0, LeavesTaken: 0, currentblc: 0, LOP: 0 }
+    ]);
     useEffect(() => {
         axios.post(nodeurl['nodeurl'], { query: 'SP_LM_LeaveBalance ' + EmpId + '' }).then(result => {
             let data = result.data[0];

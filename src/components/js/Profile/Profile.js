@@ -8,7 +8,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import ChangePassword from './ChangePassword';
+// import ChangePassword from './ChangePassword';
 import setTheme from '../../Sub-Component/setTheme';
 import DatePicker from '../../Sub-Component/DatePicker/DatePicker';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -19,14 +19,13 @@ import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
     const EmpId = localStorage['EmpId'];
-    const [value, setValue] = useState(0);
     const alert = useAlert();
-    // if (localStorage['isProfileChanged']) console.log('fds');
     const navigate = useNavigate();
     const Navigate = (path) => {
         navigate(path);
     }
-    const DetailsFields = () => {
+    const DetailsFields = (value) => {
+        console.log(value);
         var date = new Date();
         date = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + '-' + ((date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1)) + '-' + date.getFullYear()
         const [Details, setDetails] = useState({ SurName: 'Mr.', Empid: 0, FirstName: '', LastName: '', PhoneNumber: '', EmailID: '', Address: '', DateOfBirth: date, EmgContactNumber: '', EmgContactName: '', DateOfJoin: date, UserName: '', Password: '', Gender: 2, Hintans: '', Question: 1, IsUpdate: value, ReportsTo: 62 });
@@ -40,13 +39,11 @@ export default function Profile() {
         }, [])
         useEffect(() => {
             setTheme();
-
             if (value === 0) {
                 axios.post(nodeurl['nodeurl'], { query: 'AB_ViewEmpProfile ' + EmpId }).then(result => {
                     setDetails(result.data[0][0]);
                 });
             } else {
-
                 setDetails({ SurName: 'Mr.', Empid: 0, FirstName: '', LastName: '', PhoneNumber: '', EmailID: '', Address: '', DateOfBirth: date, EmgContactNumber: '', EmgContactName: '', DateOfJoin: date, UserName: '', Password: '', Gender: 2, Hintans: '', Question: 1, IsUpdate: value, ReportsTo: 62 });
             }
         }, [value]);
@@ -71,19 +68,17 @@ export default function Profile() {
                     alert.success("Your details Updated successfully.");
                     Navigate('/Profile');
                 } else {
-                    alert.success("Regeistred successfully.");
+                    alert.success("Registered successfully.");
                     setDetails({ SurName: 'Mr.', Empid: 0, FirstName: '', LastName: '', PhoneNumber: '', EmailID: '', Address: '', DateOfBirth: date, EmgContactNumber: '', EmgContactName: '', DateOfJoin: date, UserName: '', Password: '', Gender: 2, Hintans: '', Question: 1, IsUpdate: value, ReportsTo: 62 });
                 }
             });
         }
-
         const Color = () => {
             return {
                 sx: {
                     color: localStorage['BgColor'],
                     '&.Mui-checked': {
                         color: localStorage['BgColor'],
-
                     }
                 }
             }
@@ -96,7 +91,6 @@ export default function Profile() {
         }
         return (
             <div id="profile" style={{ width: '99%' }}>
-
                 {value === 1 ? <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
                         <select className="input-input" name="Question" value={Details['ReportsTo']} onChange={handelOnChange}>
@@ -119,21 +113,18 @@ export default function Profile() {
                         <label className="input-label">First Name</label>
                     </div>
                 </div>
-
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
                         <input type="text" className="input-input" name="LastName" placeholder="Last Name" value={Details['LastName']} onChange={handelOnChange} />
                         <label className="input-label">Last Name</label>
                     </div>
                 </div>
-
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
                         <input type="text" className="input-input" placeholder="Alice Name" name="AliceName" value={Details['AliceName']} onChange={handelOnChange} />
                         <label className="input-label">Alice Name</label>
                     </div>
                 </div>
-
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder  input-DatePicker" style={{ width: '48%', float: 'left' }}>
                         {Details['DateOfBirth'] ? <DatePicker name="DateOfBirth" isWeekEndDisable={false} dd={(Details['DateOfBirth'])} Value={((Details['DateOfBirth']).split('-').reverse().join('-'))} valueChange={handelOnChange} /> : <></>}
@@ -145,21 +136,18 @@ export default function Profile() {
                         <label className="input-label">Date Of Joining</label>
                     </div>
                 </div>
-
                 {/* <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
                         <input type="text" className="input-input" disabled name="DateOfJoin" value={Details['DateOfJoin']} onChange={handelOnChange} />
                         <label className="input-label">Date Of Joining</label>
                     </div>
                 </div> */}
-
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
                         <input type="number" placeholder="PhoneNumber" className="input-input" name="PhoneNumber" value={Details['PhoneNumber']} onChange={handelOnChange} />
                         <label className="input-label">Mobile No.</label>
                     </div>
                 </div>
-
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder" style={{ backgroundColor: 'inherit' }}>
                         <RadioGroup
@@ -175,21 +163,18 @@ export default function Profile() {
                         <label className="input-label">Gender</label>
                     </div>
                 </div>
-
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
                         <input type="text" placeholder="Personal Email Id" className="input-input" name="EmailID" value={Details['EmailID']} onChange={handelOnChange} />
                         <label className="input-label">Personal Email Id</label>
                     </div>
                 </div>
-
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
                         <textarea className="input-input textarea" placeholder="Enter Address" name="Address" value={Details['Address']} onChange={handelOnChange} />
                         <label className="input-label">Address</label>
                     </div>
                 </div>
-
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
                         <input type="text" className="input-input" disabled={value === 0} name="UserName" value={Details['UserName']} onChange={handelOnChange} />
@@ -233,11 +218,8 @@ export default function Profile() {
             </div>
         );
     }
-
     function TabPanel(props) {
-
         const { children, value, index, ...other } = props;
-
         return (
             <div
                 role="tabpanel"
@@ -269,15 +251,13 @@ export default function Profile() {
     }
 
     function FullWidthTabs(props) {
-
+        const [value, setValue] = useState(0);
         const handleChange = (event, newValue) => {
             setValue(newValue);
         };
-
         const handleChangeIndex = (index) => {
             setValue(index);
         };
-
         return (
             <Box sx={{ bgcolor: 'inherit' }}>
                 <AppBar position="static" style={{ width: 'max-content', marginLeft: '25px', backgroundColor: '#fff' }} >
@@ -298,10 +278,10 @@ export default function Profile() {
                     onChangeIndex={handleChangeIndex}
                 >
                     <TabPanel value={value} index={0}>
-                        <DetailsFields />
+                        <DetailsFields value={value} />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <DetailsFields />
+                        <DetailsFields value={value} />
                     </TabPanel>
                     {/* <TabPanel value={value} index={1}>
                         <ChangePassword />

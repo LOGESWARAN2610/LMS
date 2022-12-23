@@ -32,7 +32,6 @@ export default function Home() {
         { id: 'Create Sub-Task', label: 'Create Sub-Task', minWidth: 70, button: 'Re-Work', onclick: 'onclick("alert()")' }
     ];
     const [IsInclude, SetIsInclude] = useState(false);
-    const [value, setValue] = React.useState(0);
 
     const [ClientData, SetClientData] = useState([]);
     const [weeklyData, SetWeeklyData] = useState([]);
@@ -127,6 +126,7 @@ export default function Home() {
     }
 
     function FullWidthTabs() {
+        const [value, setValue] = React.useState(0);
         const handleChange = (event, newValue) => {
             setValue(newValue);
         };
@@ -134,7 +134,7 @@ export default function Home() {
             setValue(index);
         };
         return (
-            <Box sx={{ bgcolor: 'inherit' }} id="home">
+            <Box sx={{ bgcolor: 'inherit' }} id="home_">
                 <AppBar position="static" style={{ width: 'max-content', display: 'inline-block', marginLeft: '25px', backgroundColor: '#fff' }} >
                     <Tabs
                         value={value}
@@ -142,8 +142,8 @@ export default function Home() {
                         textColor="inherit"
                         style={{ color: localStorage['BgColor'] }}
                     >
-                        <Tab label="Summary" style={{ textTransform: 'capitalize', fontWeight: 600, fontSize: '16px' }} {...a11yProps(0)} />
-                        <Tab label="Task DashBoard" style={{ textTransform: 'capitalize', fontWeight: 600, fontSize: '16px' }} {...a11yProps(1)} />
+                        <Tab label="Summary" className='tab'  {...a11yProps(0)} />
+                        <Tab label="Task DashBoard" className='tab'  {...a11yProps(1)} />
                     </Tabs>
                 </AppBar>
                 {value === 1 ? <div style={{ textAlign: 'right', padding: '0 10px', display: 'inline-block', float: 'right' }} >

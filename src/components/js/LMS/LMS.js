@@ -51,8 +51,14 @@ export default function Lms() {
         }
         return result;
     };
-    const handelAction = async (id, type) => {
-        let query = '', msg = 'Aru you surely want to cancel?';
+    const handelAction = async (id, type, msg_) => {
+        let query = '', msg = <div id='lopCancel'>
+            <h1>Confirmation</h1>
+            <div><span>Are you sure want to cancel ?</span></div>
+            <div><span>Date : </span><strong>{msg_.split('~~')[0]}</strong></div>
+            <div><span>{type === '1' ? 'No. of Days : ' : 'Duration : '}</span><strong>{msg_.split('~~')[1]}</strong></div>
+        </div>
+        //'Are you surely want to cancel?';
         if (type === '1') {
             query = 'SP_LM_CheckCancelStatus';
         }

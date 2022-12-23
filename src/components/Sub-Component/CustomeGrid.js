@@ -28,7 +28,6 @@ const StickyHeadTable = forwardRef((props, ref) => {
     const alert = useAlert();
     const [rows, setRows] = useState([]);
 
-    const selectedEmpId = 0;
     const [paperWidth, setPaperWidth] = useState('100%');
     const Pagination = props['Pagination'];
     const handleAction = props['onclick'];
@@ -133,8 +132,8 @@ const StickyHeadTable = forwardRef((props, ref) => {
             });
         }
     }
-    const handlePostCancel = async (id, type) => {
-        const result = await handleAction(id, type);
+    const handlePostCancel = async (id, type, msg) => {
+        const result = await handleAction(id, type, msg);
         if (result) {
             setTimeout(() => {
                 if (type === '1') {
@@ -152,16 +151,21 @@ const StickyHeadTable = forwardRef((props, ref) => {
     }
 
     const handleCancelAction = (e) => {
-        if (e.target.parentElement.attributes.status.value === 'Pending' || e.target.parentElement.attributes.status.value === 'Approved') {
-            let id, type;
-            if (e.target.tagName === 'path') {
-                id = e.target.parentElement.id
-                type = e.target.parentElement.attributes.clicktype.value;
-            } else {
-                id = e.target.id;
-                type = e.target.attributes.clicktype.value;
-            }
-            handlePostCancel(id, type);
+        let id, type, status, msg;
+        if (e.target.tagName === 'path') {
+            id = e.target.parentElement.id
+            type = e.target.parentElement.attributes.clicktype.value;
+            status = e.target.parentElement.attributes.status.value;
+            msg = e.target.parentElement.attributes.msg.value;
+        } else {
+            id = e.target.id;
+            type = e.target.attributes.clicktype.value;
+            status = e.target.attributes.status.value;
+            msg = e.target.attributes.msg.value;
+
+        }
+        if (status === 'Pending' || status === 'Approved') {
+            handlePostCancel(id, type, msg);
         } else {
             alert.show('You already Cancelled this Leave.');
             return;
@@ -341,8 +345,8 @@ const StickyHeadTable = forwardRef((props, ref) => {
                                                 const value = row[column.id];
                                                 return (
                                                     <TableCell key={index_} align={column.align} style={column.type === 6 ? { padding: '0' } : { padding: '9px' }}>
-                                                        {column.type === 1 ? <><button className='btnAction' title="Click to cancel leave" ><FontAwesomeIcon id={row.EmpleaveApplicationID} clicktype={column.type} status={row.status} onClick={handleCancelAction} icon={faXmark} /></button>
-                                                            {row.Reason === 'Timesheet not filled' ? <><button className='btnAction' title="Click to cancel LOP" style={{ marginLeft: '15px' }} ><FontAwesomeIcon id={row.EmpleaveApplicationID} clicktype={column.type} onClick={
+                                                        {column.type === 1 ? <><button className='btnAction' title="Click to cancel leave" ><FontAwesomeIcon id={row.EmpleaveApplicationID} clicktype={column.type} status={row.status} msg={(row.StartDate === row.EndDate ? row.StartDate : row.StartDate + ' - ' + row.EndDate) + '~~' + row.No_Of_Days} onClick={handleCancelAction} icon={faXmark} /></button>
+                                                            {row.Reason === 'Timesheet not filled' ? <><button className='btnAction' title="Click to cancel LOP" style={{ marginLeft: '15px' }} ><FontAwesomeIcon id={row.EmpleaveApplicationID} status={row.status} clicktype={column.type} onClick={
                                                                 (e) => {
                                                                     let id, type;
                                                                     if (row.status === 'Approved') {
@@ -365,8 +369,8 @@ const StickyHeadTable = forwardRef((props, ref) => {
                                                             } icon={faLocationArrow} /></button>
                                                             </> : null}
                                                         </> : value}
-                                                        {column.type === 3 && row.LeaveType !== 'Total' ? <button className='btnAction' id={row.LeaveID} clicktype={column.type} onClick={handleCancelAction}>{column.button}</button> : ''}
-                                                        {column.type === 4 ? <button className='btnAction' ><FontAwesomeIcon id={row.PermissionApplicationID} clicktype={column.type} onClick={handleCancelAction} icon={faXmark} /></button> : ''}
+                                                        {column.type === 3 && row.LeaveType !== 'Total' ? <button className='btnAction' id={row.LeaveID} clicktype={column.type} status={row.status} onClick={handleCancelAction}>{column.button}</button> : ''}
+                                                        {column.type === 4 ? <button className='btnAction' ><FontAwesomeIcon id={row.PermissionApplicationID} clicktype={column.type} status={row.Status} msg={row.StartDate + ' - ' + row.EndDate + '~~' + row.No_of_days} onClick={handleCancelAction} icon={faXmark} /></button> : ''}
                                                         {column.type === 5 ?
                                                             <Switch size="small" name="checked" disabled={row['isCompleted']} checked={row['checked']} index={index} onChange={(e) => {
                                                                 const switch_ = e.target.closest('.MuiSwitch-switchBase')
