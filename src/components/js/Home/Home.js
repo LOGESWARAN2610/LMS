@@ -10,6 +10,7 @@ import '../../css/style.css'
 import CustomGrid from '../../Sub-Component/CustomeGrid';
 import setTheme from '../../Sub-Component/setTheme';
 import PieChart from '../../Sub-Component/PieChart';
+import BarChart from '../../Sub-Component/DatePicker/BarChart/BarChart';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import moment from 'moment';
@@ -156,8 +157,12 @@ export default function Home() {
                     <TabPanel value={value} index={0}>
                         <div id="summaryChart">
                             {weeklyData['length'] > 0 ? <PieChart title={'Weekly - (' + (moment(weekStart).format("Do MMM")) + ' to ' + (moment(weekEnd).format("Do MMM")) + ')'} id="week" data={weeklyData} outerRadius={100} innerRadius={50} /> : null}
-                            {monthlyData['length'] > 0 ? <PieChart title={'Monthly - (' + moment(new Date()).format('MMMM') + ')'} id="month" data={monthlyData} label={'empty'} outerRadius={100} innerRadius={50} /> : null}
                             {ClientData['length'] > 0 ? <PieChart title={'Client'} id="client" data={ClientData} outerRadius={100} innerRadius={50} /> : null}
+                            {monthlyData['length'] > 0 ?
+                                // <PieChart title={'Monthly - (' + moment(new Date()).format('MMMM') + ')'} id="month" data={monthlyData} label={'empty'} outerRadius={100} innerRadius={50} />
+                                <BarChart title={'Monthly - (' + moment(new Date()).format('MMMM') + ')'} id="month" data_={monthlyData} label={'label1'} />
+                                : null}
+
                         </div>
                     </TabPanel>
                     <TabPanel value={value} index={1}>

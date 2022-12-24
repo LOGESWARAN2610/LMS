@@ -4,9 +4,9 @@ import * as d3 from 'd3';
 function PieChart(props) {
     const { data, outerRadius, innerRadius, title, id, value = 'value', label = 'label' } = props;
     //console.log(id, data);
-    const margin = { top: 50, right: 50, bottom: 50, left: 50 };
+    const margin = { top: 50, right: 50, bottom: 150, left: 50 };
     const width = 4 * outerRadius + margin.left + margin.right;
-    const height = 2 * outerRadius + margin.top + margin.bottom;
+    const height = 2 * outerRadius + margin.top + (margin.bottom - 50);
     // console.log(width, height)
     const textOffset = 24;
     const tweenDuration = 1050;
