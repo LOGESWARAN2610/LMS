@@ -8,6 +8,8 @@ export default function InputDatePicker(props) {
     const [date, setDate] = useState(new Date(props['Value']));
     const valueChange = props['valueChange'];
     const minDate = props['minDate_'] || null;
+    const maxDate = props['maxDate'] || null;
+    alert(maxDate)
     const handelDateChange = (value, e) => {
         var text = Moment(value).format('MM-DD-YYYY').toString();
         setDate(value);
@@ -20,6 +22,7 @@ export default function InputDatePicker(props) {
                 color={localStorage['BgColor']}
                 onChange={handelDateChange}
                 minDate={minDate}
+                maxDate={maxDate}
             />
         </>
     )

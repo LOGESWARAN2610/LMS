@@ -23,7 +23,7 @@ class Grid extends React.Component {
         select(node).call(gridlines(this.props));
     }
     updateAxis() {
-        const node = this.ref.current;
+        // const node = this.ref.current;
         const { t } = this.props;
         select('.grid-group').transition(t).call(gridlines(this.props))
     }

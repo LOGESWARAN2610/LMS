@@ -94,7 +94,8 @@ function PieChart(props) {
             .attr("class", "center_group")
             .attr("transform", "translate(" + (width / 2) + "," + (height / 2) + ")");
 
-        var whiteCircle = center_group.append("svg:circle")
+        // var whiteCircle = 
+        center_group.append("svg:circle")
             .attr("fill", "white")
             .attr("r", innerRadius);
 
@@ -128,7 +129,8 @@ function PieChart(props) {
             .remove();
 
 
-        const tooltip = d3.select('#' + id)
+        // const tooltip = 
+        d3.select('#' + id)
             .append('div')
             .attr('class', 'tooltip');
         const toolTipPath = svg.selectAll('path')
@@ -282,7 +284,7 @@ function PieChart(props) {
                 s0 = 0;
                 e0 = 0;
             }
-            var i = d3.interpolate({ startAngle: s0, endAngle: e0 }, { startAngle: d.startAngle, endAngle: d.endAngle });
+            i = d3.interpolate({ startAngle: s0, endAngle: e0 }, { startAngle: d.startAngle, endAngle: d.endAngle });
             return function (t) {
                 var b = i(t);
                 return arcGenerator(b);
@@ -292,7 +294,7 @@ function PieChart(props) {
         function removePieTween(d, i) {
             var s0 = 2 * Math.PI;
             var e0 = 2 * Math.PI;
-            var i = d3.interpolate({ startAngle: d.startAngle, endAngle: d.endAngle }, { startAngle: s0, endAngle: e0 });
+            i = d3.interpolate({ startAngle: d.startAngle, endAngle: d.endAngle }, { startAngle: s0, endAngle: e0 });
             return function (t) {
                 var b = i(t);
                 return arcGenerator(b);

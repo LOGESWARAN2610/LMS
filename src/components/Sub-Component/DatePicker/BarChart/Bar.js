@@ -1,6 +1,5 @@
 import React from 'react';
-import { select, event } from 'd3-selection';
-import { transition } from 'd3-transition';
+import { select } from 'd3-selection';
 
 class Bar extends React.Component {
     constructor() {
@@ -39,7 +38,7 @@ class Bar extends React.Component {
     }
     init() {
         const {
-            xScale, yScale, data, height,
+            xScale, data, height,
         } = this.props;
         const node = this.ref.current;
 
@@ -68,10 +67,7 @@ class Bar extends React.Component {
     }
     render() {
         return (
-            <g
-                className="bar-group"
-                ref={this.ref}
-            />
+            <g className="bar-group" ref={this.ref} />
         );
     }
 }

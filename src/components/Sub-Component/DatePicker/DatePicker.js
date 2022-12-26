@@ -9,6 +9,7 @@ export default function DatePicker_(props) {
     const [Date_, setDate] = useState(new Date(props['Value']));
     const valueChange = props['valueChange'];
     const minDate = props['minDate_'] || null;
+    const maxDate = props['maxDate'] || null;
     const isWeekEndDisable = props['isWeekEndDisable'];
     const showHoliDay = props['showHoliDay'] || false;
     const [holiDays, setHoliDays] = useState([]);
@@ -56,6 +57,7 @@ export default function DatePicker_(props) {
             renderDayContents={renderDayContents}
             closeOnScroll={(e) => e.target === document}
             minDate={minDate}
+            maxDate={maxDate}
             selected={Date_}
             onChange={handelDateChange} />
     );

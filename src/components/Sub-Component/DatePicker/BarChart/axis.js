@@ -14,12 +14,14 @@ class Axis extends React.Component {
         this.updateAxis();
     }
     renderAxis() {
+        debugger
         const { scale, orient, ticks } = this.props;
         const node = this.ref.current;
         let axis;
-
         if (orient === "bottom") {
             axis = axisBottom(scale);
+            select(axis).text('fdsfs')
+
         }
         if (orient === "left") {
             axis = axisLeft(scale)
@@ -29,7 +31,7 @@ class Axis extends React.Component {
     }
     updateAxis() {
         const { scale, orient, ticks, t } = this.props;
-
+        debugger
         if (orient === "left") {
             const axis = axisLeft(scale).ticks(ticks);
             selectAll(`.${orient}`).transition(t).call(axis)

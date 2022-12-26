@@ -287,7 +287,7 @@ export default function EnterTimeSheet() {
                                 <option key={index} value={item}>{moment(new Date(item.replaceAll('/', '-'))).format('DD-MM-YYYY')}</option>
                             ))}
                         </select> */}
-                        <DatePicker name="taskDate" isWeekEndDisable={false} showHoliDay={true} minDate_={new Date(new Date().setDate(new Date().getDate() - 5))} Value={new Date()} valueChange={handelTaskDateChange} />
+                        <DatePicker name="taskDate" isWeekEndDisable={false} showHoliDay={true} maxDate={new Date()} minDate_={new Date(new Date().setDate(new Date().getDate() - 5))} Value={new Date()} valueChange={handelTaskDateChange} />
                         <label className="input-label" style={{ height: '60px' }}>Task Date</label>
                     </div>
                 </div>
@@ -455,7 +455,7 @@ export default function EnterTimeSheet() {
                 </div>
             </div>
             <div style={{ textAlign: 'right', marginRight: '10px' }}>
-                <span style={{ color: totalHours > 18 ? 'red' : 'inherit', display: 'inline-block', fontSize: '18px' }}>Total Hours:<span style={{ textAlign: 'right', marginRight: '20px', display: 'inline-block', padding: '0 0 0 5px,fontSize:18px' }}>{totalHours.toFixed(2)}</span></span>
+                {totalHours && <span style={{ color: totalHours > 18 ? 'red' : 'inherit', display: 'inline-block', fontSize: '18px' }}>Total Hours:<span style={{ textAlign: 'right', marginRight: '20px', display: 'inline-block', padding: '0 0 0 5px,fontSize:18px' }}>{totalHours.toFixed(2)}</span></span>}
                 <button className="btn marginLeft-0 " {...isDisable(1)} onClick={handelAddClick}>Add Row</button>
                 <button className="btn marginLeft-0 marginRight-0 " {...isDisable(1)} onClick={handelClick}>Save</button>
             </div>

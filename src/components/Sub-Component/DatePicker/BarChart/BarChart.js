@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import { render } from 'react-dom';
+import React from 'react';
 import { scaleBand, scaleLinear } from 'd3-scale';
 import XYAxis from './xy-axis.js';
 import Grid from './Grid.js';
@@ -7,9 +6,9 @@ import Bar from './Bar.js';
 import { transition } from 'd3-transition';
 
 export default function BarChart(props) {
-    const { data_, title, id, value = 'value', label = 'label' } = props;
+    const { data_, title, value = 'value', label = 'label' } = props;
     var data = [];
-    for (let index = 0; index <= (new Date(2008, new Date().getMonth() + 1, 0).getDate()); index++) {
+    for (let index = 1; index <= (new Date().getDate()); index++) {
         let obj = data_.filter((obj) => { return new Date(obj[label]).getDate() === index });
         if (obj.length > 0)
             data.push({ name: index.toString(), value: obj[0][value] })
@@ -24,7 +23,7 @@ export default function BarChart(props) {
     const t = transition().duration(1000);
 
     const width = parentWidth - margin.left - margin.right;
-    const height = parentWidth * 0.5 - margin.top - margin.bottom;
+    const height = parentWidth * 0.5 - margin.top - margin.bottom - 200;
 
     const xScale = scaleBand()
         .domain(data.map(d => d.name))

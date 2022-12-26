@@ -744,11 +744,12 @@ span:has(.alertBox) + div button[role="cancellable-button"] {
 #profile {
   max-height: calc(100vh - 165px) !important;
 }
+
+g.grid-group path.domain + g.tick {
+  color: #111 !important;
+}
 g.tick {
   color: #a19c9c;
-}
-g.tick:first-child {
-  color: #111;
 }
 g.tick text {
   color: #111;
