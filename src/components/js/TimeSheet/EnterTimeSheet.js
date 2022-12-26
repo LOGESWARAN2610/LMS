@@ -166,10 +166,10 @@ export default function EnterTimeSheet() {
             }
             return obj;
         });
-        let totalHours = 0.00;
-        newState.forEach((item) => { totalHours += parseFloat(item['Hours']) });
-        totalHours = isNaN(totalHours) ? 0.00 : totalHours;
-        setTotalHours(totalHours.toFixed(2));
+        let totalHours_ = 0.00;
+        newState.forEach((item) => { totalHours_ += parseFloat(item['Hours']) });
+        totalHours_ = isNaN(totalHours_) ? 0.00 : totalHours_;
+        setTotalHours(totalHours_.toFixed(2));
         setDetails(newState);
     }
 
@@ -455,7 +455,7 @@ export default function EnterTimeSheet() {
                 </div>
             </div>
             <div style={{ textAlign: 'right', marginRight: '10px' }}>
-                {totalHours && <span style={{ color: totalHours > 18 ? 'red' : 'inherit', display: 'inline-block', fontSize: '18px' }}>Total Hours:<span style={{ textAlign: 'right', marginRight: '20px', display: 'inline-block', padding: '0 0 0 5px,fontSize:18px' }}>{totalHours.toFixed(2)}</span></span>}
+                <span style={{ color: totalHours > 18 ? 'red' : 'inherit', display: 'inline-block', fontSize: '18px' }}>Total Hours:<span style={{ textAlign: 'right', marginRight: '20px', display: 'inline-block', padding: '0 0 0 5px,fontSize:18px' }}>{totalHours ? totalHours : 0.00}</span></span>
                 <button className="btn marginLeft-0 " {...isDisable(1)} onClick={handelAddClick}>Add Row</button>
                 <button className="btn marginLeft-0 marginRight-0 " {...isDisable(1)} onClick={handelClick}>Save</button>
             </div>
