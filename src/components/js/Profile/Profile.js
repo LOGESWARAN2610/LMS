@@ -24,8 +24,8 @@ export default function Profile() {
     const Navigate = (path) => {
         navigate(path);
     }
-    const DetailsFields = (value) => {
-        console.log(value);
+    const DetailsFields = (props) => {
+        const { value } = props;
         var date = new Date();
         date = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + '-' + ((date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1)) + '-' + date.getFullYear()
         const [Details, setDetails] = useState({ SurName: 'Mr.', Empid: 0, FirstName: '', LastName: '', PhoneNumber: '', EmailID: '', Address: '', DateOfBirth: date, EmgContactNumber: '', EmgContactName: '', DateOfJoin: date, UserName: '', Password: '', Gender: 2, Hintans: '', Question: 1, IsUpdate: value, ReportsTo: 62 });
@@ -36,8 +36,8 @@ export default function Profile() {
             axios.post(nodeurl['nodeurl'], { query: query }).then(result => {
                 setManagerOption(result.data[0]);
             });
-        }, [])
-        useEffect(() => {
+            // }, [])
+            // useEffect(() => {
             setTheme();
             if (value === 0) {
                 axios.post(nodeurl['nodeurl'], { query: 'AB_ViewEmpProfile ' + EmpId }).then(result => {
@@ -46,7 +46,7 @@ export default function Profile() {
             } else {
                 setDetails({ SurName: 'Mr.', Empid: 0, FirstName: '', LastName: '', PhoneNumber: '', EmailID: '', Address: '', DateOfBirth: date, EmgContactNumber: '', EmgContactName: '', DateOfJoin: date, UserName: '', Password: '', Gender: 2, Hintans: '', Question: 1, IsUpdate: value, ReportsTo: 62 });
             }
-        }, [value]);
+        }, []);
         const handelOnChange = (event) => {
             if (event.target.name === 'DateOfBirth') {
                 var date = new Date(event.target.value);
