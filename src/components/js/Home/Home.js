@@ -16,8 +16,13 @@ import Checkbox from '@mui/material/Checkbox';
 import moment from 'moment';
 import axios from 'axios';
 import nodeurl from '../../../nodeServer.json';
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
+    const navigate = useNavigate();
+    const Navigate = (path) => {
+        navigate(path);
+    }
     const columns = [
         { id: 'Client', label: 'Client', minWidth: 70, sort: true },
         { id: 'AssignedBY', label: 'Assigned By', minWidth: 70 },
@@ -162,7 +167,16 @@ export default function Home() {
                                 // <PieChart title={'Monthly - (' + moment(new Date()).format('MMMM') + ')'} id="month" data={monthlyData} label={'empty'} outerRadius={100} innerRadius={50} />
                                 <BarChart title={'Monthly - (' + moment(new Date()).format('MMMM') + ')'} id="month" data_={monthlyData} label={'label1'} />
                                 : null}
-
+                            {monthlyData['length'] === 0 && ClientData['length'] === 0 && weeklyData['length'] === 0 ?
+                                <div style={{ height: '80vh' }}>
+                                    <div style={{ top: '40%', left: '40%', display: 'inline-block', textAlign: 'center' }}>
+                                        <h1 style={{ color: '#111', fontSize: '35px' }}>No Datas to Show...!</h1>
+                                        <h3 style={{ fontSize: '15px', cursor: 'pointer', color: 'blue' }} onClick={() => {
+                                            Navigate('/EnterTimeSheet');
+                                        }}>Click to Fill TimeSheet for missing days.</h3>
+                                    </div>
+                                </div>
+                                : null}
                         </div>
                     </TabPanel>
                     <TabPanel value={value} index={1}>

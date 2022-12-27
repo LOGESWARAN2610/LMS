@@ -49,7 +49,7 @@ const Sidebar = (props) => {
         { text: 'Employee Portal', link: '/EmployeePortal', icon: faUserDoctor, isManagerSide: false },
         { text: 'Profile', link: '/Profile', icon: faUser, isManagerSide: false },
         { text: 'Settings', link: '/Settings', icon: faUserGear, isManagerSide: false },
-        { text: 'Logout', link: '/', icon: faRightFromBracket, isManagerSide: false }
+        // { text: 'Logout', link: '/', icon: faRightFromBracket, isManagerSide: false }
         // { text: 'WorkPlace', link: '/WorkPlace', icon: faUserGear }
     ];
 
@@ -112,6 +112,21 @@ const Sidebar = (props) => {
                                                     </NavLink>
                                             )
                                         })}
+                                        <div style={{ borderTop: '1px solid #fff', marginTop: '10px' }}>
+                                            {IsOpen ?
+                                                <ToolTip title="Logout" placement="left">
+                                                    <NavLink to="/" className="nav-link tab">
+                                                        <FontAwesomeIcon icon={faRightFromBracket} className="icon" />
+                                                        <span className="text nav-text">Logout</span>
+                                                    </NavLink>
+                                                </ToolTip>
+                                                :
+                                                <NavLink to="/" className="nav-link tab">
+                                                    <FontAwesomeIcon icon={faRightFromBracket} className="icon" />
+                                                    <span className="text nav-text">Logout</span>
+                                                </NavLink>
+                                            }
+                                        </div>
                                     </div>
                                 </div>
                                 {/* <div className="bottom-content">
