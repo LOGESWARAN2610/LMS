@@ -5,7 +5,6 @@ import { faChevronRight, faHouseChimney, faLevelUpAlt, faTableList, faTasks, faU
 import { useLocation } from "react-router-dom";
 import axios from 'axios';
 import nodeurl from '../../nodeServer.json'
-import "../css/Sidebar.css";
 import ToolTip from "./ToolTip";
 import { positions, Provider } from "react-alert";
 import AlertTemplate from "react-alert-template-basic";
@@ -47,6 +46,7 @@ const Sidebar = (props) => {
         { text: 'Leave & Permission', link: '/LMS', icon: faLevelUpAlt, isManagerSide: false },
         { text: 'Approvals', link: '/Approvals', icon: faLevelUpAlt, isManagerSide: true },
         { text: 'Employee Portal', link: '/EmployeePortal', icon: faUserDoctor, isManagerSide: false },
+        { text: 'Notes', link: '/Notes', icon: faUser, isManagerSide: false },
         { text: 'Profile', link: '/Profile', icon: faUser, isManagerSide: false },
         { text: 'Settings', link: '/Settings', icon: faUserGear, isManagerSide: false },
         // { text: 'Logout', link: '/', icon: faRightFromBracket, isManagerSide: false }
@@ -88,7 +88,7 @@ const Sidebar = (props) => {
                                     </NavLink>
                                     <div className="text logo-text">
                                         {getName()}
-                                        {getDesignation()}
+                                        {/* {getDesignation()} */}
                                     </div>
                                 </div>
                                 {<FontAwesomeIcon className="icon Side-toggle" icon={faChevronRight} onClick={() => { setIsOpen(!IsOpen); }} />}

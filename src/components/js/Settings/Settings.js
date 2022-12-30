@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import setTheme from '../../Sub-Component/setTheme';
-import "../../../components/css/Settings.css"
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUpload, faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -116,7 +115,7 @@ export default function Settings() {
     }
     return (
         <>
-            <div className="page">
+            <div className="page" id="Settings">
                 <div className="container container_1" style={{ width: '30%', minWidth: '335px' }}>
                     <div>
                         <div className="Img-profile">

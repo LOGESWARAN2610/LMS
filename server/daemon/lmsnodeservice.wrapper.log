@@ -22,3 +22,19 @@
 2022-11-29 19:37:49 - Started 20452
 2022-12-18 20:35:28 - Starting C:\Program Files\nodejs\node.exe  --harmony E:\TimeSheet\LMS\server\node_modules\node-windows\lib\wrapper.js --file E:\TimeSheet\LMS\server\server.js --scriptoptions= --log "LMS Node Service wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
 2022-12-18 20:35:28 - Started 5732
+2022-12-28 15:19:20 - Stopping lmsnodeservice.exe
+2022-12-28 15:19:20 - ProcessKill 5732
+2022-12-28 15:20:22 - Shutdown exception
+Message:A system shutdown is in progress.
+
+Stacktrace:   at System.Runtime.InteropServices.Marshal.ThrowExceptionForHRInternal(Int32 errorCode, IntPtr errorInfo)
+   at System.Management.ManagementScope.InitializeGuts(Object o)
+   at System.Management.ManagementScope.Initialize()
+   at System.Management.ManagementObjectSearcher.Initialize()
+   at System.Management.ManagementObjectSearcher.Get()
+   at winsw.WrapperService.GetChildPids(Int32 pid)
+   at winsw.WrapperService.StopProcessAndChildren(Int32 pid)
+   at winsw.WrapperService.StopIt()
+   at winsw.WrapperService.OnShutdown()
+2022-12-28 15:21:28 - Starting C:\Program Files\nodejs\node.exe  --harmony E:\TimeSheet\LMS\server\node_modules\node-windows\lib\wrapper.js --file E:\TimeSheet\LMS\server\server.js --scriptoptions= --log "LMS Node Service wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2022-12-28 15:21:30 - Started 6492

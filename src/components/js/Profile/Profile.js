@@ -259,7 +259,7 @@ export default function Profile() {
             setValue(index);
         };
         return (
-            <Box sx={{ bgcolor: 'inherit' }}>
+            <Box sx={{ bgcolor: 'inherit' }} id="Profile">
                 <AppBar position="static" style={{ width: 'max-content', marginLeft: '25px', backgroundColor: '#fff' }} >
                     <Tabs
                         value={value}

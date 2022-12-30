@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../../css/Login.css';
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
 // import ChangePassword from '../../js/Profile/ChangePassword'

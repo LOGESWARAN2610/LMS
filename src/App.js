@@ -11,6 +11,7 @@ import SideBar from '../src/components/Sub-Component/Sidebar';
 import '../src/components/css/style.css';
 import EnterTimeSheet from './components/js/TimeSheet/TimeSheet';
 import Settings from './components/js/Settings/Settings';
+import Notes from './components/js/Notes/Notes';
 
 
 export default function App() {
@@ -27,6 +28,7 @@ export default function App() {
           <Route path='/Profile' element={<SideBar Component={<Profile />} />} />
           <Route path='/EnterTimeSheet' element={<SideBar Component={<EnterTimeSheet />} />} />
           <Route path='/Settings' element={<SideBar Component={<Settings />} />} />
+          <Route path='/Notes' element={<SideBar Component={<Notes />} />} />
         </Routes>
       </BrowserRouter>
     </>

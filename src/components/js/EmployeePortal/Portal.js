@@ -59,7 +59,7 @@ export default function Portal() {
             { id: 'Holiday_Name', label: 'Holiday Day', minWidth: 250, sort: false }
         ];
         return (
-            <Box sx={{ bgcolor: 'inherit' }}>
+            <Box sx={{ bgcolor: 'inherit' }} id="EmployeePortal">
                 <AppBar position="static" style={{ width: 'max-content', marginLeft: '25px', backgroundColor: '#fff' }} >
                     <Tabs
                         value={value}

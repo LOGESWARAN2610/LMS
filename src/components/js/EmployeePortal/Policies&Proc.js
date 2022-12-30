@@ -1,12 +1,11 @@
 import React from 'react';
-import '../../css/Policies&Proc.css'
 
 export default function PoliciesProc() {
 
     return (
         <div style={{ margin: '20px auto' }} >
             <div style={{ margin: '-18px 0 0 2px', height: '70vh' }}>
-                <div>
+                <div id="PoliciesProc">
                     <ol id="l1">
                         <li>
                             <h1>
