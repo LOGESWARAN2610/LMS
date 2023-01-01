@@ -130,7 +130,7 @@ export default function TaskAssignment() {
             }
         }
         const handelProjectClick = () => {
-            axios.post(nodeurl['nodeurl'], { query: 'AB_AddNewProjectList ' + NewProjectDetails['ProjectName'] + ',' + NewProjectDetails['ClientID'] }).then(result => {
+            axios.post(nodeurl['nodeurl'], { query: "AB_AddNewProjectList '" + NewProjectDetails['ProjectName'] + "'," + NewProjectDetails['ClientID'] }).then(result => {
                 let value = result.data[0][0]['Result'];
                 setNewProjectDetails({ ...NewProjectDetails, ClientID: '-1', ProjectName: '' });
                 if (value === 1)
@@ -170,7 +170,7 @@ export default function TaskAssignment() {
         const handelModuleChange = (e) => {
             setNewModuleDetails({ ...NewModuleDetails, [e.target.name]: e.target.value });
             if (e.target.name === 'ClientID') {
-                axios.post(nodeurl['nodeurl'], { query: 'AB_ProjectddList ' + e.target.value + ',1' }).then(result => {
+                axios.post(nodeurl['nodeurl'], { query: "AB_ProjectddList '" + e.target.value + "',1" }).then(result => {
                     setProject(result.data[0]);
                 });
             } else if (e.target.name === 'ProjectID') {
@@ -187,7 +187,7 @@ export default function TaskAssignment() {
             return { disabled: isValidate };
         }
         const handelModuleClick = () => {
-            axios.post(nodeurl['nodeurl'], { query: 'AB_AddNewModuleList ' + NewModuleDetails['ModuleName'] + ',' + NewModuleDetails['ProjectID'] }).then(result => {
+            axios.post(nodeurl['nodeurl'], { query: "AB_AddNewModuleList '" + NewModuleDetails['ModuleName'] + "'," + NewModuleDetails['ProjectID'] }).then(result => {
                 setNewModuleDetails({ ...NewModuleDetails, ClientID: '-1', ProjectID: '-1', ModuleName: '' });
                 let value = result.data[0][0]['Result'];
                 if (value === 1)
@@ -198,7 +198,7 @@ export default function TaskAssignment() {
         }
         return (<>
             <div className='task-container' style={props['style']}>
-                <h1>Add Module{NewModuleDetails['ProjectID'] !== '-1' ? <><FontAwesomeIcon icon={faTrashAlt} style={{ fontSize: '18px' }} name="ProjectID" value={NewModuleDetails['ProjectID']} onClick={handelRemove} className="icon" /><Swatch name="ProjectID" isChecked={projectStatus} value={NewModuleDetails['ProjectID']} /></> : null}</h1>
+                <h1>Add Module{NewModuleDetails['ProjectID'] !== '-1' ? <><FontAwesomeIcon icon={faTrashAlt} style={{ fontSize: '18px' }} name="ProjectID" value={NewModuleDetails['ProjectID']} onClick={handelRemove} className="icon" /><Swatch title="Make this Project Enable/Disable" name="ProjectID" isChecked={projectStatus} value={NewModuleDetails['ProjectID']} /></> : null}</h1>
                 <div style={{ display: 'inline-flex' }}>
                     <SelectDD name="ClientID" style={{ width: '48%', display: 'inline-block', marginRight: '15px' }} label="Client" option={Client} value={NewModuleDetails['ClientID']} OnChange={handelModuleChange} />
                     <SelectDD name="ProjectID" style={{ width: '48%', display: 'inline-block', marginRight: 0 }} label="Project" option={Project} value={NewModuleDetails['ProjectID']} OnChange={handelModuleChange} />
@@ -232,12 +232,12 @@ export default function TaskAssignment() {
         const handelTaskOnChange = (e) => {
             setNewTaskDetails({ ...NewTaskDetails, [e.target.name]: e.target.value });
             if (e.target.name === 'ClientID') {
-                axios.post(nodeurl['nodeurl'], { query: 'AB_ProjectddList ' + e.target.value + ',1' }).then(result => {
+                axios.post(nodeurl['nodeurl'], { query: "AB_ProjectddList '" + e.target.value + "',1" }).then(result => {
                     setProject(result.data[0]);
                 });
             }
             else if (e.target.name === 'ProjectID') {
-                axios.post(nodeurl['nodeurl'], { query: 'AB_ModuleList ' + e.target.value + ',1' }).then(result => {
+                axios.post(nodeurl['nodeurl'], { query: "AB_ModuleList ' " + e.target.value + "',1" }).then(result => {
                     setModule(result.data[0]);
                 });
             } else if (e.target.name === 'ModuleID') {
