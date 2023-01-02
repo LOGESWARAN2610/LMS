@@ -25,9 +25,6 @@ export default function Approvals() {
     }, [EmpId]);
 
     const approvelRef = useRef();
-    debugger
-
-
     const LeaveApprovelColumn = [
         { id: '', label: '', minWidth: 10, field: 'CheckBox', type: 5 },
         { id: 'FirstName', label: 'Name', minWidth: 115, sort: true },
@@ -167,7 +164,7 @@ export default function Approvals() {
                     {[0, 1, 2].includes(value) && <button className="btn  marginRight-0 btnApproveRejectAll" style={{ margin: '5px 0 5px 10px', width: '100px', padding: '10px' }} onClick={() => approvelRef.current.handleApproveReject(ApproveRejectAll, 2, value)}>Reject{ApproveRejectAll ? ' All' : ''}</button>}
                 </div>
 
-                <Box sx={{ bgcolor: 'inherit' }}>
+                <Box sx={{ bgcolor: 'inherit' }} id="Approve">
                     <AppBar position="static" style={{ width: 'max-content', marginLeft: '25px', backgroundColor: '#fff' }} >
                         <Tabs
                             value={value}

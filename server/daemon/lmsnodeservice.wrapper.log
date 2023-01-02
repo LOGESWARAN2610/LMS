@@ -1,20 +1,18 @@
-2023-01-01 22:38:32 - Starting C:\Program Files\nodejs\node.exe  --harmony E:\TimeSheet\LMS\server\node_modules\node-windows\lib\wrapper.js --file E:\TimeSheet\LMS\server\server.js --scriptoptions= --log "LMS Node Service wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
-2023-01-01 22:38:32 - Started 18776
-2023-01-01 23:59:03 - Starting C:\Program Files\nodejs\node.exe  --harmony E:\TimeSheet\LMS\server\node_modules\node-windows\lib\wrapper.js --file E:\TimeSheet\LMS\server\server.js --scriptoptions= --log "LMS Node Service wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
-2023-01-01 23:59:04 - Started 6684
-2023-01-02 10:45:05 - Stopping lmsnodeservice.exe
-2023-01-02 10:45:05 - ProcessKill 6684
-2023-01-02 10:45:05 - Found child process: 6768 Name: conhost.exe
-2023-01-02 10:45:05 - Found child process: 5708 Name: node.exe
-2023-01-02 10:45:05 - Stopping process 6768
-2023-01-02 10:45:05 - Send SIGINT 6768
-2023-01-02 10:45:05 - SIGINT to 6768 failed - Killing as fallback
-2023-01-02 10:45:05 - Stopping process 5708
-2023-01-02 10:45:05 - Send SIGINT 5708
-2023-01-02 10:45:05 - SIGINT to 5708 failed - Killing as fallback
-2023-01-02 10:45:05 - Stopping process 6684
-2023-01-02 10:45:05 - Send SIGINT 6684
-2023-01-02 10:45:05 - SIGINT to 6684 failed - Killing as fallback
-2023-01-02 10:45:05 - Finished lmsnodeservice.exe
-2023-01-02 10:45:07 - Starting C:\Program Files\nodejs\node.exe  --harmony E:\TimeSheet\LMS\server\node_modules\node-windows\lib\wrapper.js --file E:\TimeSheet\LMS\server\server.js --scriptoptions= --log "LMS Node Service wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
-2023-01-02 10:45:07 - Started 12020
+2023-01-02 10:48:11 - Starting C:\Program Files\nodejs\node.exe  --harmony E:\TimeSheet\LMS\server\node_modules\node-windows\lib\wrapper.js --file E:\TimeSheet\LMS\server\server.js --scriptoptions= --log "LMS Node Service wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2023-01-02 10:48:11 - Started 4616
+2023-01-02 10:49:29 - Stopping lmsnodeservice.exe
+2023-01-02 10:49:29 - ProcessKill 4616
+2023-01-02 10:49:29 - Found child process: 1640 Name: conhost.exe
+2023-01-02 10:49:29 - Found child process: 10936 Name: node.exe
+2023-01-02 10:49:29 - Stopping process 1640
+2023-01-02 10:49:29 - Send SIGINT 1640
+2023-01-02 10:49:29 - SIGINT to 1640 failed - Killing as fallback
+2023-01-02 10:49:29 - Stopping process 10936
+2023-01-02 10:49:29 - Send SIGINT 10936
+2023-01-02 10:49:29 - SIGINT to 10936 failed - Killing as fallback
+2023-01-02 10:49:29 - Stopping process 4616
+2023-01-02 10:49:29 - Send SIGINT 4616
+2023-01-02 10:49:29 - SIGINT to 4616 failed - Killing as fallback
+2023-01-02 10:49:29 - Finished lmsnodeservice.exe
+2023-01-02 10:49:32 - Starting C:\Program Files\nodejs\node.exe  --harmony E:\TimeSheet\LMS\server\node_modules\node-windows\lib\wrapper.js --file E:\TimeSheet\LMS\server\server.js --scriptoptions= --log "LMS Node Service wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2023-01-02 10:49:32 - Started 2264

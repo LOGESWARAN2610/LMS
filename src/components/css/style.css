@@ -10,6 +10,7 @@
 #LmsWrapper *,
 #EmployeePortal *,
 #Profile *,
+#Approve *,
 #Settings * {
   font-family: "Times New Roman", Times, serif !important;
 }
@@ -524,14 +525,14 @@ label {
 }
 .react-swipeable-view-container div::-webkit-scrollbar,
 #Settings::-webkit-scrollbar,
-.rdw-editor-main::-webkit-scrollbar {
+.sun-editor-editable::-webkit-scrollbar {
   width: 4px;
   height: 5px;
 }
 .scrollbar::-webkit-scrollbar-thumb,
 .react-swipeable-view-container div::-webkit-scrollbar-thumb,
 #Settings::-webkit-scrollbar-thumb,
-.rdw-editor-main::-webkit-scrollbar-thumb {
+.sun-editor-editable::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background-color: #e0e0e0;
   background-image: -webkit-gradient(
@@ -822,22 +823,56 @@ g.tick text {
 .notesWrapper {
   margin: 20px;
 }
-.rdw-editor-wrapper {
-  border-top: 1px solid var(--background-color) !important;
-  border: 2px solid var(--background-color);
-}
+
 .notesTitle {
+  /* margin: -1px; */
+  height: 40px;
   font-size: 20px;
   border: 2px solid var(--background-color);
   padding: 3px 10px;
   border-bottom: none;
   color: var(--background-color);
 }
+.sun-editor .se-toolbar {
+  outline: none !important;
+  z-index: unset !important;
+  border-bottom: 2px solid var(--background-color) !important;
+}
+.sun-editor .se-btn-module-border {
+  border: 1px solid #838383 !important;
+}
+.sun-editor .se-btn:enabled.active {
+  color: var(--background-color) !important;
+}
+.sun-editor .se-resizing-bar {
+  border-top: 1px solid #838383 !important;
+}
+.sun-editor {
+  outline: none !important;
+  border: 2px solid var(--background-color) !important;
+}
+.sun-editor-editable {
+  height: 65vh !important;
+  max-height: 66vh !important;
+  overflow: auto;
+}
+.notesDate input {
+  height: 30px !important;
+  top: 4px;
+  font-size: 15px;
+}
+.sun-editor .se-wrapper {
+  z-index: unset !important;
+}
+/* .rdw-editor-wrapper {
+  border-top: 1px solid var(--background-color) !important;
+  border: 2px solid var(--background-color);
+}
 .rdw-editor-main {
   height: 70vh !important;
   max-height: 70vh !important;
   overflow: auto;
-  padding: 5px;
+  padding: 0 5px;
 }
 
 .rdw-editor-toolbar {
@@ -858,7 +893,7 @@ g.tick text {
 .rdw-option-wrapper[title="Strikethrough"],
 .rdw-option-wrapper[title="Monospace"] {
   display: none;
-}
+} */
 
 /*Notes*/
 
