@@ -16,7 +16,10 @@ export default function Notes() {
         setTheme();
     });
     return (
-        <div>
+        <div className='notesWrapper'>
+            <div className='notesTitle'>
+                Notes
+            </div>
             <Editor
                 editorState={editorState}
                 // wrapperClassName="wrapper-class"

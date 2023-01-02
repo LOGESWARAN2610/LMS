@@ -1,40 +1,33 @@
-BadRequestError: request aborted
-    at IncomingMessage.onAborted (E:\TimeSheet\LMS\server\node_modules\raw-body\index.js:238:10)
-    at IncomingMessage.emit (node:events:513:28)
-    at IncomingMessage._destroy (node:_http_incoming:224:10)
-    at _destroy (node:internal/streams/destroy:102:25)
-    at IncomingMessage.destroy (node:internal/streams/destroy:64:5)
-    at abortIncoming (node:_http_server:625:9)
-    at socketOnClose (node:_http_server:619:3)
-    at Socket.emit (node:events:525:35)
-    at TCP.<anonymous> (node:net:757:14)
-BadRequestError: request aborted
-    at IncomingMessage.onAborted (E:\TimeSheet\LMS\server\node_modules\raw-body\index.js:238:10)
-    at IncomingMessage.emit (node:events:513:28)
-    at IncomingMessage._destroy (node:_http_incoming:224:10)
-    at _destroy (node:internal/streams/destroy:102:25)
-    at IncomingMessage.destroy (node:internal/streams/destroy:64:5)
-    at abortIncoming (node:_http_server:625:9)
-    at socketOnClose (node:_http_server:619:3)
-    at Socket.emit (node:events:525:35)
-    at TCP.<anonymous> (node:net:757:14)
-BadRequestError: request aborted
-    at IncomingMessage.onAborted (E:\TimeSheet\LMS\server\node_modules\raw-body\index.js:238:10)
-    at IncomingMessage.emit (node:events:513:28)
-    at IncomingMessage._destroy (node:_http_incoming:224:10)
-    at _destroy (node:internal/streams/destroy:102:25)
-    at IncomingMessage.destroy (node:internal/streams/destroy:64:5)
-    at abortIncoming (node:_http_server:625:9)
-    at socketOnClose (node:_http_server:619:3)
-    at Socket.emit (node:events:525:35)
-    at TCP.<anonymous> (node:net:757:14)
-BadRequestError: request aborted
-    at IncomingMessage.onAborted (E:\TimeSheet\LMS\server\node_modules\raw-body\index.js:238:10)
-    at IncomingMessage.emit (node:events:513:28)
-    at IncomingMessage._destroy (node:_http_incoming:224:10)
-    at _destroy (node:internal/streams/destroy:102:25)
-    at IncomingMessage.destroy (node:internal/streams/destroy:64:5)
-    at abortIncoming (node:_http_server:625:9)
-    at socketOnClose (node:_http_server:619:3)
-    at Socket.emit (node:events:525:35)
-    at TCP.<anonymous> (node:net:757:14)
+E:\TimeSheet\LMS\server\server.js:197
+        query("INSERT INTO BuildStatus SELECT 'Error','Build Failed due to ====>  " + err.replaceAll("'", '"') + "',0");
+                                                                                          ^
+
+TypeError: err.replaceAll is not a function
+    at onError (E:\TimeSheet\LMS\server\server.js:197:91)
+    at E:\TimeSheet\LMS\server\server.js:163:22
+    at ChildProcess.exithandler (node:child_process:408:5)
+    at ChildProcess.emit (node:events:513:28)
+    at maybeClose (node:internal/child_process:1093:16)
+    at Process.ChildProcess._handle.onexit (node:internal/child_process:302:5)
+E:\TimeSheet\LMS\server\server.js:197
+        query("INSERT INTO BuildStatus SELECT 'Error','Build Failed due to ====>  " + err.replaceAll("'", '"') + "',0");
+                                                                                          ^
+
+TypeError: err.replaceAll is not a function
+    at onError (E:\TimeSheet\LMS\server\server.js:197:91)
+    at E:\TimeSheet\LMS\server\server.js:163:22
+    at ChildProcess.exithandler (node:child_process:408:5)
+    at ChildProcess.emit (node:events:513:28)
+    at maybeClose (node:internal/child_process:1093:16)
+    at Process.ChildProcess._handle.onexit (node:internal/child_process:302:5)
+E:\TimeSheet\LMS\server\server.js:197
+        query("INSERT INTO BuildStatus SELECT 'Error','Build Failed due to ====>  " + err.replaceAll("'", '"') + "',0");
+                                                                                          ^
+
+TypeError: err.replaceAll is not a function
+    at onError (E:\TimeSheet\LMS\server\server.js:197:91)
+    at E:\TimeSheet\LMS\server\server.js:163:22
+    at ChildProcess.exithandler (node:child_process:408:5)
+    at ChildProcess.emit (node:events:513:28)
+    at maybeClose (node:internal/child_process:1093:16)
+    at Process.ChildProcess._handle.onexit (node:internal/child_process:302:5)

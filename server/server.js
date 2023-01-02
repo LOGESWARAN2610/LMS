@@ -147,6 +147,69 @@ const query = (query) => {
         });
     });
 }
+
+//Build Process Start
+app.post('/initateBuild', function (req, res) {
+    query('TRUNCATE TABLE BuildStatus');
+    const { exec, spawn } = require("child_process");
+    const buildCMD = ['E: && cd E:\\TimeSheet\\LMS && git pull',
+        // 'E: && cd E:\\TimeSheet\\LMS && npm run build',
+        'ECHO HI',
+        'copy E:\\TimeSheet\\LMS\\src\\web.config E:\\TimeSheet\\LMS\\build',
+        //   'appcmd stop sites "TimeSheet" && appcmd start sites "TimeSheet"',
+        'Import-Module WebAdministration;Stop-WebSite "TimeSheet";Start-WebSite "TimeSheet"',
+        'ECHO Done'
+    ]
+    res.send('');
+    exec(buildCMD[0], (error, stdout, stderr) => {// Getting latest from git (Git  Pull)
+        if (error) { onError(error); return; }
+        if (stderr) { onError(stderr); return; }
+        query("INSERT INTO BuildStatus SELECT 'git pull','Taken latest Changes from git.',1");
+        query("INSERT INTO BuildStatus SELECT 'npm run build','Started Production Build.',1");
+        exec(buildCMD[1], (error, stdout, stderr) => {// Running Production Build 
+            if (error) { onError(error); return; }
+            if (stderr) { onError(stderr); return; }
+            query("INSERT INTO BuildStatus SELECT 'npm run build','Created New Production Build files.',1");
+            query("INSERT INTO BuildStatus SELECT 'Copy File','web.config file Coping...',1");
+            exec(buildCMD[2], (error, stdout, stderr) => {// Coping web.config file to build folder
+                if (error) { onError(error); return; }
+                if (stderr) { onError(stderr); return; }
+                query("INSERT INTO BuildStatus SELECT 'Copy File','Copied web.config file to build folder.',1");
+                query("INSERT INTO BuildStatus SELECT 'IIS Restart','Restarting Timesheet Site in IIS.',1");
+
+                // const child = spawn("powershell.exe", ['E:\\TimeSheet\\LMS\\server\\ReStartSite.ps1'])
+                // child.stdout.on("data", function (data) {
+                //     console.log("Powershell Data: " + data);
+                // });
+                // child.stderr.on("data", function (data) {
+                //     console.log("Powershell Errors: " + data);
+                // });
+                // child.on("exit", function () {
+                //     console.log("Powershell Script finished");
+                //     query("INSERT INTO BuildStatus SELECT 'IIS Restart','TimeSheet Site Restarted in IIS.',1");
+                //     onSuccess();
+                // });
+                // child.stdin.end(); //end input;
+            });
+        });
+    });
+
+});
+
+function onSuccess() {
+    query("INSERT INTO BuildStatus SELECT 'Completed','Sending Email',1");
+    // mailOptions['html'] = '<div><h3>Hi Dev Team,</h3><p>' + subject + ' Builded Successfully.</p><p>Build Started at : ' + startDateTime + '</p><p>Build Completed at : ' + getDateTime() + '</p> <br><h4>Thank you...!</h4></div>';
+    // sendMail();
+}
+
+function onError(err) {
+    if (err) {
+        query("INSERT INTO BuildStatus SELECT 'Error','Build Failed due to ====>  " + err.replaceAll("'", '"') + "',0");
+        //   mailOptions['html'] = '<div><h3>Hi Dev Team,</h3><p>' + subject + ' Builded Failed.</p><p>Build Started at : ' + startDateTime + '</p><p>Error:<br>' + err + '<p> <br><h4>Thank you...!</h4></div>';
+        //   sendMail();
+    }
+}
+//Build Process End
 const server = app.listen(Port, function () {
     console.log(`MySelf Server Running on Port : ${Port}`);
 });

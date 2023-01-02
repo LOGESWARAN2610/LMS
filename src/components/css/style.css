@@ -3,6 +3,7 @@
   margin: 0;
   box-sizing: border-box;
 }
+
 #home_ *,
 #TimeSheet *,
 #Task *,
@@ -521,12 +522,16 @@ label {
   min-height: 70px !important;
   max-height: 70px !important;
 }
-.react-swipeable-view-container div::-webkit-scrollbar {
+.react-swipeable-view-container div::-webkit-scrollbar,
+#Settings::-webkit-scrollbar,
+.rdw-editor-main::-webkit-scrollbar {
   width: 4px;
   height: 5px;
 }
 .scrollbar::-webkit-scrollbar-thumb,
-.react-swipeable-view-container div::-webkit-scrollbar-thumb {
+.react-swipeable-view-container div::-webkit-scrollbar-thumb,
+#Settings::-webkit-scrollbar-thumb,
+.rdw-editor-main::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background-color: #e0e0e0;
   background-image: -webkit-gradient(
@@ -814,9 +819,19 @@ g.tick text {
 }
 
 /*Notes*/
-.rdw-editor-wrapper {
-  border: 1px solid var(--background-color);
+.notesWrapper {
   margin: 20px;
+}
+.rdw-editor-wrapper {
+  border-top: 1px solid var(--background-color) !important;
+  border: 2px solid var(--background-color);
+}
+.notesTitle {
+  font-size: 20px;
+  border: 2px solid var(--background-color);
+  padding: 3px 10px;
+  border-bottom: none;
+  color: var(--background-color);
 }
 .rdw-editor-main {
   height: 70vh !important;
@@ -826,36 +841,25 @@ g.tick text {
 }
 
 .rdw-editor-toolbar {
-  border-bottom: 1px solid var(--background-color) !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border-bottom: 2px solid var(--background-color) !important;
 }
 .rdw-option-active {
   box-shadow: 1px 1px 0px var(--background-color) inset !important;
 }
 .rdw-editor-toolbar > div {
-  border: 2px solid var(--background-color);
+  border-right: 1px solid var(--background-color);
+  margin: 0 0 1px 0 !important;
 }
 .public-DraftStyleDefault-block {
   margin: 0 !important;
 }
-.rdw-editor-wrapper * {
-  font-family: inherit !important;
+.rdw-option-wrapper[title="Strikethrough"],
+.rdw-option-wrapper[title="Monospace"] {
+  display: none;
 }
-.rdw-block-wrapper,
-.rdw-fontsize-wrapper,
-.rdw-dropdown-wrapper,
-.rdw-fontfamily-wrapper,
-.rdw-list-wrapper,
-.rdw-colorpicker-wrapper,
-.rdw-link-wrapper,
-.rdw-history-wrapper,
-.rdw-text-align-wrapper,
-.rdw-embedded-wrapper,
-.rdw-emoji-wrapper,
-.rdw-image-wrapper,
-.rdw-remove-wrapper,
-.rdw-option-wrapper .rdw-text-align-wrapper {
-  border-left: none !important;
-}
+
 /*Notes*/
 
 /*Policies & Proc*/
@@ -1194,6 +1198,10 @@ textarea {
 /*LogIn*/
 
 /*Settings*/
+#Settings {
+  max-height: calc(100vh - 73px) !important;
+  overflow: auto;
+}
 #Settings .page {
   height: 80vh;
   background-color: #ffffff;

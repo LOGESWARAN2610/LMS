@@ -94,6 +94,39 @@ export default function Settings() {
             });
         });
     };
+    const handelBuildStatusPolling = () => {
+        console.log('Build Status Polling Started.');
+        const statusPolling = setInterval(() => {
+            axios.post(nodeurl['nodeurl'], { query: 'SELECT TOP 1 Commend,[Current Status] as [Status],isSucceed FROM BuildStatus ORDER BY Id DESC' }).then(result => {
+                if (result.data[0]['length'] === 0) return;
+                let Commend = result.data[0][0]['Commend']
+                    , Status = result.data[0][0]['Status']
+                    , isSucceed = result.data[0][0]['isSucceed']
+                console.log(Commend + ' ==> ' + Status + ' ==> ' + (isSucceed ? 'Pass' : 'Failed'));
+                // axios.post(nodeurl['nodeurl'], { query: 'TRUNCATE TABLE BuildStatus' }).then(result => {
+                // });
+                if (!isSucceed || Commend === 'Completed') {
+                    if (Commend !== 'Error') {
+                        console.log('dsh')
+                        //   axios.post(nodeurl['nodeurl'] + 'restartIIS').then(result => {
+                        clearInterval(statusPolling);
+                        console.log('Build Status Polling Ended.');
+                        // });
+                    }
+                    else {
+                        clearInterval(statusPolling);
+                        console.log('Build Status Polling Ended.');
+                    }
+                }
+            });
+        }, 3000);
+    }
+    const handelBuild = () => {
+        console.log('Build Started...');
+        axios.post(nodeurl['nodeurl'] + 'initateBuild', { cmd: '../../Build/InitiateBuild.js' }).then(result => {
+            handelBuildStatusPolling();
+        });
+    }
     const handelColorClick = (event) => {
         const color = Color[parseInt(event.currentTarget.attributes.index.value)];
         localStorage.setItem('BgColor', color['Primary']);
@@ -153,7 +186,9 @@ export default function Settings() {
                         </div>
                     </div>
                 </div>
-
+                <button className="btn"
+                    onClick={handelBuild}
+                >Initiate Build</button>
 
                 {/* <div className="container container_2" style={{ minWidth: '400px', textAlign: 'center' }}> */}
 
