@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { scaleBand, scaleLinear } from 'd3-scale';
 import XYAxis from './xy-axis.js';
 import Grid from './Grid.js';
@@ -8,10 +8,11 @@ import { transition } from 'd3-transition';
 export default function BarChart(props) {
     const { data_, title, value = 'value', label = 'label' } = props;
     var data = [];
+    debugger
     for (let index = 1; index <= (new Date().getDate()); index++) {
         let obj = data_.filter((obj) => { return new Date(obj[label]).getDate() === index });
         if (obj.length > 0)
-            data.push({ name: index.toString(), value: obj[0][value] })
+            data.push({ name: index.toString(), value: obj[0][value], toolTip: obj[0]['toolTip'] })
         else
             data.push({ name: index.toString(), value: 0 })
 
@@ -24,7 +25,7 @@ export default function BarChart(props) {
 
     const width = parentWidth - margin.left - margin.right;
     const height = parentWidth * 0.5 - margin.top - margin.bottom - 200;
-
+    const [hoveredBar, setHoveredBar] = useState(null);
     const xScale = scaleBand()
         .domain(data.map(d => d.name))
         .range([0, width])
@@ -45,7 +46,6 @@ export default function BarChart(props) {
                     <Bar {...{ xScale, yScale, data, height, t }} />
                 </g>
             </svg>
-            {/* <div id={id} ></div> */}
         </div>
     </>
     );

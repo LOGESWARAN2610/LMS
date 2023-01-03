@@ -1,6 +1,5 @@
 import React from 'react';
 import { select } from 'd3-selection';
-
 class Bar extends React.Component {
     constructor() {
         super();
@@ -12,12 +11,24 @@ class Bar extends React.Component {
     componentDidUpdate() {
         this.barTransition();
     }
-    colorScale() {
-        var r = Math.floor(Math.random() * 255);
-        var g = Math.floor(Math.random() * 255);
-        var b = Math.floor(Math.random() * 255);
-        return "rgb(" + r + "," + g + "," + b + ")";
-    };
+    onMouseOver(d, data) {
+        var tooltipDiv = select(".tooltip_");
+        tooltipDiv.transition()
+            .duration(200)
+            .style("display", 'inline-block');
+
+        tooltipDiv
+            .html(data.toolTip || `<span>${data['name']}</span> - <span>${data['value']}</span><br />`)
+            .style('left', (d.clientX) + 'px')
+            .style("top", -150 + "px")
+    }
+
+    onMouseOut(d) {
+        var tooltipDiv = select(".tooltip_")
+        tooltipDiv.transition()
+            .duration(500)
+            .style("display", 'none');
+    }
     barTransition() {
         const node = this.ref.current;
         const { yScale, height, data, t } = this.props;
@@ -35,7 +46,12 @@ class Bar extends React.Component {
             })
             .attr('y', d => yScale(d.value))
             .attr('height', d => height - yScale(d.value));
+
+        select("body").append("div")
+            .attr("class", "tooltip_")
+            .style('display', 'none')
     }
+
     init() {
         const {
             xScale, data, height,
@@ -58,6 +74,8 @@ class Bar extends React.Component {
         bar
             .enter()
             .append('rect')
+            .on("mouseover", this.onMouseOver)
+            .on("mouseout", this.onMouseOut)
             .attr('class', 'bar')
             .attr('x', d => xScale(d.name))
             .attr('y', height)

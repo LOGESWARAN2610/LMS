@@ -11,6 +11,7 @@
 #EmployeePortal *,
 #Profile *,
 #Approve *,
+.tooltip_ *,
 #Settings * {
   font-family: "Times New Roman", Times, serif !important;
 }
@@ -761,20 +762,21 @@ span:has(.alertBox) + div button[role="cancellable-button"] {
   position: relative;
   display: inline-block;
 }
-#summaryChart .tooltip {
-  /* display: none;
-  font-size: 14px;
-  left: 130px;
-  position: absolute;
-  z-index: 10;
+.tooltip_ {
   width: auto;
   height: auto;
   background: none repeat scroll 0 0 white;
+  border: 0 none;
   border-radius: 8px;
-  color: #111;
-  border: 1px solid #111;
+  box-shadow: -3px 3px 15px #888888;
+  color: black;
+  font-size: 15px;
   padding: 5px 10px;
-  text-align: center; */
+  text-align: center;
+  min-width: 70px;
+  z-index: 10;
+}
+#summaryChart .tooltip {
   position: absolute;
   display: none;
   width: auto;

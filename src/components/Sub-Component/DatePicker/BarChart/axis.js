@@ -14,7 +14,6 @@ class Axis extends React.Component {
         this.updateAxis();
     }
     renderAxis() {
-        debugger
         const { scale, orient, ticks } = this.props;
         const node = this.ref.current;
         let axis;
