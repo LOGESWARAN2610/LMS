@@ -763,6 +763,8 @@ span:has(.alertBox) + div button[role="cancellable-button"] {
   display: inline-block;
 }
 .tooltip_ {
+  font-size: 15px;
+  display: none;
   width: auto;
   height: auto;
   background: none repeat scroll 0 0 white;
@@ -770,14 +772,13 @@ span:has(.alertBox) + div button[role="cancellable-button"] {
   border-radius: 8px;
   box-shadow: -3px 3px 15px #888888;
   color: black;
-  font-size: 15px;
   padding: 5px 10px;
   text-align: center;
-  min-width: 70px;
+  min-width: 200px;
   z-index: 10;
 }
 #summaryChart .tooltip {
-  position: absolute;
+  position: fixed;
   display: none;
   width: auto;
   height: auto;
@@ -789,7 +790,7 @@ span:has(.alertBox) + div button[role="cancellable-button"] {
   font: 15px sans-serif;
   padding: 5px 10px;
   text-align: center;
-  min-width: 70px;
+  min-width: 200px;
   z-index: 10;
 }
 #summaryChart .pie-label {

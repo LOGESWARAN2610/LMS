@@ -525,3 +525,53 @@ RequestError: Error converting data type nvarchar to int.
   serverName: 'ANALYTIC49\\SQLEXPRESS',
   procName: 'AB_TaskList'
 }
+RequestError: Error converting data type nvarchar to int.
+    at handleError (E:\TimeSheet\LMS\server\node_modules\mssql\lib\msnodesqlv8\request.js:276:21)
+    at StreamEvents.emit (node:events:513:28)
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\reader.js:70:26
+    at Array.forEach (<anonymous>)
+    at routeStatementError (E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\reader.js:60:25)
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\reader.js:228:13
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\driver.js:180:13
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\driver.js:160:13 {
+  code: 'EREQUEST',
+  originalError: [Error: [Microsoft][SQL Server Native Client 11.0][SQL Server]Error converting data type nvarchar to int.] {
+    sqlstate: '42000',
+    code: 8114,
+    severity: 16,
+    serverName: 'ANALYTIC49\\SQLEXPRESS',
+    procName: 'SP_LM_LeaveBalance',
+    lineNumber: 0
+  },
+  number: 8114,
+  lineNumber: 0,
+  state: '42000',
+  class: 16,
+  serverName: 'ANALYTIC49\\SQLEXPRESS',
+  procName: 'SP_LM_LeaveBalance'
+}
+RequestError: Invalid column name 'undefined'.
+    at handleError (E:\TimeSheet\LMS\server\node_modules\mssql\lib\msnodesqlv8\request.js:276:21)
+    at StreamEvents.emit (node:events:513:28)
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\reader.js:70:26
+    at Array.forEach (<anonymous>)
+    at routeStatementError (E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\reader.js:60:25)
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\reader.js:228:13
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\driver.js:180:13
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\driver.js:160:13 {
+  code: 'EREQUEST',
+  originalError: [Error: [Microsoft][SQL Server Native Client 11.0][SQL Server]Invalid column name 'undefined'.] {
+    sqlstate: '42S22',
+    code: 207,
+    severity: 16,
+    serverName: 'ANALYTIC49\\SQLEXPRESS',
+    procName: '',
+    lineNumber: 1
+  },
+  number: 207,
+  lineNumber: 1,
+  state: '42S22',
+  class: 16,
+  serverName: 'ANALYTIC49\\SQLEXPRESS',
+  procName: ''
+}

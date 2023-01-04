@@ -133,21 +133,21 @@ function PieChart(props) {
         d3.select('#' + id)
             .append('div')
             .attr('class', 'tooltip');
-        const toolTipPath = svg.selectAll('path')
-
-        toolTipPath.on('mouseover', (e, d) => {
-
+        const toolTipPath = svg.selectAll('path');
+        const mouseOver = (event, d) => {
             var total = d3.sum(data.map((d) => {
                 return d.value;
             }));
             let percent = Math.round(1000 * d.value / total) / 10;
             d3.select('#' + id).select('.tooltip')
                 .style('display', 'inline-block')
-                .style('color', e.target.style.fill)
-                .style('top', (e.offsetY + 10) + 'px')
-                .style('left', (e.offsetY + 80) + 'px')
+                .style('color', event.target.style.fill)
+                .style('top', (event.clientY - 180) + 'px')
+                .style('left', (event.clientX - 180) + 'px')
                 .html(d.data.toolTip || `<span>${d.data[label]}</span> - <span>${d.data[value]}</span><br /><span>${percent}%</span>`)
-        });
+        }
+        toolTipPath.on('mouseover', mouseOver);
+        toolTipPath.on('mousemove', mouseOver);
 
         toolTipPath.on('mouseout', () => {
             d3.select('#' + id).select('.tooltip').style('display', 'none');

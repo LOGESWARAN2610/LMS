@@ -8,7 +8,7 @@ import { transition } from 'd3-transition';
 export default function BarChart(props) {
     const { data_, title, value = 'value', label = 'label' } = props;
     var data = [];
-    debugger
+
     for (let index = 1; index <= (new Date().getDate()); index++) {
         let obj = data_.filter((obj) => { return new Date(obj[label]).getDate() === index });
         if (obj.length > 0)

@@ -11,7 +11,7 @@ class Bar extends React.Component {
     componentDidUpdate() {
         this.barTransition();
     }
-    onMouseOver(d, data) {
+    onMouseOver(event, data) {
         var tooltipDiv = select(".tooltip_");
         tooltipDiv.transition()
             .duration(200)
@@ -19,8 +19,8 @@ class Bar extends React.Component {
 
         tooltipDiv
             .html(data.toolTip || `<span>${data['name']}</span> - <span>${data['value']}</span><br />`)
-            .style('left', (d.clientX) + 'px')
-            .style("top", -150 + "px")
+            .style('left', (event.clientX + 10) + 'px')
+            .style("top", (event.clientY - 750) + "px")
     }
 
     onMouseOut(d) {
@@ -75,6 +75,7 @@ class Bar extends React.Component {
             .enter()
             .append('rect')
             .on("mouseover", this.onMouseOver)
+            .on("mousemove", this.onMouseOver)
             .on("mouseout", this.onMouseOut)
             .attr('class', 'bar')
             .attr('x', d => xScale(d.name))
