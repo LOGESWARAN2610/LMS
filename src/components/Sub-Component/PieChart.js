@@ -3,17 +3,14 @@ import * as d3 from 'd3';
 
 function PieChart(props) {
     const { data, outerRadius, innerRadius, title, id, value = 'value', label = 'label' } = props;
-    //console.log(id, data);
+
     const margin = { top: 50, right: 50, bottom: 150, left: 50 };
     const width = 4 * outerRadius + margin.left + margin.right;
     const height = 2 * outerRadius + margin.top + (margin.bottom - 50);
-    // console.log(width, height)
+
     const textOffset = 24;
     const tweenDuration = 1050;
-    // const colorScale = d3
-    //     .scaleSequential()
-    //     .interpolator(d3.interpolateCool)
-    //     .domain([0, data.length]);
+
     const colorScale = function () {
         var r = Math.floor(Math.random() * 255);
         var g = Math.floor(Math.random() * 255);
@@ -343,10 +340,7 @@ function PieChart(props) {
     }
 
     return <>
-        <div style={{ 'display': 'inline-block', width: 'auto', 'textAlign': 'center' }}>
-            <div className='pie-label'>{title}</div>
-            <div id={id} ></div>
-        </div>
+        <div id={id} ></div>
     </>;
 }
 

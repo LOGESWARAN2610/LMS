@@ -1,0 +1,13 @@
+E:\TimeSheet\LMS\server\server.js:207
+        query("INSERT INTO BuildStatus SELECT 'Error','Build Failed due to ====>  " + err.replaceAll("'", '"') + "',0");
+                                                                                          ^
+
+TypeError: err.replaceAll is not a function
+    at onError (E:\TimeSheet\LMS\server\server.js:207:91)
+    at E:\TimeSheet\LMS\server\server.js:165:22
+    at ChildProcess.exithandler (node:child_process:408:5)
+    at ChildProcess.emit (node:events:513:28)
+    at maybeClose (node:internal/child_process:1093:16)
+    at Socket.<anonymous> (node:internal/child_process:451:11)
+    at Socket.emit (node:events:513:28)
+    at Pipe.<anonymous> (node:net:757:14)

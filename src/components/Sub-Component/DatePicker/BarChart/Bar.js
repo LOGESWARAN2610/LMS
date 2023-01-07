@@ -20,7 +20,7 @@ class Bar extends React.Component {
         tooltipDiv
             .html(data.toolTip || `<span>${data['name']}</span> - <span>${data['value']}</span><br />`)
             .style('left', (event.clientX + 10) + 'px')
-            .style("top", (event.clientY - 750) + "px")
+            .style("top", (event.clientY - 650) + "px")
     }
 
     onMouseOut(d) {
@@ -45,7 +45,13 @@ class Bar extends React.Component {
                 return 'rgb(148,52,50)';
             })
             .attr('y', d => yScale(d.value))
-            .attr('height', d => height - yScale(d.value));
+            .attr('height', (d) => { return height - yScale(d.value) });
+
+        select(node)
+            .selectAll('text')
+            .data(data)
+            .attr('y', (d) => { return (parseFloat(height) - parseFloat(height - yScale(d.value)) - 5) })
+            .html(d => d.value !== 0 ? d.value : null)
 
         select("body").append("div")
             .attr("class", "tooltip_")
@@ -69,6 +75,10 @@ class Bar extends React.Component {
             .selectAll('.bar')
             .data(initialData)
 
+        bar
+            .enter()
+            .append('text')
+            .attr('x', (d) => { return parseFloat(xScale(d.name)) + (parseFloat(xScale.bandwidth()) / 2) - 10 })
 
         // add rect to svg
         bar
@@ -80,7 +90,7 @@ class Bar extends React.Component {
             .attr('class', 'bar')
             .attr('x', d => xScale(d.name))
             .attr('y', height)
-            .attr('width', xScale.bandwidth())
+            .attr('width', 30)//xScale.bandwidth()
 
         this.barTransition();
     }
