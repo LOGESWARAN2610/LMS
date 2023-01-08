@@ -3,7 +3,9 @@
   margin: 0;
   box-sizing: border-box;
 }
-
+#root {
+  min-width: 1000px;
+}
 #home_ *,
 #TimeSheet *,
 #Task *,
@@ -800,56 +802,17 @@ span:has(.alertBox) + div button[role="cancellable-button"] {
   font-size: 18px !important;
   font-weight: 600;
 }
-#summaryChart .pieWeeklyList,
-.barYearList,
-.barMonthList {
-  position: absolute;
-  transition: 3s;
-  display: none;
+.MuiTabs-root .MuiButtonBase-root {
+  padding: 12px 16px !important;
 }
-#summaryChart .pieWeeklyList {
-  right: -60px;
-  margin-top: -34px;
+#summaryChart .MuiInputBase-root div {
+  padding-top: 0 !important;
 }
-#summaryChart .barYearList {
-  right: 40%;
+#summaryChart .MuiInputBase-root .MuiSelect-icon {
+  top: calc(40% - 12px) !important;
 }
-#summaryChart .barMonthList {
-  right: 46%;
-}
-#summaryChart .pieWeeklyList .disable,
-.barYearList .disable,
-.barMonthList .disable {
-  /* opacity: 0.7; */
-  cursor: no-drop;
-  border: none !important;
-  color: gray !important;
-}
-#summaryChart .pieWeeklyList div,
-.barYearList div,
-.barMonthList div {
-  background: none repeat scroll 0 0 white;
-  box-shadow: 0px 5px 22px #888888;
-  padding: 5px 10px;
-  z-index: 11;
-  cursor: pointer;
-}
-#summaryChart .pieWeeklyList div:hover,
-.barYearList div:hover,
-.barMonthList div:hover {
-  border-bottom: 1px solid var(--background-color);
-  color: var(--background-color);
-}
-#summaryChart .pieWeeklyList div span:first-of-type,
-.barYearList div span:first-of-type,
-.barMonthList div span:first-of-type {
-  text-align: left;
-}
-#summaryChart .pieWeeklyList div span:last-of-type,
-.barYearList div span:last-of-type,
-.barMonthList div span:last-of-type {
-  float: right;
-  margin-left: 10px;
+#summaryChart .MuiInputBase-root * {
+  color: var(--color);
 }
 #summaryChart .tooltip {
   position: fixed;
@@ -873,8 +836,9 @@ span:has(.alertBox) + div button[role="cancellable-button"] {
   color: var(--color);
   text-align: center;
   font-size: 17px;
+  height: 40px;
   letter-spacing: 1px;
-  padding: 5px 10px;
+  padding: 7px 10px;
   margin: 0 20px;
   border-radius: 5px;
 }
@@ -1684,3 +1648,16 @@ body.dark .body .text {
   color: var(--text-color);
 }
 /*SideBar*/
+/*Portal*/
+.highlightOption {
+  color: var(--background-color) !important;
+  background-color: var(--color) !important;
+}
+.multiSelectContainer li:hover {
+  background-color: var(--background-color) !important;
+  color: var(--color) !important;
+}
+.chip {
+  background-color: var(--background-color) !important;
+}
+/*Portal*/

@@ -60,7 +60,7 @@ const StickyHeadTable = forwardRef((props, ref) => {
             });
         }
         else if (tab === 'HoliDayList') {
-            setPaperWidth('35%');
+            setPaperWidth('45%');
             axios.post(nodeurl['nodeurl'], { query: 'Menus_HolidayList' }).then(result => {
                 setRows(result.data[0]);
             });

@@ -5,7 +5,7 @@ import AppBar from '@mui/material/AppBar';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import '../../css/style.css'
@@ -13,6 +13,7 @@ import CustomGrid from '../../Sub-Component/CustomeGrid';
 import setTheme from '../../Sub-Component/setTheme';
 import PieChart from '../../Sub-Component/PieChart';
 import BarChart from '../../Sub-Component/DatePicker/BarChart/BarChart';
+import DropDown from '../../Sub-Component/DropDown';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import moment from 'moment';
@@ -54,6 +55,9 @@ export default function Home() {
     let monthStart = moment(new Date(toDay.getFullYear(), toDay.getMonth(), 1)).format('YYYY-MM-DD');
     let monthEnd = moment(new Date(toDay.getFullYear(), toDay.getMonth() + 1, 0)).format('YYYY-MM-DD');
 
+    let val = `${moment(weekStart).format("Do MMM")} to ${moment(weekEnd).format("Do MMM")}`
+    const [weekValue, setWeekValue] = useState(val);
+
     let date = new Date();
     function generateArrayOfYears() {
         let max = date.getFullYear();
@@ -62,22 +66,47 @@ export default function Home() {
         for (let i = max; i >= min; i--) { years.push(i) }
         return years;
     }
-    const Years = generateArrayOfYears();
+    let yearArr = generateArrayOfYears();
+    const Years = yearArr.map((item, index) => {
+        return { index: index, key: item, value: item }
+    });
     const Month = [
-        { value: 0, label: "January" },
-        { value: 1, label: "February" },
-        { value: 2, label: "March" },
-        { value: 3, label: "April" },
-        { value: 4, label: "May" },
-        { value: 5, label: "June" },
-        { value: 6, label: "July" },
-        { value: 7, label: "August" },
-        { value: 8, label: "September" },
-        { value: 9, label: "October" },
-        { value: 10, label: "November" },
-        { value: 11, label: "December" }
+        { index: 0, key: "January", value: 0 },
+        { index: 1, key: "February", value: 1 },
+        { index: 2, key: "March", value: 2 },
+        { index: 3, key: "April", value: 3 },
+        { index: 4, key: "May", value: 4 },
+        { index: 5, key: "June", value: 5 },
+        { index: 6, key: "July", value: 6 },
+        { index: 7, key: "August", value: 7 },
+        { index: 8, key: "September", value: 8 },
+        { index: 9, key: "October", value: 9 },
+        { index: 10, key: "November", value: 10 },
+        { index: 11, key: "December", value: 11 }
     ];
-
+    Date.prototype.getWeek = function (dowOffset) {
+        let nYear, nday;
+        dowOffset = typeof (dowOffset) == 'number' ? dowOffset : 0; //default dowOffset to zero
+        var newYear = new Date(this.getFullYear(), 0, 1);
+        var day = newYear.getDay() - dowOffset; //the day of week the year begins on
+        day = (day >= 0 ? day : day + 7);
+        var daynum = Math.floor((this.getTime() - newYear.getTime() -
+            (this.getTimezoneOffset() - newYear.getTimezoneOffset()) * 60000) / 86400000) + 1;
+        var weeknum;
+        if (day < 4) {
+            weeknum = Math.floor((daynum + day - 1) / 7) + 1;
+            if (weeknum > 52) {
+                nYear = new Date(this.getFullYear() + 1, 0, 1);
+                nday = nYear.getDay() - dowOffset;
+                nday = nday >= 0 ? nday : nday + 7;
+                weeknum = nday < 4 ? 1 : 53;
+            }
+        }
+        else {
+            weeknum = Math.floor((daynum + day - 1) / 7);
+        }
+        return weeknum;
+    };
     let option = Month;
     if (monthYear['Year'] === date.getFullYear())
         option = Month.slice(0, date.getMonth() + 1).reverse();
@@ -126,7 +155,15 @@ export default function Home() {
     let month = (new Date().getMonth()) + 1;
     let year = new Date().getFullYear();
     const week = getWeekNumbers(month, year);
-
+    const weekList = week.map((item, index) => {
+        let weekNo = new Date().getWeek();
+        return {
+            index: index,
+            value: moment(new Date(item[0]) - 1).format("Do MMM") + ' to ' + moment(new Date(item[6]) - 1).format("Do MMM"),
+            key: moment(new Date(item[0]) - 1).format("Do MMM") + ' to ' + moment(new Date(item[6]) - 1).format("Do MMM"),
+            disabled: (index + 1) > weekNo ? true : false
+        }
+    })
     useEffect(() => {
         setTheme();
         axios.post(nodeurl['nodeurl'], { query: "GetChartData_Onload " + EmpId + ",'" + weekStart + "','" + weekEnd + "','" + monthStart + "','" + monthEnd + "'" }).then(result => {
@@ -135,8 +172,6 @@ export default function Home() {
             SetClientData(result.data[2]);
         });
     }, [EmpId, weekStart, weekEnd, monthStart, monthEnd]);
-
-
     function TabPanel(props) {
         const { children, value, index, ...other } = props;
         return (
@@ -178,67 +213,26 @@ export default function Home() {
         const handleChangeIndex = (index) => {
             setValue(index);
         };
-        const pieChevronHover = () => {
-            let div = document.querySelector('.pieWeeklyList');
-            div.style.display = 'inline-block';
-        }
-        const pieChevronOut = () => {
-            let div = document.querySelector('.pieWeeklyList');
-            div.style.display = 'none';
-        }
-        const barYearChevronHover = (event) => {
-            let div = document.querySelector('.barYearList');
-            div.style.display = 'inline-block';
-        }
-        const barYearChevronOut = () => {
-            let div = document.querySelector('.barYearList');
-            div.style.display = 'none';
-        }
-        const barMonthChevronHover = (event) => {
-            let div = document.querySelector('.barMonthList');
-            div.style.display = 'inline-block';
-        }
-        const barMonthChevronOut = () => {
-            let div = document.querySelector('.barMonthList');
-            div.style.display = 'none';
-        }
-        const handleWeekClick = (e) => {
-            let index = parseInt(e.currentTarget.attributes.index.value);
+
+        const handleWeekChange = (e) => {
+            let week_ = weekList.filter((item) => { return item['value'] === e.target.value });
+            let index = week_[0]['index'];
             let weekStart = moment(new Date(week[index][0]) - 1).format('YYYY-MM-DD');
             let weekEnd = moment(new Date(week[index][6]) - 1).format('YYYY-MM-DD');
             axios.post(nodeurl['nodeurl'], { query: "GetChartData_Onload " + EmpId + ",'" + weekStart + "','" + weekEnd + "','',''" }).then(result => {
                 SetWeeklyData(result.data[0]);
-                setWeekStart(weekStart);
-                setWeekEnd(weekEnd);
+                weekStart = moment(weekStart).format("Do MMM");
+                weekEnd = moment(weekEnd).format("Do MMM");
+                let val = `${weekStart} to ${weekEnd}`;
+                setWeekValue(val);
             });
         }
-        Date.prototype.getWeek = function (dowOffset) {
-            let nYear, nday;
-            dowOffset = typeof (dowOffset) == 'number' ? dowOffset : 0; //default dowOffset to zero
-            var newYear = new Date(this.getFullYear(), 0, 1);
-            var day = newYear.getDay() - dowOffset; //the day of week the year begins on
-            day = (day >= 0 ? day : day + 7);
-            var daynum = Math.floor((this.getTime() - newYear.getTime() -
-                (this.getTimezoneOffset() - newYear.getTimezoneOffset()) * 60000) / 86400000) + 1;
-            var weeknum;
-            if (day < 4) {
-                weeknum = Math.floor((daynum + day - 1) / 7) + 1;
-                if (weeknum > 52) {
-                    nYear = new Date(this.getFullYear() + 1, 0, 1);
-                    nday = nYear.getDay() - dowOffset;
-                    nday = nday >= 0 ? nday : nday + 7;
-                    weeknum = nday < 4 ? 1 : 53;
-                }
-            }
-            else {
-                weeknum = Math.floor((daynum + day - 1) / 7);
-            }
-            return weeknum;
-        };
+
         const handleMonthYearClick = (e) => {
-            let value = parseInt(e.currentTarget.attributes.value.value);
-            let name = e.target.attributes.name.value;
+            let value = e.target.value;
+            let name = e.target.name;
             let toDay = new Date();
+
             if (name === 'Year' && value === toDay.getFullYear() && monthYear['Month'] > toDay.getMonth()) {
 
             } else if (name === 'Month') {
@@ -274,8 +268,7 @@ export default function Home() {
                 </div> : null}
                 <SwipeableViews
                     index={value}
-                    onChangeIndex={handleChangeIndex}
-                >
+                    onChangeIndex={handleChangeIndex}>
                     <TabPanel value={value} index={0}>
                         <div id="summaryChart">
                             {monthlyData['length'] === 0 && ClientData['length'] === 0 && weeklyData['length'] === 0 ?
@@ -290,26 +283,10 @@ export default function Home() {
                                 :
                                 <><>
                                     <div style={{ 'display': 'inline-block', width: 'auto', 'textAlign': 'center' }}>
-                                        <div className='pie-label'>{
-                                            <span>
-                                                {'Weekly - (' + (moment(weekStart).format("Do MMM")) + ' to ' + (moment(weekEnd).format("Do MMM")) + ')'}
-                                                {<FontAwesomeIcon className="ChevronDown" icon={faChevronDown} onMouseOver={pieChevronHover} />}
-                                            </span>
-                                        }
+                                        <div className='pie-label'>
+                                            Weekly - ( {<DropDown name="Week" value={weekValue} handleChange={handleWeekChange} items={weekList} />})
                                         </div>
-                                        <div className="pieWeeklyList" onMouseOver={pieChevronHover} onMouseOut={pieChevronOut}>
-                                            {
-                                                week.map((item, index) => {
-                                                    let weekNo = new Date().getWeek();
-                                                    return <div key={index} index={index} className={`${(index + 1) > weekNo ? 'disable' : ''}`} onClick={(index + 1) > weekNo ? null : handleWeekClick}>
-                                                        <span>{moment(new Date(item[0]) - 1).format("Do MMM") + ' to ' + moment(new Date(item[6]) - 1).format("Do MMM")}</span>
-                                                        <span>{' (Week - ' + (index + 1) + ')'}</span>
-                                                    </div>
-                                                })
-                                            }
-                                        </div>{
-                                            <PieChart id="week" data={weeklyData} outerRadius={100} innerRadius={50} />
-                                        }
+                                        <PieChart id="week" data={weeklyData} outerRadius={100} innerRadius={50} />
                                     </div>
                                 </>
                                     <>
@@ -320,34 +297,14 @@ export default function Home() {
                                     </>
                                     <>
                                         <div style={{ 'display': 'inline-block', width: '100%', 'textAlign': 'center' }}>
-                                            <div className='pie-label'>{
-                                                <span>
-                                                    {'Monthly - (' + moment(new Date().setMonth(monthYear['Month'])).format('MMMM')}
-                                                    {<FontAwesomeIcon className="ChevronDown" style={{ marginRight: '10px', marginLeft: '5px' }} icon={faChevronDown} onMouseOver={barMonthChevronHover} />}
-                                                    {monthYear['Year']}
-                                                    {<FontAwesomeIcon className="ChevronDown" style={{ marginRight: '10px', marginLeft: '5px' }} icon={faChevronDown} onMouseOver={barYearChevronHover} />}
-                                                    {')'}
-                                                </span>
-                                            }
+                                            <div className='pie-label'>
+                                                Monthly - ( {
+                                                    <>
+                                                        <DropDown name="Year" value={monthYear['Year']} handleChange={handleMonthYearClick} items={Years} />
+                                                        <DropDown name="Month" value={monthYear['Month']} handleChange={handleMonthYearClick} items={option} />
+                                                    </>
+                                                })
                                             </div>
-                                        </div>
-                                        <div className="barYearList" onMouseOver={barYearChevronHover} onMouseOut={barYearChevronOut}>
-                                            {
-                                                Years.map((item, index) => {
-                                                    return <div key={index} index={index} name="Year" value={item} onClick={handleMonthYearClick}>
-                                                        {item}
-                                                    </div>
-                                                })
-                                            }
-                                        </div>
-                                        <div className="barMonthList" onMouseOver={barMonthChevronHover} onMouseOut={barMonthChevronOut}>
-                                            {
-                                                option.map((item, index) => {
-                                                    return <div key={index} index={index} name="Month" value={item['value']} onClick={handleMonthYearClick} >
-                                                        {item['label']}
-                                                    </div>
-                                                })
-                                            }
                                         </div>
                                         <BarChart id="month" data_={monthlyData} label={'label1'} />
                                     </></>

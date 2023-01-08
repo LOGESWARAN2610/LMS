@@ -16,7 +16,6 @@ export default function BarChart(props) {
             data.push({ name: index.toString(), value: obj[0][value], toolTip: obj[0]['toolTip'] })
         else
             data.push({ name: index.toString(), value: 0 })
-
     }
 
     const parentWidth = 1300;
@@ -37,16 +36,18 @@ export default function BarChart(props) {
         .nice();
 
     return (<>
-        {/* <div style={{ 'display': 'inline-block', width: 'auto', 'textAlign': 'center' }}> */}
-        {/* <div className='pie-label'>{title}</div> */}
         <svg width="1300" height={height + margin.top + margin.bottom}>
             <g transform={`translate(${margin.left}, ${margin.top - 10})`}>
                 <XYAxis {...{ xScale, yScale, height, width, ticks, t }} />
-                <Grid {...{ xScale, yScale, width, ticks, t }} />
-                <Bar {...{ xScale, yScale, data, height, t }} />
+                {data_.length !== 0
+                    ?
+                    <>
+                        <Grid {...{ xScale, yScale, width, ticks, t }} />
+                        <Bar {...{ xScale, yScale, data, height, t }} />
+                    </>
+                    : <text transform={`translate(${(width / 2) - 50},${height - 200})`} className="axisLabel" >No Datas to Show.</text>}
             </g>
         </svg>
-        {/* </div> */}
     </>
     );
 }

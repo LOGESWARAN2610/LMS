@@ -46,36 +46,6 @@ function PieChart(props) {
             .padAngle(0)
             .value((d) => d.value);
 
-        // const arc = svg
-        //     .selectAll()
-        //     .data(pieGenerator(data))
-        //     .enter()
-
-        // // Append arcs
-        // arc
-        //     .append('path')
-        //     .attr('d', arcGenerator)
-        //     .style('fill', (_, i) => colorScale(i))
-        //     .style('stroke', '#ffffff')
-        //     .style('stroke-width', 0);
-
-        // // Append text labels
-        // arc
-        //     .append('text')
-        //     .attr('text-anchor', 'middle')
-        //     .attr('alignment-baseline', 'middle')
-        //     .text((d) => d.data.label)
-        //     .style('fill', (_, i) => colorScale(data.length - i))
-        //     .attr('transform', (d) => {
-        //         const [x, y] = arcGenerator.centroid(d);
-        //         return `translate(${x}, ${y})`;
-        //     });
-
-        /////////////////////////////////////////////////////
-        // var vis = d3.select("#" + id).append("svg:svg")
-        //     .attr("width", width)
-        //     .attr("height", height);
-
         //GROUP FOR ARCS/PATHS
         var arc_group = svg.append("svg:g")
             .attr("class", "arc")
@@ -95,8 +65,9 @@ function PieChart(props) {
         center_group.append("svg:circle")
             .attr("fill", "white")
             .attr("r", innerRadius);
-
-
+        if (data.length === 0) {
+            data.push({ label: "No Datas to Show.", value: 10, toolTip: "No Datas to Show." });
+        }
         const pieData = pieGenerator(data);
         var sliceProportion = 0; //size of this slice
         const filteredPieData = pieData.filter(filterData);
@@ -111,7 +82,11 @@ function PieChart(props) {
         paths.enter().append("svg:path")
             .attr("stroke", "white")
             .attr("stroke-width", 0.5)
-            .attr("fill", function (d, i) { return colorScale(i); })
+            .attr("fill", function (d, i) {
+                if (d.data.label === "No Datas to Show.")
+                    return '#cccfd9';
+                return colorScale(i);
+            })
             .transition()
             .duration(tweenDuration)
             .attrTween("d", pieTween);
@@ -189,6 +164,8 @@ function PieChart(props) {
         nameLabels.enter().append("svg:text")
             .attr("class", "units")
             .attr("transform", function (d) {
+                if (d.data.label === "No Datas to Show.")
+                    return "translate(55," + Math.sin((d.startAngle + d.endAngle - Math.PI) / 2) * (outerRadius + textOffset) + ")";
                 return "translate(" + Math.cos(((d.startAngle + d.endAngle - Math.PI) / 2)) * (outerRadius + textOffset) + "," + Math.sin((d.startAngle + d.endAngle - Math.PI) / 2) * (outerRadius + textOffset) + ")";
             })
             .attr("dy", function (d) {
@@ -252,16 +229,14 @@ function PieChart(props) {
                     return "end";
                 }
             }).text(function (d) {
+                if (d.data.label === 'No Datas to Show.')
+                    return '';
                 var percentage = (d.value / sliceProportion) * 100;
                 return percentage.toFixed(1) + "%";
             });
 
         valueLabels.transition().duration(tweenDuration).attrTween("transform", textTween);
-
         valueLabels.exit().remove();
-
-
-
 
         // Interpolate the arcs in data space.
         var oldPieData = [];
@@ -317,26 +292,6 @@ function PieChart(props) {
                 return "translate(" + Math.cos(val) * (outerRadius + textOffset) + "," + Math.sin(val) * (outerRadius + textOffset) + ")";
             };
         }
-        ////////////////////////////
-
-        // const path = svg.selectAll('path')
-
-        // path.on('mouseover', (e, d) => {
-        //     var total = d3.sum(data.map((d) => {
-        //         return d.value;
-        //     }));
-        //     var percent = Math.round(1000 * d.value / total) / 10;
-        //     d3.select('#' + id).select('.tooltip').html(`<span>${d.data.label}</span><br /><span>${percent}</span>`)
-        //         .style('display', 'inline-block')
-        //         .style('color', e.target.style.fill)
-        //         .style('top', (e.offsetY + 10) + 'px')
-        //         .style('left', (e.offsetX + 80) + 'px');
-        // });
-
-        // path.on('mouseout', () => {
-        //     tooltip.style('display', 'none');
-        // });
-
     }
 
     return <>

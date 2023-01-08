@@ -9,7 +9,10 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import setTheme from '../../Sub-Component/setTheme';
 import PoliciesProc from './Policies&Proc';
-import CustomGrid from '../../Sub-Component/CustomeGrid'
+import CustomGrid from '../../Sub-Component/CustomeGrid';
+import moment from 'moment';
+import Multiselect from 'multiselect-react-dropdown';
+
 export default function Portal() {
     useEffect(() => {
         setTheme();
@@ -47,7 +50,7 @@ export default function Portal() {
     }
 
     function FullWidthTabs(props) {
-        const [value, setValue] = useState(0);
+        const [value, setValue] = useState(1);
         const handleChange = (event, newValue) => {
             setValue(newValue);
         };
@@ -55,9 +58,20 @@ export default function Portal() {
             setValue(index);
         };
         const columns = [
-            { id: 'Holiday_Date', label: 'Holiday Date', minWidth: 150, sort: false },
-            { id: 'Holiday_Name', label: 'Holiday Day', minWidth: 250, sort: false }
+            { id: 'Holiday_Date', label: 'Holiday Date', minWidth: 150, minWidth: 150, sort: false },
+            { id: 'Holiday_Name', label: 'Holiday Day', minWidth: 150, minWidth: 150, sort: false }
         ];
+        const onMultiSelect = () => { }
+        const onMultiRemove = () => { }
+        var monthName = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        var d = new Date();
+        var option = [];
+        d.setDate(1);
+        for (let i = 0; i <= 11; i++) {
+            option.push({ name: monthName[d.getMonth()] + ' ' + d.getFullYear(), id: i });
+            d.setMonth(d.getMonth() - 1);
+        }
+
         return (
             <Box sx={{ bgcolor: 'inherit' }} id="EmployeePortal">
                 <AppBar position="static" style={{ width: 'max-content', marginLeft: '25px', backgroundColor: '#fff' }} >
@@ -65,8 +79,7 @@ export default function Portal() {
                         value={value}
                         onChange={handleChange}
                         textColor="inherit"
-                        style={{ color: localStorage['BgColor'] }}
-                    >
+                        style={{ color: localStorage['BgColor'] }}>
                         <Tab label="Policies & Procedures" className='tab' {...a11yProps(0)} />
                         <Tab label="Request PaySlips" className='tab'  {...a11yProps(1)} />
                         <Tab label="Holiday List" className='tab'  {...a11yProps(1)} />
@@ -81,8 +94,16 @@ export default function Portal() {
                         <PoliciesProc />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <div >
-                            <h1>Under Construction</h1>
+                        <div style={{ height: '70vh', width: '80vh' }}>
+                            <p style={{ fontSize: '20px', marginBottom: '25px' }}>To request pay slip, select the months in the below dropdown and click on the Send Mail Button.
+                                The admin team will process the request and send you the requested pay slips to your email.</p>
+                            <Multiselect
+                                options={option}
+                                // selectedValues={this.state.selectedValue}
+                                onSelect={onMultiSelect}
+                                onRemove={onMultiRemove}
+                                displayValue="name" />
+                            <button className="btn marginRight-0" style={{ float: 'right', marginTop: '25px' }}>Send Request</button>
                         </div>
                     </TabPanel>
                     <TabPanel value={value} index={2}>
