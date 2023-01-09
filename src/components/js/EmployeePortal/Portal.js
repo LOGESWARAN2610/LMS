@@ -10,13 +10,16 @@ import Box from '@mui/material/Box';
 import setTheme from '../../Sub-Component/setTheme';
 import PoliciesProc from './Policies&Proc';
 import CustomGrid from '../../Sub-Component/CustomeGrid';
-import moment from 'moment';
 import Multiselect from 'multiselect-react-dropdown';
+import axios from 'axios';
+import nodeurl from '../../../nodeServer.json';
+import { useAlert } from "react-alert";
 
 export default function Portal() {
     useEffect(() => {
         setTheme();
     }, []);
+    const alert = useAlert();
     function TabPanel(props) {
         const { children, value, index, ...other } = props;
         return (
@@ -61,16 +64,31 @@ export default function Portal() {
             { id: 'Holiday_Date', label: 'Holiday Date', minWidth: 150, minWidth: 150, sort: false },
             { id: 'Holiday_Name', label: 'Holiday Day', minWidth: 150, minWidth: 150, sort: false }
         ];
-        const onMultiSelect = () => { }
-        const onMultiRemove = () => { }
-        var monthName = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        var d = new Date();
-        var option = [];
-        d.setDate(1);
-        for (let i = 0; i <= 11; i++) {
-            option.push({ name: monthName[d.getMonth()] + ' ' + d.getFullYear(), id: i });
-            d.setMonth(d.getMonth() - 1);
+        var paySlipMonth = [];
+        const onMultiSelect = (selectedVal, value) => {
+            paySlipMonth = selectedVal
         }
+        const onMultiRemove = (selectedVal, value) => {
+            paySlipMonth = selectedVal
+        }
+        const handelSubmit = () => {
+            let month = paySlipMonth.map((item) => { return item['name'] });
+            month = month.join(',');
+            console.log(month)
+
+            axios.post(nodeurl['nodeurl'], { query: "SP_ShowMonthandYear " + localStorage['EmpId'] + ",'" + month + "'" }).then(result => {
+                alert.success("Your Sent Successfully.");
+                alert.show("You will receive response soon.");
+            });
+        }
+        const [option, setOption] = useState([]);
+        axios.post(nodeurl['nodeurl'], { query: "AB_Sp_BindMonthAndYear" }).then(result => {
+            let option_ = result.data[0];
+            option_ = option_.map((item, index) => {
+                return { name: item['Value'], id: index };
+            });
+            setOption(option_);
+        });
 
         return (
             <Box sx={{ bgcolor: 'inherit' }} id="EmployeePortal">
@@ -95,7 +113,7 @@ export default function Portal() {
                     </TabPanel>
                     <TabPanel value={value} index={1}>
                         <div style={{ height: '70vh', width: '80vh' }}>
-                            <p style={{ fontSize: '20px', marginBottom: '25px' }}>To request pay slip, select the months in the below dropdown and click on the Send Mail Button.
+                            <p style={{ fontSize: '20px', marginBottom: '25px' }}>To request pay slip, select the months in the below dropdown and click on the Send Request Button.
                                 The admin team will process the request and send you the requested pay slips to your email.</p>
                             <Multiselect
                                 options={option}
@@ -103,7 +121,7 @@ export default function Portal() {
                                 onSelect={onMultiSelect}
                                 onRemove={onMultiRemove}
                                 displayValue="name" />
-                            <button className="btn marginRight-0" style={{ float: 'right', marginTop: '25px' }}>Send Request</button>
+                            <button className="btn marginRight-0" onClick={handelSubmit} style={{ float: 'right', marginTop: '25px' }}>Send Request</button>
                         </div>
                     </TabPanel>
                     <TabPanel value={value} index={2}>

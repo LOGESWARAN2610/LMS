@@ -528,7 +528,9 @@ label {
   position: absolute;
   margin: 68px 0 0 0;
 }
-
+.scrollBody {
+  height: 84vh;
+}
 .scrollbar::-webkit-scrollbar:vertical {
   width: 4px;
   height: 5px;
@@ -847,9 +849,14 @@ span:has(.alertBox) + div button[role="cancellable-button"] {
 }
 #summaryChart,
 #profile {
-  max-height: calc(100vh - 165px) !important;
+  max-height: calc(100vh - 165px);
 }
-
+@media only screen and (max-width: 900px) {
+  #summaryChart,
+  #profile {
+    max-height: unset !important;
+  }
+}
 g.grid-group path.domain + g.tick {
   color: #111 !important;
 }
@@ -1649,15 +1656,24 @@ body.dark .body .text {
 }
 /*SideBar*/
 /*Portal*/
-.highlightOption {
+#EmployeePortal .highlightOption {
   color: var(--background-color) !important;
   background-color: var(--color) !important;
+  border-bottom: 1px solid var(--background-color);
 }
-.multiSelectContainer li:hover {
+#EmployeePortal .multiSelectContainer li:hover {
   background-color: var(--background-color) !important;
   color: var(--color) !important;
 }
-.chip {
+#EmployeePortal .chip {
   background-color: var(--background-color) !important;
+}
+#EmployeePortal .searchWrapper {
+  width: inherit;
+  border-radius: 5px;
+  background-color: #f1f3f4;
+  font-size: 1.05em;
+  box-shadow: 0px 1px 5px 0px #000c2f4d;
+  min-height: 40px;
 }
 /*Portal*/

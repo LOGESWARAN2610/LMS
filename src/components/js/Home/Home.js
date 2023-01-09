@@ -4,8 +4,6 @@ import SwipeableViews from 'react-swipeable-views';
 import AppBar from '@mui/material/AppBar';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import '../../css/style.css'

@@ -802,3 +802,228 @@ RequestError: Error converting data type nvarchar to int.
   serverName: 'ANALYTIC49\\SQLEXPRESS',
   procName: 'GetChartData_Onload'
 }
+RequestError: Invalid column name 'undefined'.
+    at handleError (E:\TimeSheet\LMS\server\node_modules\mssql\lib\msnodesqlv8\request.js:276:21)
+    at StreamEvents.emit (node:events:513:28)
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\reader.js:70:26
+    at Array.forEach (<anonymous>)
+    at routeStatementError (E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\reader.js:60:25)
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\reader.js:228:13
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\driver.js:180:13
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\driver.js:160:13 {
+  code: 'EREQUEST',
+  originalError: [Error: [Microsoft][SQL Server Native Client 11.0][SQL Server]Invalid column name 'undefined'.] {
+    sqlstate: '42S22',
+    code: 207,
+    severity: 16,
+    serverName: 'ANALYTIC49\\SQLEXPRESS',
+    procName: '',
+    lineNumber: 1
+  },
+  number: 207,
+  lineNumber: 1,
+  state: '42S22',
+  class: 16,
+  serverName: 'ANALYTIC49\\SQLEXPRESS',
+  procName: ''
+}
+RequestError: Invalid column name 'undefined'.
+    at handleError (E:\TimeSheet\LMS\server\node_modules\mssql\lib\msnodesqlv8\request.js:276:21)
+    at StreamEvents.emit (node:events:513:28)
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\reader.js:70:26
+    at Array.forEach (<anonymous>)
+    at routeStatementError (E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\reader.js:60:25)
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\reader.js:228:13
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\driver.js:180:13
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\driver.js:160:13 {
+  code: 'EREQUEST',
+  originalError: [Error: [Microsoft][SQL Server Native Client 11.0][SQL Server]Invalid column name 'undefined'.] {
+    sqlstate: '42S22',
+    code: 207,
+    severity: 16,
+    serverName: 'ANALYTIC49\\SQLEXPRESS',
+    procName: '',
+    lineNumber: 1
+  },
+  number: 207,
+  lineNumber: 1,
+  state: '42S22',
+  class: 16,
+  serverName: 'ANALYTIC49\\SQLEXPRESS',
+  procName: ''
+}
+RequestError: Error converting data type varchar to date.
+    at handleError (E:\TimeSheet\LMS\server\node_modules\mssql\lib\msnodesqlv8\request.js:276:21)
+    at StreamEvents.emit (node:events:513:28)
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\reader.js:70:26
+    at Array.forEach (<anonymous>)
+    at routeStatementError (E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\reader.js:60:25)
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\reader.js:228:13
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\driver.js:180:13
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\driver.js:160:13 {
+  code: 'EREQUEST',
+  originalError: [Error: [Microsoft][SQL Server Native Client 11.0][SQL Server]Error converting data type varchar to date.] {
+    sqlstate: '42000',
+    code: 8114,
+    severity: 16,
+    serverName: 'ANALYTIC49\\SQLEXPRESS',
+    procName: 'GetChartData_Onload',
+    lineNumber: 0
+  },
+  number: 8114,
+  lineNumber: 0,
+  state: '42000',
+  class: 16,
+  serverName: 'ANALYTIC49\\SQLEXPRESS',
+  procName: 'GetChartData_Onload'
+}
+RequestError: Query timeout expired
+    at handleError (E:\TimeSheet\LMS\server\node_modules\mssql\lib\msnodesqlv8\request.js:276:21)
+    at StreamEvents.emit (node:events:513:28)
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\reader.js:70:26
+    at Array.forEach (<anonymous>)
+    at routeStatementError (E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\reader.js:60:25)
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\reader.js:228:13
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\driver.js:180:13
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\driver.js:160:13 {
+  code: 'EREQUEST',
+  originalError: [Error: [Microsoft][SQL Server Native Client 11.0]Query timeout expired] {
+    sqlstate: 'HYT00',
+    code: 0,
+    severity: 0,
+    serverName: '',
+    procName: '',
+    lineNumber: 0
+  },
+  number: 0,
+  lineNumber: 0,
+  state: 'HYT00',
+  class: 0,
+  serverName: '',
+  procName: ''
+}
+RequestError: Invalid column name 'undefined'.
+    at handleError (E:\TimeSheet\LMS\server\node_modules\mssql\lib\msnodesqlv8\request.js:276:21)
+    at StreamEvents.emit (node:events:513:28)
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\reader.js:70:26
+    at Array.forEach (<anonymous>)
+    at routeStatementError (E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\reader.js:60:25)
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\reader.js:228:13
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\driver.js:180:13
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\driver.js:160:13 {
+  code: 'EREQUEST',
+  originalError: [Error: [Microsoft][SQL Server Native Client 11.0][SQL Server]Invalid column name 'undefined'.] {
+    sqlstate: '42S22',
+    code: 207,
+    severity: 16,
+    serverName: 'ANALYTIC49\\SQLEXPRESS',
+    procName: '',
+    lineNumber: 1
+  },
+  number: 207,
+  lineNumber: 1,
+  state: '42S22',
+  class: 16,
+  serverName: 'ANALYTIC49\\SQLEXPRESS',
+  procName: ''
+}
+RequestError: Invalid column name 'undefined'.
+    at handleError (E:\TimeSheet\LMS\server\node_modules\mssql\lib\msnodesqlv8\request.js:276:21)
+    at StreamEvents.emit (node:events:513:28)
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\reader.js:70:26
+    at Array.forEach (<anonymous>)
+    at routeStatementError (E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\reader.js:60:25)
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\reader.js:228:13
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\driver.js:180:13
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\driver.js:160:13 {
+  code: 'EREQUEST',
+  originalError: [Error: [Microsoft][SQL Server Native Client 11.0][SQL Server]Invalid column name 'undefined'.] {
+    sqlstate: '42S22',
+    code: 207,
+    severity: 16,
+    serverName: 'ANALYTIC49\\SQLEXPRESS',
+    procName: '',
+    lineNumber: 1
+  },
+  number: 207,
+  lineNumber: 1,
+  state: '42S22',
+  class: 16,
+  serverName: 'ANALYTIC49\\SQLEXPRESS',
+  procName: ''
+}
+RequestError: Conversion failed when converting the varchar value 'undefined' to data type int.
+    at handleError (E:\TimeSheet\LMS\server\node_modules\mssql\lib\msnodesqlv8\request.js:276:21)
+    at StreamEvents.emit (node:events:513:28)
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\reader.js:70:26
+    at Array.forEach (<anonymous>)
+    at routeStatementError (E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\reader.js:60:25)
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\reader.js:228:13
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\driver.js:180:13
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\driver.js:160:13 {
+  code: 'EREQUEST',
+  originalError: [Error: [Microsoft][SQL Server Native Client 11.0][SQL Server]Conversion failed when converting the varchar value 'undefined' to data type int.] {
+    sqlstate: '22018',
+    code: 245,
+    severity: 16,
+    serverName: 'ANALYTIC49\\SQLEXPRESS',
+    procName: 'AB_ViewEmpProfile',
+    lineNumber: 23
+  },
+  number: 245,
+  lineNumber: 23,
+  state: '22018',
+  class: 16,
+  serverName: 'ANALYTIC49\\SQLEXPRESS',
+  procName: 'AB_ViewEmpProfile'
+}
+RequestError: Conversion failed when converting date and/or time from character string.
+    at handleError (E:\TimeSheet\LMS\server\node_modules\mssql\lib\msnodesqlv8\request.js:276:21)
+    at StreamEvents.emit (node:events:513:28)
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\reader.js:70:26
+    at Array.forEach (<anonymous>)
+    at routeStatementError (E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\reader.js:60:25)
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\reader.js:228:13
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\driver.js:180:13
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\driver.js:160:13 {
+  code: 'EREQUEST',
+  originalError: [Error: [Microsoft][SQL Server Native Client 11.0][SQL Server]Conversion failed when converting date and/or time from character string.] {
+    sqlstate: '22007',
+    code: 241,
+    severity: 16,
+    serverName: 'ANALYTIC49\\SQLEXPRESS',
+    procName: '',
+    lineNumber: 1
+  },
+  number: 241,
+  lineNumber: 1,
+  state: '22007',
+  class: 16,
+  serverName: 'ANALYTIC49\\SQLEXPRESS',
+  procName: ''
+}
+RequestError: Conversion failed when converting date and/or time from character string.
+    at handleError (E:\TimeSheet\LMS\server\node_modules\mssql\lib\msnodesqlv8\request.js:276:21)
+    at StreamEvents.emit (node:events:513:28)
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\reader.js:70:26
+    at Array.forEach (<anonymous>)
+    at routeStatementError (E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\reader.js:60:25)
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\reader.js:228:13
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\driver.js:180:13
+    at E:\TimeSheet\LMS\server\node_modules\msnodesqlv8\lib\driver.js:160:13 {
+  code: 'EREQUEST',
+  originalError: [Error: [Microsoft][SQL Server Native Client 11.0][SQL Server]Conversion failed when converting date and/or time from character string.] {
+    sqlstate: '22007',
+    code: 241,
+    severity: 16,
+    serverName: 'ANALYTIC49\\SQLEXPRESS',
+    procName: '',
+    lineNumber: 1
+  },
+  number: 241,
+  lineNumber: 1,
+  state: '22007',
+  class: 16,
+  serverName: 'ANALYTIC49\\SQLEXPRESS',
+  procName: ''
+}

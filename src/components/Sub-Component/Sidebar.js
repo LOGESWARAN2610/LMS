@@ -148,7 +148,7 @@ const Sidebar = (props) => {
                         </nav>
                         <section className="body">
                             <div>
-                                <div className="scrollbar">
+                                <div className="scrollbar scrollBody">
                                     <div style={{ marginTop: "10px" }}>{props["Component"]}</div>
                                 </div>
                             </div>
