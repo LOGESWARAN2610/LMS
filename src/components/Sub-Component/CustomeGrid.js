@@ -59,12 +59,13 @@ const StickyHeadTable = forwardRef((props, ref) => {
                 setRows(result.data[0]);
             });
         }
-        else if (tab === 'HoliDayList') {
-            setPaperWidth('45%');
-            axios.post(nodeurl['nodeurl'], { query: 'Menus_HolidayList' }).then(result => {
-                setRows(result.data[0]);
-            });
-        } else if (tab === 'LeaveApprovels') {
+        // else if (tab === 'HoliDayList') {
+        //     setPaperWidth('45%');
+        //     axios.post(nodeurl['nodeurl'], { query: 'Menus_HolidayList' }).then(result => {
+        //         setRows(result.data[0]);
+        //     });
+        // } 
+        else if (tab === 'LeaveApprovels') {
             axios.post(nodeurl['nodeurl'], { query: 'SP_LM_LEAVEDECISION ' + EmpId }).then(result => {
                 setRows(result.data[0]);
             });
@@ -89,6 +90,9 @@ const StickyHeadTable = forwardRef((props, ref) => {
     useEffect(() => {
         if (tab === 'viewTimesheet') {
             setRows(props['Rows']);
+        } else if (tab === 'HoliDayList') {
+            setPaperWidth('45%');
+            setRows(props['Rows']);
         }
     }, [props['Rows']]);
 
@@ -98,8 +102,8 @@ const StickyHeadTable = forwardRef((props, ref) => {
     }
 
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -247,7 +251,6 @@ const StickyHeadTable = forwardRef((props, ref) => {
         const createSortHandler = (property) => (event) => {
             onRequestSort(event, property);
         };
-
         return (
             <TableHead>
                 <TableRow>
@@ -337,7 +340,7 @@ const StickyHeadTable = forwardRef((props, ref) => {
                         />
                         <TableBody>
                             {rows['length'] > 0 ? stableSort(rows, getComparator(order, orderBy))
-                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                .slice(page * (Pagination ? rowsPerPage : rows.length), page * (Pagination ? rowsPerPage : rows.length) + (Pagination ? rowsPerPage : rows.length))
                                 .map((row, index) => {
                                     return (
                                         <TableRow tabIndex={-1} key={index} style={{ backgroundColor: `${row['isCompleted'] ? 'pink' : ''}` }}>

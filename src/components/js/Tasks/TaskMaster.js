@@ -12,7 +12,7 @@ export default function TaskAssignment() {
     const alert = useAlert();
     const [Client, setClient] = useState([]);
     const [TaskPriority, setTaskPriority] = useState([]);
-
+    const isManager = localStorage['IsManager'];
     useEffect(() => {
         axios.post(nodeurl['nodeurl'], { query: 'AB_GetClientId 1' }).then(result => {
             setClient(result.data[0]);
@@ -25,7 +25,7 @@ export default function TaskAssignment() {
         let target = e.target.name, Id = e.target.value, isActive = 0;
         if (e.target.checked) isActive = 1;
         axios.post(nodeurl['nodeurl'], { query: "AB_Manage_TaskMaster '" + target + "'," + Id + "," + isActive }).then(result => {
-            console.log('ok');
+            console.log('Task Master');
         });
     }
 
@@ -141,7 +141,7 @@ export default function TaskAssignment() {
         }
         return (<>
             <div className='task-container' style={props['style']}>
-                <h1>Add Project {NewProjectDetails['ClientID'] !== '-1' ? <><FontAwesomeIcon icon={faTrashAlt} style={{ fontSize: '18px' }} name="ClientID" value={NewProjectDetails['ClientID']} onClick={handelRemove} className="icon" /><Swatch name="ClientID" isChecked={clientStatus} value={NewProjectDetails['ClientID']} /> </> : null}</h1>
+                <h1>Add Project {NewProjectDetails['ClientID'] !== '-1' && isManager === '1' ? <><FontAwesomeIcon icon={faTrashAlt} style={{ fontSize: '18px' }} name="ClientID" value={NewProjectDetails['ClientID']} onClick={handelRemove} className="icon" /><Swatch name="ClientID" isChecked={clientStatus} value={NewProjectDetails['ClientID']} /> </> : null}</h1>
                 <SelectDD name="ClientID" label="Client" option={Client} value={NewProjectDetails['ClientID']} OnChange={handelProjectChange} />
                 <InputBox name="ProjectName" onChange={handelProjectChange} placeholder="Project Name" value={NewProjectDetails['ProjectName']} label="Project Name" />
                 <Button disabled={isProjectDisable} onClick={handelProjectClick} text="Add Project" />
@@ -198,7 +198,7 @@ export default function TaskAssignment() {
         }
         return (<>
             <div className='task-container' style={props['style']}>
-                <h1>Add Module{NewModuleDetails['ProjectID'] !== '-1' ? <><FontAwesomeIcon icon={faTrashAlt} style={{ fontSize: '18px' }} name="ProjectID" value={NewModuleDetails['ProjectID']} onClick={handelRemove} className="icon" /><Swatch title="Make this Project Enable/Disable" name="ProjectID" isChecked={projectStatus} value={NewModuleDetails['ProjectID']} /></> : null}</h1>
+                <h1>Add Module{NewModuleDetails['ProjectID'] !== '-1' && isManager === '1' ? <><FontAwesomeIcon icon={faTrashAlt} style={{ fontSize: '18px' }} name="ProjectID" value={NewModuleDetails['ProjectID']} onClick={handelRemove} className="icon" /><Swatch title="Make this Project Enable/Disable" name="ProjectID" isChecked={projectStatus} value={NewModuleDetails['ProjectID']} /></> : null}</h1>
                 <div style={{ display: 'inline-flex' }}>
                     <SelectDD name="ClientID" style={{ width: '48%', display: 'inline-block', marginRight: '15px' }} label="Client" option={Client} value={NewModuleDetails['ClientID']} OnChange={handelModuleChange} />
                     <SelectDD name="ProjectID" style={{ width: '48%', display: 'inline-block', marginRight: 0 }} label="Project" option={Project} value={NewModuleDetails['ProjectID']} OnChange={handelModuleChange} />
@@ -268,7 +268,7 @@ export default function TaskAssignment() {
         }
         return (<>
             <div className='task-container' style={props['style']}>
-                <h1>Add  Task{NewTaskDetails['ModuleID'] !== '-1' ? <><FontAwesomeIcon icon={faTrashAlt} style={{ fontSize: '18px' }} name="ModuleID" value={NewTaskDetails['ModuleID']} onClick={handelRemove} className="icon" /><Swatch name="ModuleID" isChecked={moduleStatus} value={NewTaskDetails['ModuleID']} /> </> : null}</h1>
+                <h1>Add  Task{NewTaskDetails['ModuleID'] !== '-1' && isManager === '1' ? <><FontAwesomeIcon icon={faTrashAlt} style={{ fontSize: '18px' }} name="ModuleID" value={NewTaskDetails['ModuleID']} onClick={handelRemove} className="icon" /><Swatch name="ModuleID" isChecked={moduleStatus} value={NewTaskDetails['ModuleID']} /> </> : null}</h1>
                 <SelectDD name="ClientID" style={{ width: '150px', marginRight: '15px' }} label="Client" option={Client} value={NewTaskDetails['ClientID']} OnChange={handelTaskOnChange} />
                 <SelectDD name="ProjectID" style={{ width: '195px', display: 'inline-block', marginRight: '15px' }} label="Project" option={Project} value={NewTaskDetails['ProjectID']} OnChange={handelTaskOnChange} />
                 <SelectDD name="ModuleID" label="Module" option={Module} value={NewTaskDetails['ModuleID']} OnChange={handelTaskOnChange} />

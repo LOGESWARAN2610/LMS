@@ -31,7 +31,11 @@ const Sidebar = (props) => {
     };
 
 
+    const [pendingCount, setPendingCount] = useState({ leaveCount: 0, permissionCount: 0, lopCount: 0, approvelTotalCount: 0 });
     useEffect(() => {
+        axios.post(nodeurl['nodeurl'], { query: 'LM_GetPendingCount ' + localStorage['EmpId'] }).then(result => {
+            setPendingCount(result.data[0][0]);
+        });
         axios.post(nodeurl['nodeurl'], { query: "Select ISNULL(ProfileName,'') ProfileName FROM EmployeeDetails WHERE EmpId=" + localStorage['EmpId'] }).then(result => {
             if (result.data[0][0]['ProfileName'] !== '')
                 setProfileName(result.data[0][0]['ProfileName']);
@@ -39,12 +43,18 @@ const Sidebar = (props) => {
                 setProfileName(localStorage['Gender'] + '.png');
         });
     })
+    const getLabel = (text, count) => {
+        return <>
+            {text}
+            {count !== 0 ? <span className="labelCount">{count}</span> : null}
+        </>
+    }
     var Tabs = [
         { text: 'Home', link: '/Home', icon: faHouseChimney, isManagerSide: false },
         { text: 'Time Sheet', link: '/EnterTimeSheet', icon: faTableList, isManagerSide: false },
         { text: 'Tasks', link: '/Tasks', icon: faTasks, isManagerSide: false },
         { text: 'Leave & Permission', link: '/LMS', icon: faLevelUpAlt, isManagerSide: false },
-        { text: 'Approvals', link: '/Approvals', icon: faLevelUpAlt, isManagerSide: true },
+        { text: getLabel('Approvals', pendingCount['approvelTotalCount']), link: '/Approvals', icon: faLevelUpAlt, isManagerSide: true },
         { text: 'Employee Portal', link: '/EmployeePortal', icon: faUserDoctor, isManagerSide: false },
         { text: 'Notes', link: '/Notes', icon: faUser, isManagerSide: false },
         { text: 'Profile', link: '/Profile', icon: faUser, isManagerSide: false },

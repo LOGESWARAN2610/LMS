@@ -268,8 +268,7 @@ export default function Profile() {
                         style={{ color: localStorage['BgColor'] }}
                     >
                         <Tab label="Profile" className='tab' {...a11yProps(0)} />
-                        <Tab label="New Registration" className='tab' {...a11yProps(1)} />
-                        {/* <Tab label="Change Password" className='tab'  {...a11yProps(1)} /> */}
+                        {localStorage['IsManager'] === '1' && <Tab label="New Registration" className='tab' {...a11yProps(1)} />}
                     </Tabs>
                 </AppBar>
                 <SwipeableViews
@@ -280,13 +279,9 @@ export default function Profile() {
                     <TabPanel value={value} index={0}>
                         <DetailsFields value={value} />
                     </TabPanel>
-                    <TabPanel value={value} index={1}>
+                    {localStorage['IsManager'] === '1' && <TabPanel value={value} index={1}>
                         <DetailsFields value={value} />
-                    </TabPanel>
-                    {/* <TabPanel value={value} index={1}>
-                        <ChangePassword />
-                    </TabPanel> */}
-
+                    </TabPanel>}
                 </SwipeableViews >
             </Box >
         );

@@ -74,7 +74,7 @@ export default function TimeSheet() {
                         >
                             <Tab label="Enter TimeSheet" className='tab' {...a11yProps(0)} />
                             <Tab label="View TimeSheet" className='tab'  {...a11yProps(1)} />
-                            {parseInt(localStorage['IsManager']) === 1 && <Tab label="TimeSheet Approvals" className='tab' {...a11yProps(3)} />}
+                            {localStorage['IsManager'] === '1' && <Tab label="TimeSheet Approvals" className='tab' {...a11yProps(3)} />}
                         </Tabs>
                     </AppBar>
                     <SwipeableViews
@@ -87,9 +87,9 @@ export default function TimeSheet() {
                         <TabPanel value={value} index={1}>
                             <ViewTimeSheet />
                         </TabPanel>
-                        <TabPanel value={value} index={2}>
+                        {localStorage['IsManager'] === '1' && <TabPanel value={value} index={2}>
                             <ApproveTimeSheet />
-                        </TabPanel>
+                        </TabPanel>}
                     </SwipeableViews >
                 </Box >
             </>

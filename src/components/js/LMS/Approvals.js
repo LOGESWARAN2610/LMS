@@ -21,7 +21,6 @@ export default function Approvals() {
         axios.post(nodeurl['nodeurl'], { query: 'LM_List_of_Emp ' + EmpId }).then(result => {
             setEmpList(result.data[0]);
         });
-
     }, [EmpId]);
 
     const approvelRef = useRef();
@@ -134,11 +133,20 @@ export default function Approvals() {
             // document.querySelector('select.input-input').value = -1;
             setValue(index);
         };
+        const [pendingCount, setPendingCount] = useState({ leaveCount: 0, permissionCount: 0, lopCount: 0, approvelTotalCount: 0 });
 
-
+        axios.post(nodeurl['nodeurl'], { query: 'LM_GetPendingCount ' + EmpId }).then(result => {
+            setPendingCount(result.data[0][0]);
+        });
         const [ApproveRejectAll, setApproveRejectAll] = useState(true);
         const setIsApproveRejectAll = (param) => {
             setApproveRejectAll(param);
+        }
+        const Label = ({ text, count }) => {
+            return <>
+                {text}
+                {count !== 0 ? <span className="labelCount">{count}</span> : null}
+            </>
         }
         return (
             <>
@@ -171,9 +179,9 @@ export default function Approvals() {
                             onChange={handleChange}
                             textColor="inherit"
                             style={{ color: localStorage['BgColor'] }}>
-                            <Tab label="Leave Approvals" className='tab' {...a11yProps(0)} />
-                            <Tab label="Permission Approvals" className='tab' {...a11yProps(1)} />
-                            <Tab label="LOP Request" className='tab' {...a11yProps(2)} />
+                            <Tab label={<Label text="Leave Approvals" count={pendingCount['leaveCount']} />} className='tab' {...a11yProps(0)} />
+                            <Tab label={<Label text="Permission Approvals" count={pendingCount['permissionCount']} />} className='tab' {...a11yProps(1)} />
+                            <Tab label={<Label text="LOP Request" count={pendingCount['lopCount']} />} className='tab' {...a11yProps(2)} />
                             <Tab label="Emp Leave History" className='tab' {...a11yProps(3)} />
                             <Tab label="Emp Per History" className='tab' {...a11yProps(4)} />
                         </Tabs>
