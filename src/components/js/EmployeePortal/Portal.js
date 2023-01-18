@@ -68,7 +68,7 @@ export default function Portal() {
         const handelSubmit = () => {
             let month = paySlipMonth.map((item) => { return item['name'] });
             month = month.join(',');
-            console.log(month)
+           // console.log(month)
             axios.post(nodeurl['nodeurl'], { query: "SP_ShowMonthandYear " + localStorage['EmpId'] + ",'" + month + "'" }).then(result => {
                 alert.success("Your Sent Successfully.");
                 alert.show("You will receive response soon.");

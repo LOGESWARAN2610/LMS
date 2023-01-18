@@ -16,3 +16,15 @@
 2023-01-02 10:49:29 - Finished lmsnodeservice.exe
 2023-01-02 10:49:32 - Starting C:\Program Files\nodejs\node.exe  --harmony E:\TimeSheet\LMS\server\node_modules\node-windows\lib\wrapper.js --file E:\TimeSheet\LMS\server\server.js --scriptoptions= --log "LMS Node Service wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
 2023-01-02 10:49:32 - Started 2264
+2023-01-11 22:44:02 - Stopping lmsnodeservice.exe
+2023-01-11 22:44:02 - ProcessKill 2264
+2023-01-11 22:44:04 - Shutdown exception
+Message:The type initializer for 'System.Management.ManagementPath' threw an exception.
+Stacktrace:   at System.Management.ManagementScope._Clone(ManagementScope scope, IdentifierChangedEventHandler handler)
+   at System.Management.ManagementObjectSearcher..ctor(ManagementScope scope, ObjectQuery query, EnumerationOptions options)
+   at winsw.WrapperService.GetChildPids(Int32 pid)
+   at winsw.WrapperService.StopProcessAndChildren(Int32 pid)
+   at winsw.WrapperService.StopIt()
+   at winsw.WrapperService.OnShutdown()
+2023-01-11 22:45:29 - Starting C:\Program Files\nodejs\node.exe  --harmony E:\TimeSheet\LMS\server\node_modules\node-windows\lib\wrapper.js --file E:\TimeSheet\LMS\server\server.js --scriptoptions= --log "LMS Node Service wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2023-01-11 22:45:31 - Started 6824

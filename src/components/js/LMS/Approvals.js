@@ -15,11 +15,15 @@ export default function Approvals() {
 
     const EmpId = localStorage['EmpId'];
     const [EmpList, setEmpList] = useState([]);
+    const [pendingCount, setPendingCount] = useState({ leaveCount: 0, permissionCount: 0, lopCount: 0, approvelTotalCount: 0 });
 
     useEffect(() => {
         setTheme();
         axios.post(nodeurl['nodeurl'], { query: 'LM_List_of_Emp ' + EmpId }).then(result => {
             setEmpList(result.data[0]);
+        });
+        axios.post(nodeurl['nodeurl'], { query: 'LM_GetPendingCount ' + EmpId }).then(result => {
+            setPendingCount(result.data[0][0]);
         });
     }, [EmpId]);
 
@@ -133,11 +137,7 @@ export default function Approvals() {
             // document.querySelector('select.input-input').value = -1;
             setValue(index);
         };
-        const [pendingCount, setPendingCount] = useState({ leaveCount: 0, permissionCount: 0, lopCount: 0, approvelTotalCount: 0 });
 
-        axios.post(nodeurl['nodeurl'], { query: 'LM_GetPendingCount ' + EmpId }).then(result => {
-            setPendingCount(result.data[0][0]);
-        });
         const [ApproveRejectAll, setApproveRejectAll] = useState(true);
         const setIsApproveRejectAll = (param) => {
             setApproveRejectAll(param);

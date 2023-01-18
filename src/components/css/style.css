@@ -672,7 +672,13 @@ label {
 }
 .confirm-box {
   position: fixed !important;
-  top: 32% !important;
+  top: 200px !important;
+  left: 40% !important;
+}
+.confirm-box h2 {
+  color: var(--background-color);
+  border-bottom: 1px solid var(--background-color);
+  margin-bottom: 15px;
 }
 .confirm-box__content {
   background-color: #f1f3f4 !important;
@@ -748,6 +754,9 @@ button[role="cancellable-button"] {
 }
 .react-datepicker__day.holiDay {
   color: blue;
+}
+.react-datepicker__day.holiDay span {
+  display: block;
 }
 .react-datepicker__day.random {
   color: red;
@@ -884,7 +893,34 @@ g.tick text {
 .notesWrapper {
   margin: 20px;
 }
-
+.sun-editor .se-btn-tray {
+  display: inline-block;
+}
+/* .sun-editor .se-btn {
+  width: 30px !important;
+  height: 30px !important;
+}
+.sun-editor .se-btn-select.se-btn-tool-font {
+  width: 90px !important;
+}
+.sun-editor .se-btn-select.se-btn-tool-size {
+  width: 78px !important;
+}
+.sun-editor .se-btn-select.se-btn-tool-format {
+  width: 82px !important;
+} */
+.sun-editor .se-svg,
+.sun-editor button > svg {
+  width: 14px !important;
+  height: 14px !important;
+}
+.sun-editor-editable p {
+  margin: 0 0 5px !important;
+}
+.employeeSelect .searchWrapper {
+  max-width: 365px;
+  min-width: 365px;
+}
 .notesTitle {
   /* margin: -1px; */
   height: 40px;
@@ -914,7 +950,7 @@ g.tick text {
 }
 .sun-editor-editable {
   height: 65vh !important;
-  max-height: 66vh !important;
+  max-height: 58vh !important;
   overflow: auto;
 }
 .notesDate input {
@@ -1668,20 +1704,20 @@ body.dark .body .text {
   color: var(--text-color);
 }
 /*SideBar*/
-/*Portal*/
-#EmployeePortal .highlightOption {
+
+.highlightOption {
   color: var(--background-color) !important;
   background-color: var(--color) !important;
   border-bottom: 1px solid var(--background-color);
 }
-#EmployeePortal .multiSelectContainer li:hover {
+.multiSelectContainer li:hover {
   background-color: var(--background-color) !important;
   color: var(--color) !important;
 }
-#EmployeePortal .chip {
+.chip {
   background-color: var(--background-color) !important;
 }
-#EmployeePortal .searchWrapper {
+.searchWrapper {
   width: inherit;
   border-radius: 5px;
   padding: 10px 5px !important;
@@ -1690,4 +1726,3 @@ body.dark .body .text {
   box-shadow: 0px 1px 5px 0px #000c2f4d;
   min-height: 40px;
 }
-/*Portal*/

@@ -18,21 +18,24 @@ const Sidebar = (props) => {
     //     localStorage.clear();
     // };
 
-    if (localStorage.getItem('SessionId') === undefined || localStorage.getItem('SessionId') === null)
-        window.location.href = '/'
-    else if (localStorage.getItem('SessionId') !== undefined || localStorage.getItem('SessionId') !== null)
-        axios.post(nodeurl['nodeurl'], { query: "select ExpireStatus from EmpSession where Sessionid='" + localStorage.getItem('SessionId') + "'" }).then(result => {
-            if (result.data[0][0]['ExpireStatus'] === 0)
-                window.location.hef = '/'
-        });
     const options = {
         timeout: 5000,
         position: positions.BOTTOM_RIGHT
     };
 
-
     const [pendingCount, setPendingCount] = useState({ leaveCount: 0, permissionCount: 0, lopCount: 0, approvelTotalCount: 0 });
     useEffect(() => {
+        if (localStorage.getItem('SessionId') === undefined || localStorage.getItem('SessionId') === null) {
+            window.location.href = '/';
+            return;
+        }
+        else if (localStorage.getItem('SessionId') !== undefined || localStorage.getItem('SessionId') !== null) {
+            axios.post(nodeurl['nodeurl'], { query: "select ExpireStatus from EmpSession where Sessionid='" + localStorage.getItem('SessionId') + "'" }).then(result => {
+                if (result.data[0][0]['ExpireStatus'] === 0)
+                    window.location.hef = '/';
+                return;
+            });
+        }
         axios.post(nodeurl['nodeurl'], { query: 'LM_GetPendingCount ' + localStorage['EmpId'] }).then(result => {
             setPendingCount(result.data[0][0]);
         });
@@ -42,7 +45,7 @@ const Sidebar = (props) => {
             else
                 setProfileName(localStorage['Gender'] + '.png');
         });
-    })
+    }, [localStorage])
     const getLabel = (text, count) => {
         return <>
             {text}

@@ -289,7 +289,7 @@ export default function Home() {
                                 </>
                                     <>
                                         <div style={{ 'display': 'inline-block', width: 'auto', 'textAlign': 'center' }}>
-                                            <div className='pie-label'>Client</div>
+                                            <div className='pie-label'>Client - Current Month</div>
                                             <PieChart id="client" data={ClientData} outerRadius={100} innerRadius={50} />
                                         </div>
                                     </>
