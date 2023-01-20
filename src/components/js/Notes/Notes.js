@@ -37,7 +37,7 @@ const Note = props => {
                 Notes
                 <div className="input-wrapper notesDate" style={{ width: '15%', marginTop: '-3px', float: 'right', height: '22px' }} >
                     <div className="input-holder">
-                        <DatePicker name="notesDate" showHoliDay={true} Value={new Date()} valueChange={(e) => {
+                        <DatePicker name="notesDate" showHoliDay={true} isWeekEndDisable={false} Value={new Date()} valueChange={(e) => {
                             setDate(Moment(e.target.value).format('DD-MM-YYYY'));
                             axios.post(nodeurl['nodeurl'], { query: "SELECT ISNULL(Notes,'') Notes from Notes WHERE EmpId=" + EmpId + " AND [Date] ='" + Moment(e.target.value).format('DD-MM-YYYY') + "'" }).then(result => {
                                 if (result.data[0].length !== 0)
