@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronRight, faHouseChimney, faLevelUpAlt, faTableList, faTasks, faUser, faUserDoctor, faRightFromBracket, faUserGear } from "@fortawesome/free-solid-svg-icons";
+import { faChevronRight, faHouseChimney, faLevelUpAlt, faTable, faNoteSticky, faTableList, faTasks, faUser, faBook, faRightFromBracket, faUserGear } from "@fortawesome/free-solid-svg-icons";
 import { useLocation } from "react-router-dom";
 import axios from 'axios';
 import nodeurl from '../../nodeServer.json'
@@ -57,9 +57,9 @@ const Sidebar = (props) => {
         { text: 'Time Sheet', link: '/EnterTimeSheet', icon: faTableList, isManagerSide: false },
         { text: 'Tasks', link: '/Tasks', icon: faTasks, isManagerSide: false },
         { text: 'Leave & Permission', link: '/LMS', icon: faLevelUpAlt, isManagerSide: false },
-        { text: getLabel('Approvals', pendingCount['approvelTotalCount']), link: '/Approvals', icon: faLevelUpAlt, isManagerSide: true },
-        { text: 'Employee Portal', link: '/EmployeePortal', icon: faUserDoctor, isManagerSide: false },
-        { text: 'Notes', link: '/Notes', icon: faUser, isManagerSide: false },
+        { text: getLabel('Approvals', pendingCount['approvelTotalCount']), link: '/Approvals', icon: faTable, isManagerSide: true },
+        { text: 'Employee Portal', link: '/EmployeePortal', icon: faBook, isManagerSide: false },
+        { text: 'Notes', link: '/Notes', icon: faNoteSticky, isManagerSide: false },
         { text: 'Profile', link: '/Profile', icon: faUser, isManagerSide: false },
         { text: 'Settings', link: '/Settings', icon: faUserGear, isManagerSide: false },
         // { text: 'Logout', link: '/', icon: faRightFromBracket, isManagerSide: false }

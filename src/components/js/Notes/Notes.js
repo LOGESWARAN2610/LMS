@@ -83,7 +83,7 @@ const Note = props => {
                 Notes
                 <div className="input-wrapper notesDate" style={{ width: '15%', marginTop: '-3px', float: 'right', height: '22px' }} >
                     <div className="input-holder">
-                        <DatePicker name="notesDate" showHoliDay={true} Value={new Date()} valueChange={(e) => {
+                        <DatePicker name="notesDate" showHoliDay={true} isWeekEndDisable={false} Value={new Date()} valueChange={(e) => {
                             setDate(Moment(e.target.value).format('DD-MM-YYYY'));
                         }} />
                     </div>

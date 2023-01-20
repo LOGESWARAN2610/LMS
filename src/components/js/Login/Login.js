@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
-// import ChangePassword from '../../js/Profile/ChangePassword'
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { useNavigate } from "react-router-dom";
@@ -101,8 +100,10 @@ const Login = () => {
                         });
                 }
             }
-            window.addEventListener('keydown', (event) => {
-                if (event.keyCode === 13) handleSubmit(event);
+            document.body.addEventListener('keydown', (event) => {
+                if (event.keyCode === 13 && window.location.pathname === '/' && value === 0) {
+                    handleSubmit(event);
+                }
             });
             const validate = () => {
                 let isValid = true;

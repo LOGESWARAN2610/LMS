@@ -86,12 +86,17 @@ export default function Portal() {
             <div style={{ height: '70vh', width: '80vh' }}>
                 <p style={{ fontSize: '20px', marginBottom: '25px' }}>To request pay slip, select the months in the below dropdown and click on the Send Request Button.
                     The admin team will process the request and send you the requested pay slips to your email.</p>
-                <Multiselect
-                    options={option}
-                    // selectedValues={this.state.selectedValue}
-                    onSelect={onMultiSelect}
-                    onRemove={onMultiRemove}
-                    displayValue="name" />
+                <div className="input-wrapper marginLeft-0" style={{ width: 'inherit', maxWidth: 'unset' }}>
+                    <div className="input-holder">
+                        <Multiselect
+                            options={option}
+                            // selectedValues={this.state.selectedValue}
+                            onSelect={onMultiSelect}
+                            onRemove={onMultiRemove}
+                            displayValue="name" />
+                        <label className="input-label" style={{ left: '2%' }}>Month</label>
+                    </div>
+                </div>
                 <button className="btn marginRight-0" onClick={handelSubmit} style={{ float: 'right', marginTop: '25px' }}>Send Request</button>
             </div>
         </>;
