@@ -47,6 +47,7 @@ function a11yProps(index) {
         'aria-controls': `full-width-tabpanel-${index}`,
     };
 }
+
 export default function ViewTimeSheet() {
     const alert = useAlert();
     const [date, setDate] = useState(new Date());
@@ -56,12 +57,20 @@ export default function ViewTimeSheet() {
     const [dateRange, setDateRange] = useState([{ startDate: firstDate, endDate: new Date(), key: 'selection' }]);
     const [Rows, setRows] = useState([]);
     const [TotalHours, setTotalHours] = useState(0.00);
+
     function generateArrayOfYears() {
         var max = date.getFullYear();
         var min = max - 5;
         var years = [];
         for (var i = max; i >= min; i--) { years.push(i) }
         return years;
+    }
+    function tabPanelProps(index) {
+        return {
+            id: `full-width-tabpanel-${index}`,
+            'aria-labelledby': `full-width-tab-${index}`,
+            class: `${index === value ? '' : 'disabled'}`
+        };
     }
     const calculateTotalHours = (arr) => {
         let hours = 0.00;
@@ -180,39 +189,39 @@ export default function ViewTimeSheet() {
 
     return (
         <>
-            <div style={{ textAlign: 'right', marginTop: '-25px' }} >
-                <span style={{ display: 'inline-block', fontSize: '18px', margin: '10px', padding: ' 10px 0' }}>Total Hours:<span style={{ textAlign: 'right', marginRight: '20px', display: 'inline-block', padding: '0 0 0 5px', fontSize: '18px', fontWeight: 'bold' }}>{TotalHours.toFixed(2)}</span></span>
-                <button className={`${value === 2 ? '' : 'toggle'} btn marginLeft-0 marginRight-0`} onClick={handelExport}>Export To Excel</button>
-            </div>
-            <div id="viewTimesheet" style={{ flexDirection: 'row', display: 'flex' }}>
+            <div id="viewTimesheet">
+                <div style={{ textAlign: 'right', marginTop: '-25px' }} >
+                    <span style={{ display: 'inline-block', fontSize: '18px', margin: '10px', padding: ' 10px 0' }}>Total Hours:<span style={{ textAlign: 'right', marginRight: '20px', display: 'inline-block', padding: '0 0 0 5px', fontSize: '18px', fontWeight: 'bold' }}>{TotalHours.toFixed(2)}</span></span>
+                    <button className={`${value === 2 ? '' : 'toggle'} btn marginLeft-0 marginRight-0`} onClick={handelExport}>Export To Excel</button>
+                </div>
                 <Box style={{ display: 'inline-block', marginRight: '-20px' }}>
-                    <Tabs sx={{ maxWidth: { xs: 320, sm: 170 }, bgcolor: 'background.paper' }}
+                    <Tabs
                         value={value}
                         onChange={handleChange}
                         variant="scrollable"
                         scrollButtons="auto"
                         aria-label="scrollable auto tabs example"
                         textColor="inherit"
-                        style={{ color: localStorage['BgColor'] }}
+                        style={{ color: localStorage['BgColor'], boxShadow: '0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%)' }}
                     >
                         <Tab className='tab' label="Date"  {...a11yProps(0)} />
                         <Tab className='tab' label="Range"  {...a11yProps(1)} />
                         <Tab className='tab' label="Month"  {...a11yProps(2)} />
                     </Tabs>
-                    <SwipeableViews
+                    <div className='tabContentWrapper'
                         index={value}
                         onChangeIndex={handleChangeIndex}
                     >
-                        <TabPanel value={value} index={0}>
+                        <TabPanel {...tabPanelProps(0)}>
                             <DatePicker Date={date} OnChange={handelDateChange} />
                         </TabPanel>
-                        <TabPanel value={value} index={1}>
+                        <TabPanel {...tabPanelProps(1)}>
                             <DateRangePicker DateRange={dateRange} OnChange={handelDateRangeChange} />
                         </TabPanel>
-                        <TabPanel value={value} index={2}>
+                        <TabPanel {...tabPanelProps(2)}>
                             <>
-                                <div style={{ display: 'flex', flexDirection: 'column', width: '270px', marginTop: '20px' }}>
-                                    <div className="input-wrapper marginLeft-0" style={{ width: '89%', marginRight: '0' }}>
+                                <div style={{ display: 'flex', flexDirection: 'column', width: '270px', margin: '0 auto' }}>
+                                    <div className="input-wrapper marginLeft-0" style={{ width: '100%', marginRight: '0' }}>
                                         <div className="input-holder">
                                             <select className="input-input" name="Year" value={monthYear['Year']} onChange={handelMonthYearChange}>
                                                 {Years.map((item, index) => (
@@ -222,7 +231,7 @@ export default function ViewTimeSheet() {
                                             <label className="input-label">Year</label>
                                         </div>
                                     </div>
-                                    <div className="input-wrapper marginLeft-0" style={{ width: '89%', marginRight: '0' }}>
+                                    <div className="input-wrapper marginLeft-0" style={{ width: '100%', marginRight: '0' }}>
                                         <div className="input-holder">
                                             <select className="input-input" name="Month" value={monthYear['Month']} onChange={handelMonthYearChange}>
                                                 {option.map((item, index) => (
@@ -236,7 +245,7 @@ export default function ViewTimeSheet() {
                             </>
                         </TabPanel>
 
-                    </SwipeableViews >
+                    </div>
                 </Box>
                 <div id='IdViewTimeSheetGrid' style={{ marginTop: '20px', display: 'contents' }}>
                     <CustomeGrid Columns={Columns} Rows={Rows} tab="viewTimesheet" Pagination={true} />

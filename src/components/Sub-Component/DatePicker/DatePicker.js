@@ -54,6 +54,7 @@ export default function DatePicker_(props) {
         // showYearDropdown,showMonthDropdown
         <DatePicker name={props['name']}
             {...isDisableWeekEnd()}
+            dateFormat="dd/MM/yyyy"
             renderDayContents={renderDayContents}
             closeOnScroll={(e) => e.target === document}
             minDate={minDate}

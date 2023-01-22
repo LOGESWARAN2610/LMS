@@ -7,9 +7,11 @@ import nodeurl from '../../../nodeServer.json'
 import { useState } from 'react';
 import { useAlert } from "react-alert";
 import { useNavigate } from "react-router-dom";
+import { CompactPicker } from 'react-color';
 
 export default function Settings() {
     const [profileName, setProfileName] = useState('');
+    const [pickerColor, setPickerColor] = useState({ Primary: '', Secondary: '' });
     const alert = useAlert();
     const navigate = useNavigate();
     const Navigate = (path) => {
@@ -136,7 +138,7 @@ export default function Settings() {
     const handelClick = () => {
         const color = localStorage['BgColor'] + ',' + localStorage['Color'];
         axios.post(nodeurl['nodeurl'], { query: "update EmployeeDetails set Theme='" + color + "' where Empid=" + localStorage["EmpId"] }).then(result => {
-            console.log("Theme Saved");
+            alert.success("Theme Saved Successfully.");
         });
     }
     const getDesignation = () => {
@@ -175,11 +177,26 @@ export default function Settings() {
                                 return (<div key={index} className='colorPaletteWrapper' >
                                     <div className='colorPalette col-sm' onClick={handelColorClick} index={index} style={{ backgroundColor: color['Primary'], border: '2px solid' + color['Primary'] }}>
                                         <div className='primary'></div>
-
                                         <div className='secondary' style={{ backgroundColor: color['Secondary'] }}></div>
                                     </div>
                                 </div>)
                             })}
+                            <label className="customColorLabel">Primary Color</label>
+                            <CompactPicker
+                                color={pickerColor['Primary']}
+                                onChangeComplete={(color) => {
+                                    localStorage.setItem('BgColor', color.hex);
+                                    setTheme();
+                                    setPickerColor({ ...pickerColor, 'Primary': color.hex })
+                                }} />
+                            <label className="customColorLabel">Secondary Color</label>
+                            <CompactPicker
+                                color={pickerColor['Secondary']}
+                                onChangeComplete={(color) => {
+                                    localStorage.setItem('Color', color.hex);
+                                    setTheme();
+                                    setPickerColor({ ...pickerColor, 'Secondary': color.hex })
+                                }} />
                             <div>
                                 <button id='applybtn' className="btn" style={{ float: 'right' }} onClick={handelClick}>Apply</button>
                             </div>

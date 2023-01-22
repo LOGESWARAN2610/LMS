@@ -23,10 +23,13 @@ const Note = props => {
 
     useEffect(() => {
         axios.post(nodeurl['nodeurl'], { query: "SELECT ISNULL(Notes,'') Notes,'1' from Notes WHERE EmpId=" + EmpId + " AND [Date] ='" + Date_ + "'" }).then(result => {
-            if (result.data[0].length !== 0) {
+            if (result.data[0].length !== 0)
                 setNotes(result.data[0][0]['Notes']);
-            }
+            else
+                setNotes('');
         });
+    }, [Date_, EmpId]);
+    useEffect(() => {
         axios.post(nodeurl['nodeurl'], { query: "Select ISNULL(FirstName,'')+' '+ISNULL(LastName,'') AS Value,EmpId AS EmpId from EmployeeDetails WHERE Active = 1 ORDER BY FirstName " }).then(result => {
             let option_ = result.data[0];
             option_ = option_.map((item, index) => {
@@ -35,8 +38,7 @@ const Note = props => {
             setOption(option_);
         });
         setTheme();
-    }, [Date_, EmpId]);
-
+    });
     const handleChange = (content) => {
         setNotes(content);
     }
@@ -84,7 +86,7 @@ const Note = props => {
                 <div className="input-wrapper notesDate" style={{ width: '15%', marginTop: '-3px', float: 'right', height: '22px' }} >
                     <div className="input-holder">
                         <DatePicker name="notesDate" showHoliDay={true} isWeekEndDisable={false} Value={new Date()} valueChange={(e) => {
-                            setDate(Moment(e.target.value).format('DD-MM-YYYY'));
+                            setDate(Moment(e.target.value).format('YYYY-MM-DD'));
                         }} />
                     </div>
                 </div>

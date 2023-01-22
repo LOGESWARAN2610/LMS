@@ -389,13 +389,41 @@ label {
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
+.tabContentWrapper > div {
+  width: 320px;
+  margin: 0 10px;
+}
+#viewTimesheet {
+  text-align: center;
+}
+#viewTimesheet .tab {
+  width: 340px;
+}
+.tabContentWrapper {
+  display: flex;
+  margin: 15px 0;
+}
+.tabContentWrapper > div {
+  box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%),
+    0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
+}
+.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+  transition: var(--tran-05);
+}
+.tabContentWrapper .rdrDateRangeWrapper {
+  padding: 15px 0 !important;
+}
 #viewTimesheet .MuiBox-root {
   padding: 0 10px 0 2px !important;
 }
-
-#viewTimesheet .MuiTypography-root {
-  padding: 0px 15px 0 2px !important;
+.tabContentWrapper > div > div {
+  text-align: center;
 }
+/* #viewTimesheet .MuiTypography-root {
+  padding: 0px 15px 0 2px !important;
+} */
 #viewTimesheet #full-width-tabpanel-1 div.MuiBox-root:nth-child(1) {
   padding: 0 !important;
 }
@@ -564,6 +592,12 @@ label {
 .sun-editor-editable::-webkit-scrollbar {
   width: 4px;
   height: 5px;
+}
+#Settings label.customColorLabel {
+  margin: 10px 0 !important;
+  border-bottom: 1px solid;
+  display: block;
+  padding: 0 0 3px 5px;
 }
 .scrollbar::-webkit-scrollbar-thumb,
 .react-swipeable-view-container div::-webkit-scrollbar-thumb,
@@ -870,6 +904,7 @@ span:has(.alertBox) + div button[role="cancellable-button"] {
   font-size: 16px;
 }
 #summaryChart,
+#viewTimesheet,
 #profile {
   max-height: calc(100vh - 165px);
 }
