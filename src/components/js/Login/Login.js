@@ -32,11 +32,12 @@ const Login = () => {
 
             const handleChange = (event) => {
                 let value = event.target.value;
-                if (value.substr(value.length - 1) === '@' && event.target.name === 'email') {
-                    value = value + 'analyticbrains.com';
-                    value = value.split('@').filter(function (item, i, allItems) {
-                        return i === allItems.indexOf(item);
-                    }).join('@');
+                if (event.target.name === 'email') {
+                    value = value.toLocaleLowerCase();
+                    if (value.indexOf('@') !== -1)
+                        value = value.substr(0, value.indexOf('@')) + '@analyticbrains.com'
+                    if (value.substr(value.length - 1) === '@')
+                        value = value.replaceAll('@analyticbrains.com', '') + '@analyticbrains.com';
                     event.target.value = value;
                 }
                 var validate_UN = '', validate_PWD = '';
@@ -199,11 +200,12 @@ const Login = () => {
                 // }, []);
                 const handelOnChange = (event) => {
                     let value = event.target.value;
-                    if (value.substr(value.length - 1) === '@' && event.target.name === 'UserName') {
-                        value = value + 'analyticbrains.com';
-                        value = value.split('@').filter(function (item, i, allItems) {
-                            return i === allItems.indexOf(item);
-                        }).join('@');
+                    if (event.target.name === 'UserName') {
+                        value = value.toLocaleLowerCase();
+                        if (value.indexOf('@') !== -1)
+                            value = value.substr(0, value.indexOf('@')) + '@analyticbrains.com'
+                        if (value.substr(value.length - 1) === '@')
+                            value = value.replaceAll('@analyticbrains.com', '') + '@analyticbrains.com';
                         event.target.value = value;
                     }
                     setDetails({ ...Details, [event.target.name]: event.target.value });
