@@ -151,9 +151,13 @@ export default function Settings() {
     return (
         <>
             <div className="page" id="Settings">
-                <div className="container container_1" style={{ width: '30%', minWidth: '335px' }}>
-                    <div>
-                        <div className="Img-profile">
+                <div className="container container_1" style={{ width: '45%', minWidth: '590px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <div style={{ textAlign: 'center', display: 'inline-block', margin: '25px 20px' }}>
+                            <h1 className="heading">{localStorage['Name']}</h1>
+                            {getDesignation()}
+                        </div>
+                        <div className="Img-profile" style={{ display: 'inline-block', margin: '0 25px' }}>
                             <img src={window.location.protocol + '//' + window.location.host + '/images/' + profileName} alt="" id="img" className="img" />
                             <div className='img-up'>
                                 <label className="image-upload choosephoto" htmlFor="input">
@@ -165,14 +169,9 @@ export default function Settings() {
                             </div>
                             <input type="file" name="image-upload" id="input" onChange={imageHandler} />
                         </div>
-
-                        <div style={{ textAlign: 'center' }}>
-                            <h1 className="heading">{localStorage['Name']}</h1>
-                            {getDesignation()}
-                        </div>
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        <div style={{ margin: '20px' }}>
+                        <div style={{ margin: '0 20px 20px 20px', borderTop: '1px solid', paddingTop: '5px' }}>
                             {Color.map((color, index) => {
                                 return (<div key={index} className='colorPaletteWrapper' >
                                     <div className='colorPalette col-sm' onClick={handelColorClick} index={index} style={{ backgroundColor: color['Primary'], border: '2px solid' + color['Primary'] }}>
@@ -181,22 +180,28 @@ export default function Settings() {
                                     </div>
                                 </div>)
                             })}
-                            <label className="customColorLabel">Primary Color</label>
-                            <CompactPicker
-                                color={pickerColor['Primary']}
-                                onChangeComplete={(color) => {
-                                    localStorage.setItem('BgColor', color.hex);
-                                    setTheme();
-                                    setPickerColor({ ...pickerColor, 'Primary': color.hex })
-                                }} />
-                            <label className="customColorLabel">Secondary Color</label>
-                            <CompactPicker
-                                color={pickerColor['Secondary']}
-                                onChangeComplete={(color) => {
-                                    localStorage.setItem('Color', color.hex);
-                                    setTheme();
-                                    setPickerColor({ ...pickerColor, 'Secondary': color.hex })
-                                }} />
+                            <div style={{ display: 'inline-block', margin: '5px 10px 3px 10px' }}>
+                                <label className="customColorLabel">Primary Color</label>
+                                <CompactPicker
+                                    label="Primary Color"
+                                    color={pickerColor['Primary']}
+                                    onChangeComplete={(color) => {
+                                        localStorage.setItem('BgColor', color.hex);
+                                        setTheme();
+                                        setPickerColor({ ...pickerColor, 'Primary': color.hex })
+                                    }} />
+                            </div>
+                            <div style={{ display: 'inline-block', margin: '5px 10px 3px 10px' }}>
+                                <label className="customColorLabel">Secondary Color</label>
+                                <CompactPicker
+                                    label="Secondary Color"
+                                    color={pickerColor['Secondary']}
+                                    onChangeComplete={(color) => {
+                                        localStorage.setItem('Color', color.hex);
+                                        setTheme();
+                                        setPickerColor({ ...pickerColor, 'Secondary': color.hex })
+                                    }} />
+                            </div>
                             <div>
                                 <button id='applybtn' className="btn" style={{ float: 'right' }} onClick={handelClick}>Apply</button>
                             </div>

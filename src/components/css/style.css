@@ -1390,7 +1390,7 @@ textarea {
   font-family: Arial, Helvetica, sans-serif;
   margin-left: 0.5rem;
   font-weight: bolder;
-  font-size: 30px;
+  font-size: 35px;
   color: var(--background-color);
   text-transform: capitalize;
 }
@@ -1446,6 +1446,7 @@ textarea {
 #Settings .colorPalette .secondary {
   width: 45px;
   height: 40px;
+  margin: 1px;
   border-radius: 0px 75px 75px 0px;
 }
 #Settings .colorPaletteWrapper {
@@ -1595,7 +1596,7 @@ header .image-text .name {
   font-weight: 600;
 }
 header .image-text .profession {
-  font-size: 14px;
+  font-size: 18px;
   max-width: 130px;
   margin: 4px auto auto auto;
   line-height: 1.2 !important;

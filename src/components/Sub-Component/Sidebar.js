@@ -39,13 +39,16 @@ const Sidebar = (props) => {
         axios.post(nodeurl['nodeurl'], { query: 'LM_GetPendingCount ' + localStorage['EmpId'] }).then(result => {
             setPendingCount(result.data[0][0]);
         });
+
+    }, [localStorage])
+    useEffect(() => {
         axios.post(nodeurl['nodeurl'], { query: "Select ISNULL(ProfileName,'') ProfileName FROM EmployeeDetails WHERE EmpId=" + localStorage['EmpId'] }).then(result => {
             if (result.data[0][0]['ProfileName'] !== '')
                 setProfileName(result.data[0][0]['ProfileName']);
             else
                 setProfileName(localStorage['Gender'] + '.png');
         });
-    }, [localStorage])
+    })
     const getLabel = (text, count) => {
         return <>
             {text}
