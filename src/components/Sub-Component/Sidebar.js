@@ -65,8 +65,6 @@ const Sidebar = (props) => {
         { text: 'Notes', link: '/Notes', icon: faNoteSticky, isManagerSide: false },
         { text: 'Profile', link: '/Profile', icon: faUser, isManagerSide: false },
         { text: 'Settings', link: '/Settings', icon: faUserGear, isManagerSide: false },
-        // { text: 'Logout', link: '/', icon: faRightFromBracket, isManagerSide: false }
-        // { text: 'WorkPlace', link: '/WorkPlace', icon: faUserGear }
     ];
 
     if (parseInt(localStorage['IsManager']) !== 1) {

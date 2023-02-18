@@ -83,6 +83,11 @@ const Login = () => {
                                 localStorage.setItem('Gender', loginDetails['Gender']);
                                 localStorage.setItem('Designation', loginDetails['Designation']);
                                 localStorage.setItem('IsManager', loginDetails['IsManager']);
+                                
+                                parseInt(loginDetails['EmpId']) === 2 
+                                ? localStorage.setItem('IsHR', '1') 
+                                : localStorage.setItem('IsHR', '0');
+                                
                                 localStorage.setItem('isProfileChanged', false);
                                 const color = loginDetails['Theme'].split(',');
                                 localStorage.setItem('BgColor', color[0]);
@@ -180,8 +185,6 @@ const Login = () => {
             )
         }
         const ChangePassword = (props) => {
-            // const EmpId = localStorage['EmpId'];
-
             const DetailsFields = () => {
                 const navigate = useNavigate();
                 const [Details, setDetails] = useState({})
@@ -193,11 +196,6 @@ const Login = () => {
                 const Navigate = (path) => {
                     navigate(path);
                 }
-                // useEffect(() => {
-                //     axios.post(nodeurl['nodeurl'], { query: 'AB_ViewEmpProfile ' + EmpId }).then(result => {
-                //         setDetails(result.data[0][0]);
-                //     });
-                // }, []);
                 const handelOnChange = (event) => {
                     let value = event.target.value;
                     if (event.target.name === 'UserName') {
@@ -325,13 +323,6 @@ const Login = () => {
             index: PropTypes.number.isRequired,
             value: PropTypes.number.isRequired,
         };
-
-        // function a11yProps(index) {
-        //     return {
-        //         id: `full-width-tab-${index}`,
-        //         'aria-controls': `full-width-tabpanel-${index}`,
-        //     };
-        // }
         const resetAttempt = (e) => {
             axios.post(nodeurl['nodeurl'],
                 { query: "update EmployeeDetails set attempt=0 where UserName='" + e.target.value + "' or empid=" + e.target.value }).then(result => {
@@ -339,10 +330,6 @@ const Login = () => {
                 });
         }
 
-        // const handleChange = (event, newValue) => {
-        //     window.alert(newValue)
-        //     setValue(newValue);
-        // }
         const handleChangeIndex = (index) => {
             setValue(index);
         };

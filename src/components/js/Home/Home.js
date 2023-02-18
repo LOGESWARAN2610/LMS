@@ -12,6 +12,7 @@ import setTheme from '../../Sub-Component/setTheme';
 import PieChart from '../../Sub-Component/PieChart';
 import BarChart from '../../Sub-Component/DatePicker/BarChart/BarChart';
 import DropDown from '../../Sub-Component/DropDown';
+import WorkPlace from '../../Sub-Component/WorkPlace';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import moment from 'moment';
@@ -48,11 +49,11 @@ export default function Home() {
 
     let first = toDay.getDate() - toDay.getDay();
     let last = first + 6;
-    const [weekStart, setWeekStart] = useState(moment(new Date(toDay.setDate(first))).format('YYYY-MM-DD'));
-    const [weekEnd, setWeekEnd] = useState(moment(new Date(toDay.setDate(last))).format('YYYY-MM-DD'));
+
     let monthStart = moment(new Date(toDay.getFullYear(), toDay.getMonth(), 1)).format('YYYY-MM-DD');
     let monthEnd = moment(new Date(toDay.getFullYear(), toDay.getMonth() + 1, 0)).format('YYYY-MM-DD');
-
+    const [weekStart, setWeekStart] = useState(moment(new Date().setDate(first)).format('YYYY-MM-DD'));
+    const [weekEnd, setWeekEnd] = useState(moment(new Date().setDate(last)).format('YYYY-MM-DD'));
     let val = `${moment(weekStart).format("Do MMM")} to ${moment(weekEnd).format("Do MMM")}`
     const [weekValue, setWeekValue] = useState(val);
 
@@ -269,6 +270,7 @@ export default function Home() {
                     onChangeIndex={handleChangeIndex}>
                     <TabPanel value={value} index={0}>
                         <div id="summaryChart">
+                            {/* <WorkPlace/> */}
                             {monthlyData['length'] === 0 && ClientData['length'] === 0 && weeklyData['length'] === 0 ?
                                 <div style={{ height: '80vh' }}>
                                     <div style={{ top: '40%', left: '40%', display: 'inline-block', textAlign: 'center' }}>
@@ -279,33 +281,31 @@ export default function Home() {
                                     </div>
                                 </div>
                                 :
-                                <><>
+                                <>
                                     <div style={{ 'display': 'inline-block', width: 'auto', 'textAlign': 'center' }}>
                                         <div className='pie-label'>
                                             Weekly - ( {<DropDown name="Week" value={weekValue} handleChange={handleWeekChange} items={weekList} />})
                                         </div>
                                         <PieChart id="week" data={weeklyData} outerRadius={100} innerRadius={50} />
                                     </div>
+
+                                    <div style={{ 'display': 'inline-block', width: 'auto', 'textAlign': 'center' }}>
+                                        <div className='pie-label'>Client - Current Month</div>
+                                        <PieChart id="client" data={ClientData} outerRadius={100} innerRadius={50} />
+                                    </div>
+
+                                    <div style={{ 'display': 'inline-block', width: '100%', 'textAlign': 'center' }}>
+                                        <div className='pie-label'>
+                                            Monthly - ( {
+                                                <>
+                                                    <DropDown name="Year" value={monthYear['Year']} handleChange={handleMonthYearClick} items={Years} />
+                                                    <DropDown name="Month" value={monthYear['Month']} handleChange={handleMonthYearClick} items={option} />
+                                                </>
+                                            })
+                                        </div>
+                                    </div>
+                                    <BarChart id="month" data_={monthlyData} label={'label1'} />
                                 </>
-                                    <>
-                                        <div style={{ 'display': 'inline-block', width: 'auto', 'textAlign': 'center' }}>
-                                            <div className='pie-label'>Client - Current Month</div>
-                                            <PieChart id="client" data={ClientData} outerRadius={100} innerRadius={50} />
-                                        </div>
-                                    </>
-                                    <>
-                                        <div style={{ 'display': 'inline-block', width: '100%', 'textAlign': 'center' }}>
-                                            <div className='pie-label'>
-                                                Monthly - ( {
-                                                    <>
-                                                        <DropDown name="Year" value={monthYear['Year']} handleChange={handleMonthYearClick} items={Years} />
-                                                        <DropDown name="Month" value={monthYear['Month']} handleChange={handleMonthYearClick} items={option} />
-                                                    </>
-                                                })
-                                            </div>
-                                        </div>
-                                        <BarChart id="month" data_={monthlyData} label={'label1'} />
-                                    </></>
                             }
                         </div>
                     </TabPanel>

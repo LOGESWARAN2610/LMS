@@ -16,11 +16,13 @@ class Bar extends React.Component {
         tooltipDiv.transition()
             .duration(200)
             .style("display", 'inline-block');
-
+        let left_ = (event.clientX + 10);
+        if ((window.innerWidth - event.clientX) < 200)
+            left_ = window.innerWidth - 210;
         tooltipDiv
             .html(data.toolTip || `<span>${data['name']}</span> - <span>${data['value']}</span><br />`)
-            .style('left', (event.clientX + 10) + 'px')
-            .style("top", (event.clientY - 650) + "px")
+            .style('left', left_ + 'px')
+            .style("top", (event.clientY - window.innerHeight + 10) + "px")
     }
 
     onMouseOut(d) {

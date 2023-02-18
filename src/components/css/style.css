@@ -51,6 +51,12 @@ canvas {
 .MuiPaper-root {
   height: max-content !important;
 }
+.MuiSwitch-thumb {
+  color: var(--background-color);
+}
+.Mui-checked+.MuiSwitch-track {
+  background-color: #0000006e;
+}
 .ChevronDown {
   margin-left: 15px;
   cursor: pointer;
@@ -455,6 +461,28 @@ label {
 }
 #profile .input-wrapper {
   max-width: 330px !important;
+}
+#Profile header {
+  display: inline-block;
+  z-index: 99;
+}
+.btnGreen{
+  margin: 10px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: 0.8s;
+  font-size: 16px;
+  cursor: pointer;
+}
+.btnGreen:disabled{
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+#EmployeeList .MuiAccordionSummary-contentGutters {
+  margin: 5px 0 0 0 !important;
+}
+#EmployeeList .activeAcc {
+  border-top: 1px solid #fff;
 }
 /* #viewTimesheet  */
 .rdrMonth {

@@ -12,6 +12,7 @@ import { CompactPicker } from 'react-color';
 export default function Settings() {
     const [profileName, setProfileName] = useState('');
     const [pickerColor, setPickerColor] = useState({ Primary: '', Secondary: '' });
+    const [oldColor, setoldColor] = useState({ Primary: '', Secondary: '' });
     const alert = useAlert();
     const navigate = useNavigate();
     const Navigate = (path) => {
@@ -48,13 +49,18 @@ export default function Settings() {
         { Primary: '#6A5ACD', Secondary: '#111' },
         { Primary: '#008080', Secondary: '#111' },
         { Primary: '#F08080', Secondary: '#111' },
+        { Primary: '#151e3d', Secondary: '#fe9200' },
     ];
     useEffect(() => {
-        axios.post(nodeurl['nodeurl'], { query: "Select ISNULL(ProfileName,'') ProfileName FROM EmployeeDetails WHERE EmpId=" + localStorage['EmpId'] }).then(result => {
+        axios.post(nodeurl['nodeurl'], { query: "Select ISNULL(ProfileName,'') ProfileName,ISNULL(Theme,'') Theme FROM EmployeeDetails WHERE EmpId=" + localStorage['EmpId'] }).then(result => {
             if (result.data[0][0]['ProfileName'] !== '')
                 setProfileName(result.data[0][0]['ProfileName']);
             else
                 setProfileName(localStorage['Gender'] + '.png');
+                
+                let color = result.data[0][0]['Theme'];
+                if(color !== '')color = color.split(',');
+                setoldColor({ Primary: color[0], Secondary: color[1] })
         });
         setTheme();
     }, []);
@@ -139,10 +145,11 @@ export default function Settings() {
         const color = localStorage['BgColor'] + ',' + localStorage['Color'];
         axios.post(nodeurl['nodeurl'], { query: "update EmployeeDetails set Theme='" + color + "' where Empid=" + localStorage["EmpId"] }).then(result => {
             alert.success("Theme Saved Successfully.");
+            setoldColor({ Primary: localStorage['BgColor'], Secondary: localStorage['Color']})
         });
     }
     const getDesignation = () => {
-        // <span className="profession" style={{ positio, top: '12%', left: '4%', fontSize: '20px' }}>{localStorage["Designation"]}</span>
+        // <span className="profession" style={{  top: '12%', left: '4%', fontSize: '20px' }}>{localStorage["Designation"]}</span>
 
         return (<><div style={{ padding: '0 15px' }}><span className="profession">{localStorage["Designation"].split('-')[0]}</span><br />
             {localStorage["Designation"].split('-')[1] && <span className="profession" >{localStorage["Designation"].split('-')[1]}</span>}
@@ -204,6 +211,11 @@ export default function Settings() {
                             </div>
                             <div>
                                 <button id='applybtn' className="btn" style={{ float: 'right' }} onClick={handelClick}>Apply</button>
+                                <button id='applybtn' className="btn" style={{ float: 'right' }} onClick={()=>{
+                                    localStorage.setItem('BgColor', oldColor['Primary']);
+                                    localStorage.setItem('Color', oldColor['Secondary']);
+                                    setTheme();
+                                }}>Reset</button>
                             </div>
                         </div>
                     </div>

@@ -11,6 +11,8 @@ import { useState } from 'react';
 import { useAlert } from "react-alert";
 import { confirm } from "react-confirm-box";
 import Multiselect from 'multiselect-react-dropdown';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {  faXmark } from "@fortawesome/free-solid-svg-icons";
 
 const Note = props => {
     const alert = useAlert();
@@ -53,14 +55,19 @@ const Note = props => {
         selectedVal = selectedVal.join(',');
         setEmployee(selectedVal);
     }
+    var closeFlag = 0;
     const handleSend = async () => {
+        closeFlag = 0;
         setEmployeeListOpen(!employeeListOpen);
         axios.post(nodeurl['nodeurl'], { query: "SELECT ISNULL(Notes,'') Notes from Notes WHERE [Date] = '" + Moment(new Date(Date_)).format('YYYY-MM-DD') + "' AND EmpId =" + EmpId }).then(async result => {
             // let Count = parseInt(result.data[0][0]['Count']);
             let Notes_ = '';
             if (result.data[0].length > 0)
                 Notes_ = result.data[0][0]['Notes'];
-            let html = <><h2>Confirmation</h2><div><b>
+            let html = <><h2>Confirmation<FontAwesomeIcon title="Close" onClick={()=>{
+                closeFlag = 1;
+                document.querySelector('button[role="cancellable-button"]').click();
+            }} icon={faXmark}style={{color:'red',float:'right',fontSize:'16px',cursor:'pointer'}} /></h2><div><b>
                 {Notes_ === '' ? 'Your Notes not saved for the date.' : 'You have already saved for the date.'}
             </b><br />Select Your Option!</div></>
             let opt = { closeOnOverlayClick: false, labels: { confirmable: `${Notes_ === '' ? 'Save' : 'Update'} and Send`, cancellable: `Send without ${Notes_ === '' ? 'Save' : 'Update'}` } }
@@ -75,9 +82,16 @@ const Note = props => {
     }
 
     const SendNotes = (flag) => {
+        if(closeFlag === 1) return;
         axios.post(nodeurl['nodeurl'], { query: "LM_SendNotes " + EmpId + ",'" + employee + "'," + flag + ",'" + Date_ + "','" + Notes + "'" }).then(result => {
             alert.show('Notes Send Successfully.');
         });
+    }
+    const isDisable=(flag)=>{
+        let disabled=true;
+        if(employee.length !== 0 && flag ===1)disabled=false;
+        if(Notes !== '' && Notes !== '<p><br></p>' && flag === 2)disabled=false;
+        return {disabled:disabled}
     }
     return (
         <div className='notesWrapper'>
@@ -123,15 +137,15 @@ const Note = props => {
                             onRemove={onMultiSelect}
                             displayValue="name" />
                         <div className="confirm-box__actions">
-                            <button role='confirmable-button' onClick={handleSend}>Send</button>
-                            <button role='cancellable-button' onClick={() => { setEmployeeListOpen(false) }}>Cancel</button>
+                            <button role='confirmable-button' className="btnGreen marginLeft-0 marginRight-0" {...isDisable(1)} onClick={handleSend}>Send</button>
+                            <button role='cancellable-button' onClick={() => { setEmployee([]);setEmployeeListOpen(false) }}>Cancel</button>
                         </div>
                     </div>
                     <div class="confirm-box__overlay"></div>
                 </div>
             </div>}
-            <button className="btn marginRight-0" style={{ float: 'right' }} onClick={handleSave}>Save Notes</button>
-            <button className="btn marginRight-0" style={{ float: 'right' }} onClick={() => { setEmployeeListOpen(true) }}>Send Notes</button>
+            <button className="btn marginRight-0" style={{ float: 'right' }} {...isDisable(2)} onClick={handleSave}>Save Notes</button>
+            <button className="btn marginRight-0" style={{ float: 'right' }} {...isDisable(2)} onClick={() => { setEmployeeListOpen(true) }}>Send Notes</button>
         </div>
 
     );

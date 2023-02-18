@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 // import ChangePassword from './ChangePassword';
 import setTheme from '../../Sub-Component/setTheme';
+import EmployeeList from '../../Sub-Component/EmployeeList';
 import DatePicker from '../../Sub-Component/DatePicker/DatePicker';
 import RadioGroup from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
@@ -260,7 +261,7 @@ export default function Profile() {
         };
         return (
             <Box sx={{ bgcolor: 'inherit' }} id="Profile">
-                <AppBar position="static" style={{ width: 'max-content', marginLeft: '25px', backgroundColor: '#fff' }} >
+                <AppBar position="static" style={{ width: 'max-content', backgroundColor: '#fff' }} >
                     <Tabs
                         value={value}
                         onChange={handleChange}
@@ -268,7 +269,8 @@ export default function Profile() {
                         style={{ color: localStorage['BgColor'] }}
                     >
                         <Tab label="Profile" className='tab' {...a11yProps(0)} />
-                        {localStorage['IsManager'] === '1' && <Tab label="New Registration" className='tab' {...a11yProps(1)} />}
+                        {localStorage['IsHR'] === '1' && <Tab label="New Registration" className='tab' {...a11yProps(1)} />}
+                        {localStorage['IsHR'] === '1' && <Tab label="Employee List" className='tab' {...a11yProps(2)} />}
                     </Tabs>
                 </AppBar>
                 <SwipeableViews
@@ -279,9 +281,16 @@ export default function Profile() {
                     <TabPanel value={value} index={0}>
                         <DetailsFields value={value} />
                     </TabPanel>
-                    {localStorage['IsManager'] === '1' && <TabPanel value={value} index={1}>
-                        <DetailsFields value={value} />
-                    </TabPanel>}
+                    {localStorage['IsHR'] === '1' &&
+                        <TabPanel value={value} index={1}>
+                            <DetailsFields value={value} />
+                        </TabPanel>
+                    }
+                    {localStorage['IsHR'] === '1' &&
+                        <TabPanel value={value} index={2}>
+                            <EmployeeList />
+                        </TabPanel>
+                    }
                 </SwipeableViews >
             </Box >
         );

@@ -224,7 +224,6 @@ export default function TaskAssignment() {
             let query = '', target = svg.attributes.name.value, Id = svg.attributes.value.value;
             query = "AB_Remove_Taskmaster " + Id + ",'Module'";
             axios.post(nodeurl['nodeurl'], { query: query }).then(result => {
-                debugger
                 setModule(result.data[0]);
                 alert.show('Module Deleted Successfully');
             });
@@ -273,7 +272,7 @@ export default function TaskAssignment() {
                 <SelectDD name="ProjectID" style={{ width: '195px', display: 'inline-block', marginRight: '15px' }} label="Project" option={Project} value={NewTaskDetails['ProjectID']} OnChange={handelTaskOnChange} />
                 <SelectDD name="ModuleID" label="Module" option={Module} value={NewTaskDetails['ModuleID']} OnChange={handelTaskOnChange} />
                 <InputBox name="TaskName" label="Task Name" onChange={handelTaskOnChange} placeholder="Task Name" value={NewTaskDetails['TaskName']} />
-                <div className="input-wrapper marginLeft-0" style={{ width: '100%' }}>
+                <div className="input-wrapper " style={{ width: '100%' }}>
                     <div className="input-holder">
                         <textarea className="input-input textarea" name="TaskDescription" placeholder="Enter Task Description" value={NewTaskDetails['TaskDescription']} onChange={handelTaskOnChange} />
                         <label className="input-label">Task Description</label>
