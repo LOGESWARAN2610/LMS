@@ -1,5 +1,5 @@
-const express = require(`express`);
 const sql = require(`mssql/msnodesqlv8`);
+const express = require(`express`);
 const app = express();
 const cors = require(`cors`);
 const fs = require('fs');
@@ -25,7 +25,6 @@ const config = {
 // app.use(bodyParser.json({ type: `application/json` }));
 app.post(`/`, function (req, res) {
     new sql.ConnectionPool(config).connect().then(pool => {
-        // console.log(req.body.query);
         return pool.request().query(req.body.query)
     }).then(result => {
         res.send(result[`recordsets`]);
@@ -54,7 +53,6 @@ app.post('/Update', function (req, res) {
 });
 app.post('/query', function (req, res) {
     return query(req.body.query)
-
 });
 app.post('/Upload', function (req, res) {
     var img = req.body.img.substr(req.body.img.indexOf(',') + 1);
